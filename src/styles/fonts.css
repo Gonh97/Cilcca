@@ -1,0 +1,18 @@
+/*
+ * Tipografía: SF Pro Display (San Francisco, Apple).
+ * Como la fuente de Apple no se distribuye libremente vía CDN, usamos el stack
+ * de fuentes de sistema -apple-system / BlinkMacSystemFont, que en macOS/iOS
+ * resuelve directamente a San Francisco y en el resto cae en una grotesca
+ * neutra equivalente. Es el mismo criterio del diseño original del Make.
+ */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Segoe UI", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
