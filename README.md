@@ -22,9 +22,22 @@ npm run build    # genera dist/
 ```
 
 ## Despliegue
-GitHub Pages vía GitHub Actions (`.github/workflows/deploy.yml`). Cada push a
-`main` reconstruye y publica en `https://gonh97.github.io/Cilcca/`.
+Publicado en **GitHub Pages**: https://gonh97.github.io/Cilcca/
 El `base` de Vite y el `basename` del router están fijados en `/Cilcca/`.
+
+Actualmente el despliegue es desde la rama **`gh-pages`** (build subido a esa
+rama). Para volver a publicar tras cambios en `main`:
+```bash
+npm run build
+cp dist/index.html dist/404.html
+cd dist && git init -b gh-pages -q && git add -A \
+  && git commit -qm "deploy" \
+  && git push -f https://github.com/Gonh97/Cilcca.git gh-pages && rm -rf .git
+```
+> Hay un workflow de GitHub Actions listo en `ci/deploy.yml.disabled`. Para
+> automatizar el despliegue con cada push a `main`, muévelo a
+> `.github/workflows/deploy.yml`, cambia la fuente de Pages a "GitHub Actions"
+> y asegúrate de que el token de `gh` tenga el scope `workflow`.
 
 ## Medios
 - **Videos** y **portafolio**: alojados en Cloudinary (cuenta `dcpicxumb`).

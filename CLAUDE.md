@@ -10,11 +10,15 @@ productos. Réplica desplegable del prototipo de **Figma Make**.
 
 ## Despliegue
 - **Repo:** Gonh97/Cilcca
-- **URL:** https://gonh97.github.io/Cilcca/ (GitHub Pages vía Actions)
+- **URL:** https://gonh97.github.io/Cilcca/ (GitHub Pages)
 - `base` de Vite y `basename` del router = `/Cilcca/`. Si algún día se usa un
   dominio propio (CNAME), cambiar `BASE` en `vite.config.ts` a `/` y quitar el
   basename.
-- Cada push a `main` reconstruye y publica (~1-2 min) con `deploy.yml`.
+- **Método actual: rama `gh-pages`** (el build se sube a esa rama). El token de
+  `gh` no tenía scope `workflow`, por eso no se usa Actions todavía. El workflow
+  queda en `ci/deploy.yml.disabled`; para activarlo: moverlo a
+  `.github/workflows/deploy.yml`, cambiar la fuente de Pages a "GitHub Actions"
+  y dar scope `workflow` al token. Republicar manualmente: ver README.
 
 ## Stack y archivos
 - React 18 + React Router 7 + Vite 6 + Tailwind v4 + `motion` + `lucide-react`.
