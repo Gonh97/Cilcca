@@ -1,18 +1,25 @@
 /*
- * Tipografía: SF Pro Display (San Francisco, Apple).
- * Como la fuente de Apple no se distribuye libremente vía CDN, usamos el stack
- * de fuentes de sistema -apple-system / BlinkMacSystemFont, que en macOS/iOS
- * resuelve directamente a San Francisco y en el resto cae en una grotesca
- * neutra equivalente. Es el mismo criterio del diseño original del Make.
+ * Par tipográfico oficial de CILCCA (manual de marca, 2026-08):
+ *   Sora  → titulares y subtítulos (Bold / SemiBold / Regular)
+ *   Inter → cuerpo, datos y etiquetas, siempre en Medium o más
+ *
+ * Sora NO tiene Medium. Por eso el cuerpo va en Inter: hace falta grosor medio
+ * para que el texto aguante los tamaños chicos. Las dos son libres, así que el
+ * cliente puede aplicar su marca en Word y PowerPoint sin licencias.
  */
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Segoe UI", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
-html,
-body {
+html, body {
   font-family: var(--font-sans);
+  font-weight: 500; /* Inter Medium: el peso base del sistema */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }

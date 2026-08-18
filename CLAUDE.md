@@ -47,3 +47,57 @@ productos. Réplica desplegable del prototipo de **Figma Make**.
 ## Convenciones
 - Responder y documentar en **español**.
 - Mantener la web fiel al prototipo del Make salvo que el usuario pida cambios.
+
+## Memoria del proyecto (wiki personal)
+El estado, decisiones aprobadas y pendientes de este proyecto viven en la wiki personal:
+`C:\Users\GONZA\Streaming de Google Drive\Mi unidad\Memoria Claude\Cerebro\wiki\proyectos\cilcca.md`
+Detalle técnico extendido: `C:\Users\GONZA\Streaming de Google Drive\Mi unidad\Memoria Claude\Cerebro\wiki\fuentes\cilcca-fuente.md`
+
+Leer esa página al empezar a trabajar acá. Al cerrar la sesión, actualizarla con lo avanzado.
+Comando de referencia: "Actualiza el proyecto cilcca en la wiki con lo de hoy."
+
+## Si el usuario pregunta por otro proyecto o algo no relacionado a este
+
+Este es uno de varios proyectos (de distintos clientes) trackeados centralmente en una wiki
+personal. Si en esta sesión el usuario pregunta por un tema, proyecto o cliente que no es este, o
+no está seguro de en qué proyecto está buscando algo, buscar primero en:
+`C:\Users\GONZA\Streaming de Google Drive\Mi unidad\Memoria Claude\Cerebro\wiki\index.md`
+Si no es suficiente, ampliar la búsqueda a `wiki/proyectos/*.md` y `wiki/fuentes/*.md` en esa misma
+carpeta, antes de responder que no se encuentra. Proceso completo de búsqueda difusa documentado en
+el `CLAUDE.md` raíz de ese vault (sección "Comandos disponibles").
+
+## Dónde guardar el contenido generado
+Además de este repo (y del OneDrive de Moca si aplica), copiar los assets puntuales que se generen (imágenes sueltas, íconos, logos) también a —
+NUNCA el export completo de una página o documento:
+`C:\Users\GONZA\Streaming de Google Drive\Mi unidad\Memoria Claude\Cerebro\contenido\jeme\cilcca`
+Esa carpeta es el repositorio central de respaldo del usuario — no reemplaza el repo/deploy, lo complementa.
+
+**No exportar automáticamente la versión final** (PNG, PDF, etc.) del diseño/documento que se está
+editando — el usuario prefiere exportar manualmente cuando lo necesite. Solo copiar acá los assets
+puntuales que se generen durante el trabajo (imágenes sueltas, logos, etc.), no "la pieza completa"
+sin que se pida.
+
+## Rediseño con el manual de marca (2026-08-12)
+
+El sitio dejó de ser la réplica literal del prototipo de Figma Make: ahora aplica el **sistema de
+marca de CILCCA** definido en el manual (ver skill `cilcca-design-system` y
+`wiki/conceptos/estilo-cilcca.md`).
+
+Mesa de trabajo de diseño: archivo de Figma **`Cilcca Web`** (`wMEtfmAiW3JH6ctCGc5XYS`), página
+`Web`, con los seis frames de 1440 px. **Ese archivo es la fuente de la verdad del diseño**: los
+cambios se hacen ahí y después se reflejan acá.
+
+Reglas del sistema que el código respeta y no hay que romper:
+
+- **Sora** en titulares, **Inter Medium** en cuerpo. Sora no tiene Medium, por eso el cuerpo es Inter.
+- **70% claro / 30% oscuro.** El claro es el modo base; el oscuro es acento de heroes, cifras,
+  paneles y cierre. Una página clara lleva su momento oscuro dentro.
+- **Nunca superficies de color planas**: todo lleva degradé, también los velos sobre foto.
+- **Nada de tipografía de color**: el azul y el verde viven en fondos, reglas de acento y subrayados,
+  nunca en el texto.
+- **Sin eyebrows**, sin guion largo, español neutro de Latinoamérica.
+- La escala tipográfica está cerrada en las clases `.t-*` de `src/styles/theme.css`. Si hace falta
+  un tamaño nuevo, casi siempre el bloque está mal jerarquizado.
+
+Las 6 imágenes que estaban en placeholder desde junio se resolvieron con fotografía real del banco
+de marca y viven en `public/img/`. Los videos siguen en Cloudinary (cuenta `dcpicxumb`).
