@@ -3,16 +3,15 @@ import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
-// El sitio se publica como project page en GitHub Pages:
-//   https://gonh97.github.io/Cilcca/
-// Por eso el base path es '/Cilcca/'. Si en el futuro se usa un dominio
-// propio (CNAME), cambiar BASE a '/'.
-const BASE = '/Cilcca/'
+// El sitio se publica en Vercel, en la raíz del dominio, así que base es '/'.
+// Antes vivía en un subpath de GitHub Pages (https://gonh97.github.io/Cilcca/)
+// y necesitaba base '/Cilcca/'. Si alguna vez se vuelve a publicar como project
+// page de GitHub, hay que restaurar ese subpath o el sitio queda sin estilos.
+const BASE = '/'
 
 export default defineConfig({
   base: BASE,
   plugins: [
-    // Los plugins de React y Tailwind son requeridos por el export de Make.
     react(),
     tailwindcss(),
   ],
