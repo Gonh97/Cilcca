@@ -27,7 +27,7 @@ export function Services() {
         return (
           <section key={s.titulo} className={par ? "bg-white" : "bg-[var(--acero-claro)]"}>
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className={`flex flex-col justify-center px-6 md:px-12 lg:px-20 py-16 lg:py-24 ${par ? "" : "lg:order-2"}`}>
+              <div className={`flex flex-col justify-center py-16 lg:py-24 ${par ? "al-izq pr-6 md:pr-12 lg:pr-16" : "al-der pl-6 md:pl-12 lg:pl-16 lg:order-2"}`}>
                 <div className="flex items-center gap-3">
                   <span className="t-micro text-[var(--azul-cilcca)]">{String(i + 1).padStart(2, "0")}</span>
                   <span className="t-micro text-[var(--gris-acero)]">{s.etiqueta}</span>

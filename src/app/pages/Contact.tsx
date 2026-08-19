@@ -47,8 +47,7 @@ export function Contact() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[70vh]">
       {/* Lado oscuro: la información, sobre foto de la planta. */}
-      <aside className="lg:col-span-5 relative flex flex-col justify-between overflow-hidden
-                        px-6 md:px-12 lg:px-16 py-16 lg:py-20">
+      <aside className="al-izq lg:col-span-5 relative flex flex-col justify-between overflow-hidden pr-6 md:pr-12 lg:pr-14 py-16 lg:py-20">
         <img src={contactBg} alt="" className="absolute inset-0 w-full h-full object-cover saturate-[0.7]" />
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--navy-noche)]/96 to-[var(--negro-tinta)]/88" />
         <div className="relative z-10">
@@ -71,7 +70,7 @@ export function Contact() {
       </aside>
 
       {/* Lado claro: el formulario. */}
-      <div className="lg:col-span-7 px-6 md:px-12 lg:px-20 py-16 lg:py-20 flex flex-col justify-center">
+      <div className="al-der lg:col-span-7 pl-6 md:pl-12 lg:pl-16 py-16 lg:py-20 flex flex-col justify-center">
         {enviado ? (
           <div className="max-w-xl">
             <Regla />

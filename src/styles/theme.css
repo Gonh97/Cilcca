@@ -85,3 +85,32 @@
 .t-chico   { font-size: 0.9375rem; line-height: 1.6;  font-weight: 500; }
 .t-etiqueta{ font-size: 0.8125rem; line-height: 1.4;  font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; }
 .t-micro   { font-size: 0.6875rem; line-height: 1.4;  font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; }
+
+/*
+ * Alineación de las secciones a sangre.
+ *
+ * El contenedor del sitio es `max-w-[1440px] mx-auto px-*`: en pantallas más
+ * anchas que 1440 el contenido queda centrado, así que su borde izquierdo NO
+ * está a `padding` del borde de la pantalla, sino a `padding + (ancho-1440)/2`.
+ *
+ * Las secciones partidas (mitad texto, mitad imagen) y los paneles oscuros van
+ * a sangre y median su padding desde el borde de la pantalla. Resultado: en
+ * 1600 px el texto oscuro arrancaba 73-89 px antes que el claro.
+ *
+ * Estas dos clases reproducen exactamente el borde del contenedor. Se restan
+ * los --sb de la barra de scroll porque 100vw la incluye y el contenido no.
+ */
+:root { --sb: 0px; --pad: 1.5rem; }
+@media (min-width: 768px)  { :root { --pad: 3rem; } }
+@media (min-width: 1024px) { :root { --pad: 5rem; } }
+
+.al-izq { padding-left:  max(var(--pad), calc((100vw - var(--sb) - 1440px) / 2 + var(--pad))); }
+.al-der { padding-right: max(var(--pad), calc((100vw - var(--sb) - 1440px) / 2 + var(--pad))); }
+
+/*
+ * Carruseles con scroll-snap: sin scroll-padding, `snap-mandatory` ancla la
+ * primera tarjeta al borde del contenedor de scroll y anula el padding
+ * izquierdo, así que el carrusel arranca pegado al borde de la pantalla
+ * mientras el titular de arriba respeta el margen. Esto le devuelve el margen.
+ */
+.al-scroll { scroll-padding-left: max(var(--pad), calc((100vw - var(--sb) - 1440px) / 2 + var(--pad))); }

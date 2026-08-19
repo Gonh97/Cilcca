@@ -72,7 +72,7 @@ export function Home() {
       {/* Soluciones a escala: mitad texto sobre acero, mitad imagen a sangre. */}
       <section className="w-full bg-[var(--acero-claro)]">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-6 md:px-12 lg:pl-20 lg:pr-16 py-20 lg:py-28 order-2 lg:order-1">
+          <div className="al-izq flex flex-col justify-center pr-6 md:pr-12 lg:pr-16 py-20 lg:py-28 order-2 lg:order-1">
             <Regla />
             <h2 className="t-titulo text-[var(--navy-profundo)] mt-7">Soluciones a escala.</h2>
             <p className="t-cuerpo text-grafito mt-6 max-w-xl">

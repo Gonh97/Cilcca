@@ -47,12 +47,12 @@ export function History() {
       </Contenedor>
 
       <section className="grid grid-cols-1 md:grid-cols-2">
-        {panelesMV.map(([tit, txt, src]) => (
+        {panelesMV.map(([tit, txt, src], i) => (
           <div key={tit} className="relative min-h-[440px] flex items-center overflow-hidden">
             <video src={src} autoPlay loop muted playsInline
               className="absolute inset-0 w-full h-full object-cover saturate-[0.6]" />
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--navy-noche)]/95 to-[var(--negro-tinta)]/85" />
-            <div className="relative z-10 px-8 md:px-14 py-16">
+            <div className={`relative z-10 w-full py-16 ${i === 0 ? "al-izq pr-8 md:pr-12" : "pl-8 md:pl-12 al-der"}`}>
               <Regla tono="glow" />
               <h3 className="t-medio text-white mt-6">{tit}</h3>
               <p className="t-cuerpo text-white/80 mt-6 max-w-md">{txt}</p>

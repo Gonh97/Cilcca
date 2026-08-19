@@ -23,9 +23,8 @@ export function Portfolio() {
       </Contenedor>
 
       {/* Carrusel: se desliza en horizontal, con la tarjeta siguiente asomando. */}
-      <div className="w-full overflow-x-auto scroll-smooth snap-x snap-mandatory
-                      [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex gap-6 px-6 md:px-12 lg:px-20 pb-6">
+      <div className="al-scroll w-full overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="al-izq al-der flex gap-6 pb-6">
           {categorias.map(([tit, desc, img]) => (
             <article key={tit}
               className="snap-start shrink-0 w-[280px] md:w-[336px] rounded-2xl border border-border
