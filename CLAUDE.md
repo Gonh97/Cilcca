@@ -101,3 +101,18 @@ Reglas del sistema que el código respeta y no hay que romper:
 
 Las 6 imágenes que estaban en placeholder desde junio se resolvieron con fotografía real del banco
 de marca y viven en `public/img/`. Los videos siguen en Cloudinary (cuenta `dcpicxumb`).
+
+## Dónde se publica (2026-08-12)
+
+**Vercel**, proyecto `cilcca` en la cuenta **GONH97**, conectado a este repo. **Cada push a `main`
+publica solo.** No hay que correr nada a mano.
+
+Regla del usuario: toda página web va a Vercel, que es el link con el que muestra su trabajo.
+GitHub queda solo como repositorio del código. Detalle en
+`wiki/conceptos/despliegue-estatico-vercel.md`.
+
+- `base` de Vite es `'/'`. **No volver a ponerlo en `'/Cilcca/'`**: eso era del subpath de GitHub
+  Pages y deja el sitio sin estilos ni imágenes en Vercel.
+- `vercel.json` tiene el rewrite de SPA y la cache larga de assets. Reemplaza al truco de duplicar
+  `index.html` como `404.html`.
+- La rama `gh-pages` y `ci/deploy.yml.disabled` quedan como historia; el sitio ya no se publica ahí.
