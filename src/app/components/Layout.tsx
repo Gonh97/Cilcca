@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router";
-import { logo } from "../lib";
+import { logoNav } from "../lib";
 import { Intro } from "../Intro";
 import { TelonProvider, LinkTelon } from "../transicion";
 import { Flecha } from "../ui";
@@ -48,7 +48,7 @@ export function Layout() {
       <header className={"cl-nav" + (solido ? " solido" : "") + (vidrio ? " vidrio" : "") +(abierto ? " abierto" : "")} ref={navRef}>
         <div className="e-wrap bar">
           <LinkTelon to="/" className="cl-logo">
-            <img src={logo} alt="CILCCA, inicio" />
+            <img src={logoNav} alt="CILCCA, inicio" />
           </LinkTelon>
           <nav className="cl-links e-label" aria-label="Principal">
             {MENU.map((m) => (
@@ -80,7 +80,7 @@ export function Layout() {
         <div className="e-wrap">
           <div className="top">
             <div className="marca">
-              <img src={logo} alt="CILCCA" />
+              <img src={logoNav} alt="CILCCA" />
               <p className="e-s">Complejo Industrial Licorero del Centro. Producimos, añejamos y envasamos para marcas y distribuidores.</p>
             </div>
             <div className="cols">
