@@ -1,66 +1,98 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router";
 import { logo } from "../lib";
 import { Intro } from "../Intro";
 import { TelonProvider, LinkTelon } from "../transicion";
+import { Flecha } from "../ui";
+
+const MENU = [
+  { to: "/servicios", nm: "Servicios" },
+  { to: "/planta", nm: "Planta" },
+  { to: "/maestro", nm: "Maestro" },
+];
 
 export function Layout() {
   const navRef = useRef<HTMLElement>(null);
   const location = useLocation();
+  const [abierto, setAbierto] = useState(false);
+  const [solido, setSolido] = useState(() => location.pathname !== "/");
 
-  // El nav es transparente (blanco) sobre el hero y se vuelve claro al entrar
-  // al cuerpo luminoso. En páginas sin hero, claro desde arriba.
+  // El nav es transparente sobre el hero y se vuelve claro con desenfoque al
+  // bajar. En las páginas sin hero va claro desde arriba.
   useEffect(() => {
-    const nav = navRef.current;
-    if (!nav) return;
     const onScroll = () => {
       const hero = document.querySelector(".cl-hero") as HTMLElement | null;
-      if (hero) {
-        const h = hero.getBoundingClientRect().height;
-        nav.classList.toggle("solido", window.scrollY > h - 72);
-      } else {
-        nav.classList.add("solido");
-      }
+      const limite = hero ? hero.getBoundingClientRect().height - 88 : 0;
+      setSolido(!hero || window.scrollY > limite);
     };
     onScroll();
+    setAbierto(false);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
+
+  const cta = (
+    <LinkTelon to="/contacto" className="e-btn" onClick={() => setAbierto(false)}>
+      Produce con nosotros <Flecha />
+    </LinkTelon>
+  );
 
   return (
     <TelonProvider>
       <Intro />
 
-      <nav className="cl-nav" ref={navRef}>
-        <div className="cl-wrap in">
+      <header className={"cl-nav" + (solido ? " solido" : "") + (abierto ? " abierto" : "")} ref={navRef}>
+        <div className="e-wrap bar">
           <LinkTelon to="/" className="cl-logo">
-            <img src={logo} alt="CILCCA" />
+            <img src={logo} alt="CILCCA, inicio" />
           </LinkTelon>
-          <div className="cl-menu">
-            <LinkTelon to="/servicios">Servicios</LinkTelon>
-            <LinkTelon to="/planta">Planta</LinkTelon>
-            <LinkTelon to="/maestro">Maestro</LinkTelon>
-            <LinkTelon to="/contacto" className="cl-btn">Contacto</LinkTelon>
-          </div>
+          <nav className="cl-links e-label" aria-label="Principal">
+            {MENU.map((m) => (
+              <LinkTelon key={m.to} to={m.to} className={location.pathname === m.to ? "on" : undefined}>
+                {m.nm}
+              </LinkTelon>
+            ))}
+          </nav>
+          {cta}
+          <button className="menu-btn e-label" aria-expanded={abierto} onClick={() => setAbierto((v) => !v)}>
+            {abierto ? "Cerrar" : "Menú"}
+          </button>
         </div>
-      </nav>
+        <div className="cl-panel">
+          <nav aria-label="Principal móvil">
+            {MENU.map((m) => (
+              <LinkTelon key={m.to} to={m.to} onClick={() => setAbierto(false)}>{m.nm}</LinkTelon>
+            ))}
+          </nav>
+          {cta}
+        </div>
+      </header>
 
       <main className="cl">
         <Outlet />
       </main>
 
-      <footer className="cl-foot">
-        <div className="cl-wrap">
-          <LinkTelon to="/" className="name">CILCCA</LinkTelon>
-          <div className="row">
-            <div className="links">
-              <LinkTelon to="/servicios">Servicios</LinkTelon>
-              <LinkTelon to="/planta">Planta</LinkTelon>
-              <LinkTelon to="/maestro">Maestro</LinkTelon>
-              <LinkTelon to="/contacto">Contacto</LinkTelon>
+      <footer className="cl-foot e-dark">
+        <div className="e-wrap">
+          <div className="top">
+            <div className="marca">
+              <img src={logo} alt="CILCCA" />
+              <p className="e-s">Complejo Industrial Licorero del Centro. Producimos, añejamos y envasamos para marcas y distribuidores.</p>
             </div>
-            <div className="fdir">Complejo Industrial Licorero del Centro · Ocumare del Tuy, Estado Miranda, Venezuela</div>
+            <div className="cols">
+              <div className="col">
+                <span className="e-label">Sitio</span>
+                {MENU.map((m) => <LinkTelon key={m.to} to={m.to}>{m.nm}</LinkTelon>)}
+                <LinkTelon to="/contacto">Contacto</LinkTelon>
+              </div>
+              <div className="col">
+                <span className="e-label">Planta</span>
+                <span>Carretera Ocumare a San Francisco de Yare, sector Aponte. Ocumare del Tuy, Miranda, Venezuela.</span>
+                <span className="nota">Teléfono y correo pendientes</span>
+              </div>
+            </div>
           </div>
+          <p className="bot">© 2026 CILCCA</p>
         </div>
       </footer>
     </TelonProvider>

@@ -1,32 +1,42 @@
-// Maestro — Andrés Contreras y lo que produce la casa. (Provisional; se rediseña por puntos.)
+// Maestro, v4 (dirección Estudio): Andrés Contreras y lo que sale de la casa.
 import { img } from "../lib";
+
+const PRODUCTOS = [
+  { im: "prod-rones.webp", nm: "Rones con D.O.", ds: "Añejados de 2 a 12 años en roble." },
+  { im: "prod-seleccion.webp", nm: "Selección de la casa", ds: "Mezclas de edición limitada." },
+  { im: "prod-copacking.webp", nm: "Co-packing de marcas", ds: "Tu fórmula, producida y envasada en la planta." },
+];
 
 export function Maestro() {
   return (
-    <div className="cl-pagina">
-      <section className="cl-maestro">
-        <div className="cl-wrap">
-          <div className="grid">
-            <div>
-              <h1 className="rv">El maestro detrás de cada mezcla.</h1>
-              <p className="rv d1">Andrés Contreras, químico con más de treinta años de experiencia. Su paciencia para añejar, la selección meticulosa de la madera y la supervisión de la destilación logran mezclas suaves, complejas y excepcionalmente equilibradas.</p>
-              <div className="premio rv d2">Mejor Maestro Ronero 2017<span>International Rum Conference (IRC)</span></div>
+    <>
+      <section className="e-page-head">
+        <div className="e-wrap e-split">
+          <div className="txt">
+            <h1 className="e-display e-t rv"><span>El maestro</span><span>detrás de cada mezcla.</span></h1>
+            <p className="e-l rv d1">Andrés Contreras, químico con treinta años creando rones de alto prestigio, entre ellos Ron Ocumare. Su método es la paciencia: escoger la barrica, seguir cada lote y no apurar el tiempo.</p>
+            <div className="e-premio rv d2">
+              <span className="n">2017</span>
+              <span className="k"><b>Mejor Maestro Ronero</b><span className="e-s">International Rum Conference (IRC)</span></span>
             </div>
-            <div className="ph parimg rv d1"><img src={img("maestro.webp")} alt="Andrés Contreras, maestro ronero" /></div>
           </div>
+          <div className="ph rv d1"><img src={img("maestro.webp")} alt="Andrés Contreras, maestro ronero" /></div>
         </div>
       </section>
 
-      <section className="cl-prods">
-        <div className="cl-wrap">
-          <h2 className="cl-sh rv">Lo que sale de la casa.</h2>
-          <div className="cl-prodrow">
-            <div className="p rv"><div className="im"><img src={img("prod-rones.webp")} alt="Rones con denominación de origen" /></div><div className="cap">Rones con D.O.<span>Añejados de 2 a 12 años en roble</span></div></div>
-            <div className="p rv d1"><div className="im"><img src={img("prod-seleccion.webp")} alt="Selección de la casa" /></div><div className="cap">Selección de la casa<span>Mezclas de edición limitada</span></div></div>
-            <div className="p rv d2"><div className="im"><img src={img("prod-copacking.webp")} alt="Co-packing de marcas" /></div><div className="cap">Co-packing de marcas<span>Más de 7 millones de cajas al año</span></div></div>
+      <section className="e-sec alt">
+        <div className="e-wrap">
+          <h2 className="e-h2 e-t rv"><span>Lo que sale</span><span>de la casa.</span></h2>
+          <div className="e-prods">
+            {PRODUCTOS.map((p, k) => (
+              <div key={p.nm} className={"e-prod rv" + (k ? ` d${k}` : "")}>
+                <div className="im"><img src={img(p.im)} alt={p.nm} /></div>
+                <div className="k"><h3 className="e-h4">{p.nm}</h3><p className="e-s">{p.ds}</p></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
