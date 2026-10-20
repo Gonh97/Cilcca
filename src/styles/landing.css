@@ -37,7 +37,6 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
 .cl-intro.es-armado .cl-intro__marca .p{ opacity:1; }
 .cl-intro__marca .p0{ fill:var(--azul-glow); }
 .cl-intro__marca .p1{ fill:var(--verde-glow); }
-@media (prefers-reduced-motion: reduce){ .cl-intro{ display:none; } }
 
 /* movimiento: entrada desenfoque -> nitidez + subida (curva suave).
    El JS escribe el estilo final en línea (transform/opacity/filter) al entrar

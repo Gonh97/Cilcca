@@ -9,16 +9,8 @@ export function Intro() {
   const [fase, setFase] = useState<Fase>("inicial");
 
   useEffect(() => {
-    let reduce = false;
-    try {
-      reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    } catch {
-      reduce = false;
-    }
-    if (reduce) {
-      setFase("fin");
-      return;
-    }
+    // El cargador se muestra siempre (el usuario lo pidió así), también con
+    // "movimiento reducido" activado en el sistema.
     // dejar que el navegador pinte el estado inicial antes de armar
     const raf = requestAnimationFrame(() =>
       requestAnimationFrame(() => setFase("armado")),
