@@ -35,6 +35,17 @@ export function Layout() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (!abierto) return;
+    const fuera = (e: PointerEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setAbierto(false);
+    };
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setAbierto(false); };
+    document.addEventListener("pointerdown", fuera);
+    document.addEventListener("keydown", esc);
+    return () => { document.removeEventListener("pointerdown", fuera); document.removeEventListener("keydown", esc); };
+  }, [abierto]);
+
   const cta = (
     <LinkTelon to="/contacto" className="e-btn" onClick={() => setAbierto(false)}>
       Produce con nosotros <Flecha />
@@ -50,7 +61,7 @@ export function Layout() {
           <LinkTelon to="/" className="cl-logo">
             <img src={logoNav} alt="CILCCA, inicio" />
           </LinkTelon>
-          <nav className="cl-links e-label" aria-label="Principal">
+          <nav className="cl-links" aria-label="Principal">
             {MENU.map((m) => (
               <LinkTelon key={m.to} to={m.to} className={location.pathname === m.to ? "on" : undefined}>
                 {m.nm}
@@ -58,14 +69,16 @@ export function Layout() {
             ))}
           </nav>
           {cta}
-          <button className="menu-btn e-label" aria-expanded={abierto} onClick={() => setAbierto((v) => !v)}>
-            {abierto ? "Cerrar" : "Menú"}
+          <button className="menu-btn" aria-expanded={abierto} aria-controls="menu-movil"
+            aria-label={abierto ? "Cerrar menú" : "Abrir menú"} onClick={() => setAbierto((v) => !v)}>
+            <span /><span /><span />
           </button>
         </div>
-        <div className="cl-panel">
+        <div className="cl-panel" id="menu-movil" aria-hidden={!abierto}>
           <nav aria-label="Principal móvil">
             {MENU.map((m) => (
-              <LinkTelon key={m.to} to={m.to} onClick={() => setAbierto(false)}>{m.nm}</LinkTelon>
+              <LinkTelon key={m.to} to={m.to} className={location.pathname === m.to ? "on" : undefined}
+                onClick={() => setAbierto(false)}>{m.nm}</LinkTelon>
             ))}
           </nav>
           {cta}
