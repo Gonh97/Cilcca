@@ -89,7 +89,7 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
 /* ---------- SOBRE + CIFRAS ---------- */
 .cl-sobre{ padding:var(--cl-sec) 0; }
 .cl-sobre .grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(32px,5vw,80px); align-items:center; }
-.cl-sobre h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(32px,4.8vw,60px); line-height:1.04; letter-spacing:-.03em; margin-bottom:24px; max-width:22ch; }
+.cl-sobre h1, .cl-sobre h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(32px,4.8vw,60px); line-height:1.04; letter-spacing:-.03em; margin-bottom:24px; max-width:22ch; }
 .cl-sobre .st{ font-family:var(--font-display); font-weight:600; font-size:clamp(22px,2.6vw,32px);
   line-height:1.2; letter-spacing:-.015em; }
 .cl-sobre .st b{ color:#fff; font-weight:700; }
@@ -140,7 +140,7 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
 /* ---------- MAESTRO ---------- */
 .cl-maestro{ padding:var(--cl-sec) 0; }
 .cl-maestro .grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,5vw,80px); align-items:center; }
-.cl-maestro h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(32px,4.8vw,60px); line-height:1.03; letter-spacing:-.03em; }
+.cl-maestro h1, .cl-maestro h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(32px,4.8vw,60px); line-height:1.03; letter-spacing:-.03em; }
 .cl-maestro p{ margin-top:22px; font-size:17px; line-height:1.75; color:var(--cl-cuerpo); max-width:46ch; }
 .cl-maestro .premio{ margin-top:28px; font-family:var(--font-display); font-weight:700; font-size:clamp(20px,2.2vw,28px); line-height:1.2; }
 .cl-maestro .premio span{ display:block; font-family:var(--font-sans); font-weight:500; font-size:14px; color:var(--cl-cuerpo); margin-top:6px; }
@@ -162,7 +162,7 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
 .cl-cta .scrim{ position:absolute; inset:0; background:
   linear-gradient(90deg, rgba(4,29,49,.95) 0%, rgba(4,29,49,.7) 50%, rgba(4,29,49,.3) 100%); }
 .cl-cta .in{ position:relative; z-index:3; padding-top:var(--cl-sec); padding-bottom:var(--cl-sec); }
-.cl-cta h2{ font-family:var(--font-display); font-weight:800; font-size:clamp(34px,5.4vw,78px); line-height:.98; letter-spacing:-.03em; max-width:16ch; }
+.cl-cta h1, .cl-cta h2{ font-family:var(--font-display); font-weight:800; font-size:clamp(34px,5.4vw,78px); line-height:.98; letter-spacing:-.03em; max-width:16ch; }
 .cl-cta p{ margin-top:22px; font-size:17px; color:#dfe7ee; max-width:48ch; line-height:1.65; }
 .cl-cta .dir{ margin-top:30px; font-size:17px; color:var(--cl-cuerpo); max-width:40ch; line-height:1.6; }
 .cl-cta .pend{ color:#E2574E; }
