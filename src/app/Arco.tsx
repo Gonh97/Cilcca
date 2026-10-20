@@ -36,7 +36,7 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
     // la rueda persigue al scroll con una curva suave en vez de copiarlo
     const cuadro = () => {
       const d = meta - actual;
-      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.11;
+      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.15;
       setPos(actual);
       raf = actual === meta ? 0 : requestAnimationFrame(cuadro);
     };
@@ -63,7 +63,9 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
       const el = ref.current;
       if (!el || e.ctrlKey || Math.abs(e.deltaY) < 1) return;
       const ahora = performance.now();
-      if (bloqueado && ahora - ultimoEvento > 180 && ahora - inicioBloqueo > 650) bloqueado = false;
+      // se libera apenas el gesto termina (pausa de 120 ms) y pasaron 280 ms del
+      // paso anterior: así cada clic de la rueda cuenta, pero la inercia no
+      if (bloqueado && ahora - ultimoEvento > 120 && ahora - inicioBloqueo > 280) bloqueado = false;
       ultimoEvento = ahora;
       const r = el.getBoundingClientRect();
       const dir = e.deltaY > 0 ? 1 : -1;
@@ -86,13 +88,70 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
       irA(sig);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // Teléfono: un deslizamiento = una etapa. Mientras la sección está fija se
+    // bloquea el scroll nativo (que con el impulso recorría varias etapas) y se
+    // salta exactamente a la siguiente o la anterior. En la primera y la
+    // última etapa, hacia afuera, el scroll del teléfono sigue normal.
+    let toqueY: number | null = null;
+    let toqueUsado = false;
+    let ultimoToque = -1e9;
+    const fijoAhora = () => {
+      const el = ref.current;
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top <= 1 && r.bottom >= window.innerHeight - 1;
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      toqueY = e.touches[0].clientY;
+      toqueUsado = false;
+      ultimoToque = performance.now();
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (toqueY === null) return;
+      ultimoToque = performance.now();
+      const dy = toqueY - e.touches[0].clientY; // > 0: el dedo sube, la página baja
+      if (!fijoAhora()) return;
+      leerMeta();
+      const sig = Math.round(meta) + (dy > 0 ? 1 : -1);
+      if (Math.abs(dy) < 4 || sig < 0 || sig > n - 1) return;
+      e.preventDefault();
+      if (!toqueUsado && Math.abs(dy) > 36) { toqueUsado = true; irA(sig); }
+    };
+    const onTouchEnd = () => { toqueY = null; ultimoToque = performance.now(); };
+
+    // Si un impulso del dedo hace entrar a la sección ya pasada la primera
+    // etapa (o la última, subiendo), se corrige a la etapa de entrada.
+    let topPrevio = ref.current?.getBoundingClientRect().top ?? 0;
+    const guardiaEntrada = () => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const reciente = performance.now() - ultimoToque < 1800;
+      const veniaDeArriba = topPrevio > 1;
+      const veniaDeAbajo = topPrevio + el.offsetHeight < vh - 1;
+      if (reciente && r.top <= 1 && r.bottom >= vh - 1) {
+        leerMeta();
+        if (veniaDeArriba && meta > 0) irA(0);
+        else if (veniaDeAbajo && meta < n - 1) irA(n - 1);
+      }
+      topPrevio = el.getBoundingClientRect().top;
+    };
+    const onScrollTodo = () => { guardiaEntrada(); onScroll(); };
+
+    window.addEventListener("scroll", onScrollTodo, { passive: true });
     window.addEventListener("resize", onScroll);
     window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScrollTodo);
       window.removeEventListener("resize", onScroll);
       window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
       cancelAnimationFrame(raf);
     };
   }, [n]);
