@@ -2,7 +2,8 @@
 // iconos van girando por el borde; la etapa que llega al frente (las 3 en
 // punto) se enciende y su información aparece al lado, a la derecha.
 // La sección queda fija (sticky) mientras dura el recorrido; el giro sigue al
-// scroll (no es autónomo) y se suaviza con una interpolación por cuadro.
+// scroll por estaciones: cada tramo de scroll es una etapa, y la rueda gira
+// suave hasta dejar ese icono exactamente al frente.
 //
 // Solo las etapas que hace CILCCA, de la barrica a la botella. La fermentación
 // y la destilación son de CACSA (Corporación Alcoholes del Caribe) y no van acá
@@ -28,12 +29,14 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
       if (!el) return;
       const r = el.getBoundingClientRect();
       const total = el.offsetHeight - window.innerHeight;
-      meta = Math.min(1, Math.max(0, -r.top / total)) * (n - 1);
+      // por estaciones: la meta es siempre una etapa entera, así la rueda se
+      // detiene con el icono centrado al frente y su información al lado
+      meta = Math.round(Math.min(1, Math.max(0, -r.top / total)) * (n - 1));
     };
     // la rueda persigue al scroll con una curva suave en vez de copiarlo
     const cuadro = () => {
       const d = meta - actual;
-      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.1;
+      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.085;
       setPos(actual);
       raf = actual === meta ? 0 : requestAnimationFrame(cuadro);
     };
@@ -88,7 +91,6 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
                   <span className="nodo" style={{ transform: `translate(-50%, -50%) scale(${1 + cerca * 0.28})` }}>
                     <Icono n={e.ic} />
                   </span>
-                  <span className="nm" style={{ opacity: 1 - cerca }}>{e.nm}</span>
                 </div>
               );
             })}
