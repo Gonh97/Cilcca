@@ -46,7 +46,7 @@ export function Planta() {
 
       <section className="e-sec">
         <div className="e-wrap e-split inv">
-          <div className="ph ancha rv"><img src={img("barricas.webp")} alt="Barricas de roble en guarda" /></div>
+          <div className="ph ancha rv"><img src={img("historia.webp")} alt="Barricas de roble en guarda" /></div>
           <div className="txt">
             <h2 className="e-h2 e-t rv"><span>Desde 1981</span><span>elaborando ron de Venezuela.</span></h2>
             <p className="e-l rv d1">Nacimos como la Destilería Pampero. Pasamos por United Distillers (Diageo) y Ponche Crema, y hoy operamos bajo Estelar Trading como la instalación más grande del sector licorero del país.</p>

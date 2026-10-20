@@ -32,16 +32,16 @@ const ETAPAS = [
 
 const CAPACIDADES = [
   { nm: "Crianza", im: "barricas.webp", ds: "Seis bodegas de añejamiento con racks mecanizados para guardar tu ron el tiempo que tu marca necesita.", cap: "156.000", u: "barricas · 4,1 MM de cajas" },
-  { nm: "Llenado de barril", im: "sv-toneleria.webp", ds: "Barricas vaporizadas antes de llenarse para que la madera se hidrate y ajuste contra los aros.", cap: "158.000", u: "barriles al año" },
-  { nm: "Vaciado de barril", im: "toneleria.webp", ds: "Vaciado, medición de merma y reembarricado para oxigenar el ron y perder menos.", cap: "250.000", u: "barriles al año" },
+  { nm: "Llenado de barril", im: "sv-llenado.webp", ds: "Barricas vaporizadas antes de llenarse para que la madera se hidrate y ajuste contra los aros.", cap: "158.000", u: "barriles al año" },
+  { nm: "Vaciado de barril", im: "sv-vaciado.webp", ds: "Vaciado, medición de merma y reembarricado para oxigenar el ron y perder menos.", cap: "250.000", u: "barriles al año" },
   { nm: "Mezcla", im: "sv-mezcla.webp", ds: "Tanques de acero inoxidable y filtrado con carbón activado para los rones blancos.", cap: "7,15 MM", u: "cajas al año" },
-  { nm: "Envasado", im: "sv-envasado.webp", ds: "Seis líneas automatizadas de llenado. Tu marca, embotellada y lista para despachar.", cap: "3,25 MM", u: "cajas al año en un turno" },
+  { nm: "Envasado", im: "sv-lineas.webp", ds: "Seis líneas automatizadas de llenado. Tu marca, embotellada y lista para despachar.", cap: "3,25 MM", u: "cajas al año en un turno" },
 ];
 
 export function Servicios() {
   return (
     <>
-      <PageHero im="envejecimiento.webp" alt="Bodega de crianza con barricas en racks" t1="Todo el proceso," t2="en una sola planta."
+      <PageHero im="hero-servicios.webp" alt="Pasillo de bodega de crianza con barricas en racks" t1="Todo el proceso," t2="en una sola planta."
         tx="Traes tu marca; nosotros ponemos la ingeniería, la madera y el tiempo. De la barrica al despacho internacional." />
 
       <Arco etapas={ETAPAS} t1="De la barrica" t2="a la botella." />
