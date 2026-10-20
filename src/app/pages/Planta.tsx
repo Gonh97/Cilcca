@@ -1,6 +1,6 @@
 // Planta, v4 (dirección Estudio): la escala, la calidad y la historia.
 import { img } from "../lib";
-import { Icono } from "../ui";
+import { Cifra, Icono, PageHero } from "../ui";
 
 const CALIDAD = [
   { ic: "matraz", nm: "Laboratorio propio", ds: "Control de calidad de primera línea sobre cada lote, del destilado a la botella." },
@@ -12,21 +12,16 @@ const CALIDAD = [
 export function Planta() {
   return (
     <>
-      <section className="e-page-head">
-        <div className="e-wrap">
-          <h1 className="e-display e-t rv"><span>La planta más grande</span><span>del sector licorero.</span></h1>
-          <p className="e-l rv d1">Treinta y dos hectáreas en Ocumare del Tuy, a 45 minutos de Caracas, pensadas para producir, añejar y despachar a escala.</p>
-        </div>
-      </section>
+      <PageHero im="planta.webp" alt="Planta de CILCCA en Ocumare del Tuy" t1="La planta más grande" t2="del sector licorero."
+        tx="Treinta y dos hectáreas en Ocumare del Tuy, a 45 minutos de Caracas, pensadas para producir, añejar y despachar a escala." />
 
-      <section className="e-sec pegada">
+      <section className="e-sec">
         <div className="e-wrap">
-          <div className="e-wide rv"><img src={img("planta.webp")} alt="Planta de CILCCA en Ocumare del Tuy" /></div>
-          <div className="e-stats">
-            <div className="e-stat rv"><div className="n">6</div><div className="u" /><div className="l">bodegas de añejamiento en racks</div></div>
-            <div className="e-stat rv d1"><div className="n">2</div><div className="u" /><div className="l">instalaciones de mezcla y envejecimiento</div></div>
-            <div className="e-stat rv d2"><div className="n">2</div><div className="u" /><div className="l">plantas de tratamiento de aguas</div></div>
-            <div className="e-stat rv d3"><div className="n">3</div><div className="u" /><div className="l">almacenes de producto y materia prima</div></div>
+          <div className="e-stats sin-margen">
+            <div className="e-stat rv"><div className="n"><Cifra v={6} /></div><div className="u" /><div className="l">bodegas de añejamiento en racks</div></div>
+            <div className="e-stat rv d1"><div className="n"><Cifra v={2} /></div><div className="u" /><div className="l">instalaciones de mezcla y envejecimiento</div></div>
+            <div className="e-stat rv d2"><div className="n"><Cifra v={2} /></div><div className="u" /><div className="l">plantas de tratamiento de aguas</div></div>
+            <div className="e-stat rv d3"><div className="n"><Cifra v={3} /></div><div className="u" /><div className="l">almacenes de producto y materia prima</div></div>
           </div>
         </div>
       </section>

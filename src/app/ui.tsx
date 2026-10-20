@@ -1,8 +1,58 @@
 // Piezas de interfaz compartidas: flecha, enlace de círculo e iconos de línea.
 // Los iconos siguen el set de la marca (barrica, tonelería, botella, despacho,
 // matraz, galpón), trazo de 1,5 con cap y join redondos.
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { LinkTelon } from "./transicion";
+import { img as imgUrl } from "./lib";
+
+const fmt = (n: number, dec: number) =>
+  n.toLocaleString("es-VE", { minimumFractionDigits: dec, maximumFractionDigits: dec });
+
+/** Cifra que cuenta desde cero hasta su valor cuando entra en pantalla. */
+export function Cifra({ v, dec = 0 }: { v: number; dec?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = fmt(v, dec); return; }
+    let raf = 0;
+    const correr = () => {
+      const t0 = performance.now();
+      const DUR = 1800;
+      const paso = (t: number) => {
+        const p = Math.min(1, (t - t0) / DUR);
+        const e = 1 - Math.pow(1 - p, 4); // frena largo al final
+        el.textContent = fmt(v * e, dec);
+        if (p < 1) raf = requestAnimationFrame(paso);
+      };
+      raf = requestAnimationFrame(paso);
+    };
+    const io = new IntersectionObserver(([en]) => {
+      if (en.isIntersecting) { io.disconnect(); window.setTimeout(correr, 250); }
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [v, dec]);
+  return <span ref={ref}>{fmt(0, dec)}</span>;
+}
+
+/** Encabezado de página a sangre: foto de ambiente + velo direccional (receta A de la marca). */
+export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center" }: {
+  im: string; alt: string; t1: string; t2: string; tx: string; lado?: "izq" | "der"; pos?: string;
+}) {
+  return (
+    <header className={"e-phero " + lado}>
+      <img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} />
+      <div className="velo" />
+      <div className="e-wrap">
+        <div className="txt">
+          <h1 className="e-display e-t rv"><span>{t1}</span><span>{t2}</span></h1>
+          <p className="e-l rv d1">{tx}</p>
+        </div>
+      </div>
+    </header>
+  );
+}
 
 export function Flecha() {
   return (

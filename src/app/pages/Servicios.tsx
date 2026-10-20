@@ -1,7 +1,7 @@
 // Servicios, v4 (dirección Estudio): encabezado de página, imagen ancha, la
 // línea de proceso de la marca y las capacidades en filas con filete.
 // Cifras: presentación institucional del cliente (wiki cilcca-presentacion-fuente).
-import { img } from "../lib";
+import { PageHero } from "../ui";
 
 const ETAPAS = [
   { nm: "Fermentación", ds: "La levadura transforma los azúcares en alcohol." },
@@ -24,18 +24,8 @@ const CAPACIDADES = [
 export function Servicios() {
   return (
     <>
-      <section className="e-page-head">
-        <div className="e-wrap">
-          <h1 className="e-display e-t rv"><span>Todo el proceso,</span><span>en una sola planta.</span></h1>
-          <p className="e-l rv d1">Traes tu marca; nosotros ponemos la ingeniería, la madera y el tiempo. Del primer destilado al despacho internacional.</p>
-        </div>
-      </section>
-
-      <section className="e-sec pegada">
-        <div className="e-wrap">
-          <div className="e-wide rv"><img src={img("envejecimiento.webp")} alt="Bodega de crianza con barricas en racks" /></div>
-        </div>
-      </section>
+      <PageHero im="envejecimiento.webp" alt="Bodega de crianza con barricas en racks" t1="Todo el proceso," t2="en una sola planta."
+        tx="Traes tu marca; nosotros ponemos la ingeniería, la madera y el tiempo. Del primer destilado al despacho internacional." />
 
       <section className="e-sec">
         <div className="e-wrap">

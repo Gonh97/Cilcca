@@ -3,13 +3,13 @@
 // (galería oscura) y el maestro. Un solo llamado a la acción: el del nav.
 import { useState } from "react";
 import { base, img } from "../lib";
-import { Icono, LinkCirculo } from "../ui";
+import { Cifra, Icono, LinkCirculo } from "../ui";
 
 const SERVICIOS = [
-  { ic: "barrica", nm: "Envejecimiento", ds: "Seis bodegas en racks para 156.000 barricas de roble, en guarda controlada para cada marca." },
-  { ic: "toneleria", nm: "Tonelería", ds: "Maestros toneleros propios arman, reparan y vaporizan las barricas dentro de la planta." },
-  { ic: "botella", nm: "Mezcla y envasado", ds: "Seis líneas automatizadas de llenado. Tu marca, embotellada a escala y lista para salir." },
-  { ic: "despacho", nm: "Exportación", ds: "Despacho a granel en isotanques sellados, con certificados de origen y de libre venta." },
+  { ic: "barrica", im: "sv-envejecimiento.webp", nm: "Envejecimiento", ds: "Seis bodegas en racks para 156.000 barricas de roble, en guarda controlada para cada marca." },
+  { ic: "toneleria", im: "sv-toneleria.webp", nm: "Tonelería", ds: "Maestros toneleros propios arman, reparan y vaporizan las barricas dentro de la planta." },
+  { ic: "botella", im: "sv-envasado.webp", nm: "Mezcla y envasado", ds: "Seis líneas automatizadas de llenado. Tu marca, embotellada a escala y lista para salir." },
+  { ic: "despacho", im: "sv-exportacion.webp", nm: "Exportación", ds: "Despacho a granel en isotanques sellados, con certificados de origen y de libre venta." },
 ];
 
 const PLANTA = [
@@ -18,6 +18,37 @@ const PLANTA = [
   { nm: "Envasado", im: "maquila.webp", tx: "Seis líneas automatizadas y capacidad para 3,25 millones de cajas al año en un turno." },
   { nm: "Despacho", im: "logistica.webp", tx: "Almacenes de producto terminado y salida a granel para marcas dentro y fuera del país." },
 ];
+
+// Servicios: al elegir uno se ve en grande lo que hace.
+function ServiciosHome() {
+  const [i, setI] = useState(0);
+  return (
+    <section className="e-sec alt">
+      <div className="e-wrap">
+        <div className="e-head">
+          <h2 className="e-h2 e-t rv"><span>Todo el proceso,</span><span>en una sola planta.</span></h2>
+          <div className="rv d1"><LinkCirculo to="/servicios">Ver servicios</LinkCirculo></div>
+        </div>
+        <div className="e-svc">
+          <div className="lista rv" role="group" aria-label="Elige un servicio">
+            {SERVICIOS.map((s, k) => (
+              <button key={s.nm} type="button" className="e-svc-item" aria-pressed={k === i} onClick={() => setI(k)}>
+                <Icono n={s.ic} />
+                <h3 className="e-h4">{s.nm}</h3>
+                <div className="ds"><div><p className="e-s">{s.ds}</p></div></div>
+              </button>
+            ))}
+          </div>
+          <div className="vista rv d1">
+            {SERVICIOS.map((s, k) => (
+              <img key={s.im} className={k === i ? "on" : ""} src={img(s.im)} alt={k === i ? s.nm : ""} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Galeria() {
   const [i, setI] = useState(0);
@@ -30,11 +61,11 @@ function Galeria() {
       <div className="velo" />
       <div className="e-wrap">
         <div className="txt">
-          <h2 key={act.nm} className="e-display cambia">{act.nm}</h2>
           <div className="det">
+            <h2 key={act.nm} className="e-display cambia">{act.nm}</h2>
             <p key={act.tx} className="e-m cambia">{act.tx}</p>
-            <div><LinkCirculo to="/planta">Conoce la planta</LinkCirculo></div>
           </div>
+          <div><LinkCirculo to="/planta">Conoce la planta</LinkCirculo></div>
         </div>
         <div className="e-thumbs" role="group" aria-label="Elige un área de la planta">
           {PLANTA.map((p, k) => (
@@ -80,32 +111,16 @@ export function Home() {
             </div>
           </div>
           <div className="e-stats">
-            <div className="e-stat rv"><div className="n">32<small>ha</small></div><div className="u" /><div className="l">de instalación industrial en Ocumare del Tuy</div></div>
-            <div className="e-stat rv d1"><div className="n">156<small>mil</small></div><div className="u" /><div className="l">barricas de roble en seis bodegas</div></div>
-            <div className="e-stat rv d2"><div className="n">3,25<small>MM</small></div><div className="u" /><div className="l">cajas al año en un solo turno</div></div>
-            <div className="e-stat rv d3"><div className="n">6</div><div className="u" /><div className="l">líneas automatizadas de llenado</div></div>
+            <div className="e-stat rv"><div className="n"><Cifra v={32} /><small>ha</small></div><div className="u" /><div className="l">de instalación industrial en Ocumare del Tuy</div></div>
+            <div className="e-stat rv d1"><div className="n"><Cifra v={156} /><small>mil</small></div><div className="u" /><div className="l">barricas de roble en seis bodegas</div></div>
+            <div className="e-stat rv d2"><div className="n"><Cifra v={3.25} dec={2} /><small>MM</small></div><div className="u" /><div className="l">cajas al año en un solo turno</div></div>
+            <div className="e-stat rv d3"><div className="n"><Cifra v={6} /></div><div className="u" /><div className="l">líneas automatizadas de llenado</div></div>
           </div>
         </div>
       </section>
 
       {/* SERVICIOS */}
-      <section className="e-sec alt">
-        <div className="e-wrap">
-          <div className="e-head">
-            <h2 className="e-h2 e-t rv"><span>Todo el proceso,</span><span>en una sola planta.</span></h2>
-            <div className="rv d1"><LinkCirculo to="/servicios">Ver servicios</LinkCirculo></div>
-          </div>
-          <div className="e-features">
-            {SERVICIOS.map((s, k) => (
-              <div key={s.nm} className={"e-feature rv" + (k ? ` d${k}` : "")}>
-                <Icono n={s.ic} />
-                <h3 className="e-h4">{s.nm}</h3>
-                <p className="e-s">{s.ds}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServiciosHome />
 
       {/* LA PLANTA POR DENTRO: el momento oscuro */}
       <Galeria />

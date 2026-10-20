@@ -1,5 +1,6 @@
 // Maestro, v4 (dirección Estudio): Andrés Contreras y lo que sale de la casa.
 import { img } from "../lib";
+import { PageHero } from "../ui";
 
 const PRODUCTOS = [
   { im: "prod-rones.webp", nm: "Rones con D.O.", ds: "Añejados de 2 a 12 años en roble." },
@@ -10,22 +11,16 @@ const PRODUCTOS = [
 export function Maestro() {
   return (
     <>
-      <section className="e-page-head">
-        <div className="e-wrap e-split">
-          <div className="txt">
-            <h1 className="e-display e-t rv"><span>El maestro</span><span>detrás de cada mezcla.</span></h1>
-            <p className="e-l rv d1">Andrés Contreras, químico con treinta años creando rones de alto prestigio, entre ellos Ron Ocumare. Su método es la paciencia: escoger la barrica, seguir cada lote y no apurar el tiempo.</p>
-            <div className="e-premio rv d2">
-              <span className="n">2017</span>
-              <span className="k"><b>Mejor Maestro Ronero</b><span className="e-s">International Rum Conference (IRC)</span></span>
-            </div>
-          </div>
-          <div className="ph rv d1"><img src={img("maestro.webp")} alt="Andrés Contreras, maestro ronero" /></div>
-        </div>
-      </section>
+      <PageHero im="maestro.webp" alt="Andrés Contreras, maestro ronero" lado="der" pos="0% 30%" t1="El maestro" t2="detrás de cada mezcla."
+        tx="Andrés Contreras, químico con treinta años creando rones de alto prestigio, entre ellos Ron Ocumare. Su método es la paciencia: escoger la barrica, seguir cada lote y no apurar el tiempo." />
+
 
       <section className="e-sec alt">
         <div className="e-wrap">
+          <div className="e-premio grande rv">
+            <span className="n">2017</span>
+            <span className="k"><b>Mejor Maestro Ronero</b><span className="e-s">International Rum Conference (IRC)</span></span>
+          </div>
           <h2 className="e-h2 e-t rv"><span>Lo que sale</span><span>de la casa.</span></h2>
           <div className="e-prods">
             {PRODUCTOS.map((p, k) => (

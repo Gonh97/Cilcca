@@ -15,15 +15,19 @@ export function Layout() {
   const navRef = useRef<HTMLElement>(null);
   const location = useLocation();
   const [abierto, setAbierto] = useState(false);
-  const [solido, setSolido] = useState(() => location.pathname !== "/");
+  const [solido, setSolido] = useState(false);
+  const [vidrio, setVidrio] = useState(false);
 
-  // El nav es transparente sobre el hero y se vuelve claro con desenfoque al
-  // bajar. En las páginas sin hero va claro desde arriba.
+  // Tres estados: transparente arriba del hero, vidrio oscuro mientras se baja
+  // por el hero (para que el texto no pase por debajo de los enlaces sueltos) y
+  // claro con desenfoque al salir de él.
   useEffect(() => {
     const onScroll = () => {
-      const hero = document.querySelector(".cl-hero") as HTMLElement | null;
+      const hero = document.querySelector(".cl-hero, .e-phero") as HTMLElement | null;
       const limite = hero ? hero.getBoundingClientRect().height - 88 : 0;
-      setSolido(!hero || window.scrollY > limite);
+      const fuera = !hero || window.scrollY > limite;
+      setSolido(fuera);
+      setVidrio(!fuera && window.scrollY > 24);
     };
     onScroll();
     setAbierto(false);
@@ -41,7 +45,7 @@ export function Layout() {
     <TelonProvider>
       <Intro />
 
-      <header className={"cl-nav" + (solido ? " solido" : "") + (abierto ? " abierto" : "")} ref={navRef}>
+      <header className={"cl-nav" + (solido ? " solido" : "") + (vidrio ? " vidrio" : "") +(abierto ? " abierto" : "")} ref={navRef}>
         <div className="e-wrap bar">
           <LinkTelon to="/" className="cl-logo">
             <img src={logo} alt="CILCCA, inicio" />

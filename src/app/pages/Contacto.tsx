@@ -1,7 +1,7 @@
 // Contacto, v4 (dirección Estudio): datos a la izquierda, formulario a la derecha.
 // El envío va por Web3Forms: falta la clave del cliente (WEB3FORMS_KEY).
 import { useState, type FormEvent } from "react";
-import { Flecha } from "../ui";
+import { Flecha, PageHero } from "../ui";
 
 const WEB3FORMS_KEY = "";
 
@@ -25,14 +25,10 @@ export function Contacto() {
 
   return (
     <>
-      <section className="e-page-head">
-        <div className="e-wrap">
-          <h1 className="e-display e-t rv"><span>Produce tu marca</span><span>con CILCCA.</span></h1>
-          <p className="e-l rv d1">Cuéntanos qué quieres producir, en qué volumen y para qué mercado. Te respondemos con una propuesta.</p>
-        </div>
-      </section>
+      <PageHero im="cta.webp" alt="" t1="Produce tu marca" t2="con CILCCA."
+        tx="Cuéntanos qué quieres producir, en qué volumen y para qué mercado. Te respondemos con una propuesta." />
 
-      <section className="e-sec pegada">
+      <section className="e-sec">
         <div className="e-wrap e-contact">
           <div className="e-datos rv">
             <div className="e-dato"><span className="e-label">Planta</span><p className="e-m">Carretera Ocumare a San Francisco de Yare, sector Aponte. Ocumare del Tuy, Miranda, Venezuela.</p></div>
