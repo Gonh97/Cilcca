@@ -3,7 +3,7 @@ import { img } from "../lib";
 import { Cifra, Icono, PageHero } from "../ui";
 
 const CALIDAD = [
-  { ic: "matraz", nm: "Laboratorio propio", ds: "Control de calidad de primera línea sobre cada lote, del destilado a la botella." },
+  { ic: "matraz", nm: "Laboratorio propio", ds: "Control de calidad de primera línea sobre cada lote, de la barrica a la botella." },
   { ic: "pantalla", nm: "Operación computarizada", ds: "Una sala de operaciones que sigue la producción en tiempo real." },
   { ic: "escudo", nm: "Seguridad industrial", ds: "Sistemas avanzados y bodegas bajo normativa antiexplosión." },
   { ic: "sello", nm: "Denominación de origen", ds: "Rones con D.O.C. y certificación de origen al exportar." },

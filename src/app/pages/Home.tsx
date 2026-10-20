@@ -91,7 +91,7 @@ export function Home() {
           <div className="e-open">
             <h2 className="e-display e-t rv"><span>Traes tu marca.</span><span>Nosotros ponemos el resto.</span></h2>
             <div className="txt">
-              <p className="e-l rv d1">La ingeniería, la madera y el tiempo. Producimos, añejamos y envasamos para marcas y distribuidores, del primer destilado al despacho, bajo un mismo techo.</p>
+              <p className="e-l rv d1">La ingeniería, la madera y el tiempo. Producimos, añejamos y envasamos para marcas y distribuidores, de la barrica al despacho, bajo un mismo techo.</p>
             </div>
           </div>
           <div className="e-stats">
