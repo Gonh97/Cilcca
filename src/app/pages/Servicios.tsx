@@ -6,13 +6,13 @@ import { Arco } from "../Arco";
 
 // Solo lo que hace CILCCA. Fermentación y destilación son de CACSA: no van acá.
 const ETAPAS = [
-  { nm: "Tonelería", ds: "Los maestros toneleros arman y reparan cada barrica dentro de la planta." },
-  { nm: "Embarricado", ds: "Roble de 190 litros, quemado por dentro y vaporizado antes de llenarse." },
-  { nm: "Envejecimiento", ds: "Seis bodegas en racks guardan el ron el tiempo que pide tu marca." },
-  { nm: "Reembarricado", ds: "A los cuatro años se vacía, se mide la merma y se vuelve a llenar la misma barrica." },
-  { nm: "Mezcla", ds: "El maestro ronero aprueba cada mezcla en tanques de acero inoxidable." },
-  { nm: "Envasado", ds: "Seis líneas automatizadas embotellan tu marca a escala." },
-  { nm: "Despacho", ds: "Producto terminado o a granel, listo para salir dentro y fuera del país." },
+  { nm: "Tonelería", ic: "toneleria", ds: "Los maestros toneleros arman y reparan cada barrica dentro de la planta." },
+  { nm: "Embarricado", ic: "barrica", ds: "Roble de 190 litros, quemado por dentro y vaporizado antes de llenarse." },
+  { nm: "Envejecimiento", ic: "reloj", ds: "Seis bodegas en racks guardan el ron el tiempo que pide tu marca." },
+  { nm: "Reembarricado", ic: "ciclo", ds: "A los cuatro años se vacía, se mide la merma y se vuelve a llenar la misma barrica." },
+  { nm: "Mezcla", ic: "tanque", ds: "El maestro ronero aprueba cada mezcla en tanques de acero inoxidable." },
+  { nm: "Envasado", ic: "botella", ds: "Seis líneas automatizadas embotellan tu marca a escala." },
+  { nm: "Despacho", ic: "despacho", ds: "Producto terminado o a granel, listo para salir dentro y fuera del país." },
 ];
 
 const CAPACIDADES = [

@@ -1,15 +1,18 @@
-// Rueda de etapas: un arco que gira con el scroll y trae cada etapa arriba,
-// mientras el centro cuenta qué pasa en ella. La sección queda fija (sticky)
-// mientras dura el recorrido; el giro sigue al scroll, no es autónomo.
+// Rueda de etapas lateral: un círculo grande asoma por la izquierda y sus
+// iconos van girando por el borde; la etapa que llega al frente (las 3 en
+// punto) se enciende y su información aparece al lado, a la derecha.
+// La sección queda fija (sticky) mientras dura el recorrido; el giro sigue al
+// scroll (no es autónomo) y se suaviza con una interpolación por cuadro.
 //
 // Solo las etapas que hace CILCCA, de la barrica a la botella. La fermentación
 // y la destilación son de CACSA (Corporación Alcoholes del Caribe) y no van acá
 // para no confundir las dos empresas.
 import { useEffect, useRef, useState } from "react";
+import { Icono } from "./ui";
 
-export type Etapa = { nm: string; ds: string };
+export type Etapa = { nm: string; ds: string; ic: string };
 
-const PASO = 24; // grados entre etapas sobre el arco
+const PASO = 24; // grados entre etapas sobre el borde
 
 export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: string }) {
   const ref = useRef<HTMLElement>(null);
@@ -18,17 +21,26 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
 
   useEffect(() => {
     let raf = 0;
-    const medir = () => {
-      raf = 0;
+    let actual = 0;
+    let meta = 0;
+    const leerMeta = () => {
       const el = ref.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
       const total = el.offsetHeight - window.innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / total));
-      setPos(p * (n - 1));
+      meta = Math.min(1, Math.max(0, -r.top / total)) * (n - 1);
     };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(medir); };
-    medir();
+    // la rueda persigue al scroll con una curva suave en vez de copiarlo
+    const cuadro = () => {
+      const d = meta - actual;
+      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.1;
+      setPos(actual);
+      raf = actual === meta ? 0 : requestAnimationFrame(cuadro);
+    };
+    const onScroll = () => { leerMeta(); if (!raf) raf = requestAnimationFrame(cuadro); };
+    leerMeta();
+    actual = meta;
+    setPos(actual);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
@@ -42,45 +54,53 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
   const giro = -pos * PASO;
 
   return (
-    <section className="e-arco" ref={ref} style={{ height: `${n * 55 + 70}vh` }}>
+    <section className="e-arco" ref={ref} style={{ height: `${n * 50 + 70}vh` }}>
       <div className="pin">
         <div className="e-wrap cab">
           <h2 className="e-h2 e-t rv"><span>{t1}</span><span>{t2}</span></h2>
         </div>
 
-        <div className="rueda" aria-hidden="true">
-          <svg className="aro" viewBox="0 0 100 100">
-            <defs>
-              <linearGradient id="arco-grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#085184" />
-                <stop offset=".5" stopColor="#4E9BD1" />
-                <stop offset="1" stopColor="#3FB694" />
-              </linearGradient>
-            </defs>
-            <circle cx="50" cy="50" r="49.6" />
-          </svg>
-          <svg className="marcas" viewBox="0 0 100 100" style={{ transform: `rotate(${giro}deg)` }}>
-            <circle cx="50" cy="50" r="46.5" />
-          </svg>
-          {etapas.map((e, k) => {
-            const d = Math.abs(k - pos);
-            const ang = k * PASO + giro;
-            return (
-              <div key={e.nm} className={"et" + (k === act ? " on" : "")}
-                style={{
-                  transform: `rotate(${ang}deg) translateY(calc(-1 * var(--r))) rotate(${-ang}deg)`,
-                  opacity: Math.max(0, 1 - d * 0.32),
-                }}>
-                <span className="punto" />
-                <span className="nm">{e.nm}</span>
-              </div>
-            );
-          })}
-        </div>
+        <div className="escena">
+          <div className="rueda" aria-hidden="true">
+            <svg className="aro" viewBox="0 0 100 100" overflow="visible">
+              <defs>
+                <linearGradient id="arco-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#085184" />
+                  <stop offset=".5" stopColor="#4E9BD1" />
+                  <stop offset="1" stopColor="#3FB694" />
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="50" />
+            </svg>
+            <svg className="marcas" viewBox="0 0 100 100" style={{ transform: `rotate(${giro}deg)` }}>
+              <circle cx="50" cy="50" r="46" pathLength="360" />
+            </svg>
+            {etapas.map((e, k) => {
+              const d = Math.abs(k - pos);
+              const ang = k * PASO + giro; // se suma a --base: 90° = las 3 en punto (escritorio), 180° = abajo (teléfono)
+              const cerca = Math.max(0, 1 - d);
+              return (
+                <div key={e.nm} className={"et" + (k === act ? " on" : "")}
+                  style={{
+                    transform: `rotate(calc(var(--base) + ${ang}deg)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * (var(--base) + ${ang}deg)))`,
+                    opacity: Math.max(0, 1 - d * 0.28),
+                  }}>
+                  <span className="nodo" style={{ transform: `translate(-50%, -50%) scale(${1 + cerca * 0.28})` }}>
+                    <Icono n={e.ic} />
+                  </span>
+                  <span className="nm" style={{ opacity: 1 - cerca }}>{e.nm}</span>
+                </div>
+              );
+            })}
+          </div>
 
-        <div className="centro">
-          <h3 key={act} className="e-arco-t cambia">{etapas[act].nm}</h3>
-          <p key={"t" + act} className="e-l cambia">{etapas[act].ds}</p>
+          <div className="info">
+            <h3 key={act} className="e-arco-t cambia">{etapas[act].nm}</h3>
+            <p key={"t" + act} className="e-l cambia">{etapas[act].ds}</p>
+            <div className="pasos" aria-hidden="true">
+              {etapas.map((e, k) => <span key={e.nm} className={k === act ? "on" : ""} />)}
+            </div>
+          </div>
         </div>
 
         <ol className="sr-only">

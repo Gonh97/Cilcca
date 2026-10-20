@@ -149,6 +149,26 @@ const ICONOS: Record<string, ReactNode> = {
       <path d="M12 16L15 19L20 13" />
     </>
   ),
+  reloj: (
+    <>
+      <circle cx="16" cy="16" r="12" />
+      <path d="M16 9V16L20.5 19" />
+    </>
+  ),
+  ciclo: (
+    <>
+      <path d="M25.5 12.5A10 10 0 0 0 7.2 11" />
+      <path d="M6.5 19.5A10 10 0 0 0 24.8 21" />
+      <path d="M7 5.5V11H12.5M25 26.5V21H19.5" />
+    </>
+  ),
+  tanque: (
+    <>
+      <path d="M9 6C9 4.5 23 4.5 23 6V24C23 25.5 9 25.5 9 24Z" />
+      <path d="M9 6C9 7.5 23 7.5 23 6" />
+      <path d="M11 25V29M21 25V29M23 12H27V18" />
+    </>
+  ),
   sello: (
     <>
       <circle cx="16" cy="13" r="8" />
