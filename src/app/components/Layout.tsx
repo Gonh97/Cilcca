@@ -46,6 +46,28 @@ export function Layout() {
     return () => { document.removeEventListener("pointerdown", fuera); document.removeEventListener("keydown", esc); };
   }, [abierto]);
 
+  // Parallax suave: las fotos a sangre se mueven más lento que el scroll.
+  // Solo transform (nada de propiedades que repinten) y nunca con movimiento reducido.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const mover = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
+        const caja = el.parentElement!.getBoundingClientRect();
+        if (caja.bottom < -100 || caja.top > vh + 100) return;
+        const p = (caja.top + caja.height / 2 - vh / 2) / vh; // -1 arriba, 0 centrado, 1 abajo
+        el.style.transform = `translate3d(0, ${(p * -70).toFixed(1)}px, 0)`;
+      });
+    };
+    const pedir = () => { if (!raf) raf = requestAnimationFrame(mover); };
+    mover();
+    window.addEventListener("scroll", pedir, { passive: true });
+    window.addEventListener("resize", pedir);
+    return () => { window.removeEventListener("scroll", pedir); window.removeEventListener("resize", pedir); cancelAnimationFrame(raf); };
+  }, [location.pathname]);
+
   const cta = (
     <LinkTelon to="/contacto" className="e-btn" onClick={() => setAbierto(false)}>
       Produce con nosotros <Flecha />

@@ -216,7 +216,8 @@ h1, h2, h3{ text-wrap:balance; }
 /* encabezado de página a sangre: foto + velo direccional (receta A de la marca) */
 .e-phero{ position:relative; min-height:min(86svh, 860px); display:flex; align-items:flex-end; overflow:hidden; color:#fff;
   background:var(--navy-noche); }
-.e-phero .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(.82);
+.e-phero .bgw, .e-escena .bgw{ position:absolute; left:0; right:0; top:-80px; bottom:-80px; will-change:transform; }
+.e-phero .bg, .e-escena .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(.82);
   animation:e-acerca 2.4s var(--e-ease-out) both; }
 @keyframes e-acerca{ from{ transform:scale(1.08); } to{ transform:scale(1); } }
 .e-phero .velo{ position:absolute; inset:0; background:
@@ -235,6 +236,56 @@ h1, h2, h3{ text-wrap:balance; }
 .e-phero .e-t > span + span{ color:rgba(255,255,255,.55); }
 .e-phero .e-l{ color:#DCE4EC; max-width:560px; }
 .e-premio.grande{ margin-bottom:clamp(56px, 6vw, 88px); }
+
+/* escena a sangre: foto a toda la ventana + velo + texto (receta A de la marca) */
+.e-escena{ position:relative; min-height:min(100svh, 940px); display:flex; align-items:center; overflow:hidden; color:#fff; background:var(--navy-noche); }
+.e-escena .velo{ position:absolute; inset:0; background:
+  linear-gradient(90deg, rgba(4,29,49,.92) 0%, rgba(4,29,49,.6) 38%, rgba(4,29,49,.08) 72%),
+  linear-gradient(0deg, rgba(4,29,49,.55) 0%, rgba(4,29,49,0) 40%),
+  linear-gradient(135deg, rgba(8,81,132,.2) 0%, rgba(4,29,49,0) 55%); }
+.e-escena.der .velo{ background:
+  linear-gradient(270deg, rgba(4,29,49,.94) 0%, rgba(4,29,49,.66) 40%, rgba(4,29,49,.06) 72%),
+  linear-gradient(0deg, rgba(4,29,49,.55) 0%, rgba(4,29,49,0) 40%); }
+.e-escena .e-wrap{ position:relative; z-index:2; padding-top:clamp(120px, 16vh, 160px); padding-bottom:clamp(96px, 12vh, 140px); display:flex; }
+.e-escena.der .e-wrap{ justify-content:flex-end; }
+.e-escena .txt{ display:grid; gap:30px; max-width:540px; }
+.e-escena .e-l{ color:#DCE4EC; }
+.e-escena .e-premio{ border-color:rgba(255,255,255,.18); }
+.e-escena .e-premio .n{ color:#fff; }
+.e-escena .e-premio .k b{ color:#fff; }
+.e-escena .e-premio .e-s{ color:#B7C4CF; }
+
+/* variante "mitad": la foto a sangre ocupa la mitad izquierda y el texto va en
+   un panel navy a la derecha, fundidos en la unión. Para fotos con la persona
+   al centro, que no dejan un lado libre para el texto. */
+@media (min-width: 1101px){
+  .mitad{ background:linear-gradient(160deg, var(--navy-profundo) 0%, var(--navy-noche) 55%, var(--negro-tinta) 100%) !important; }
+  .mitad .bgw{ right:46%; }
+  .mitad .velo{ right:46%; background:
+    linear-gradient(90deg, rgba(4,29,49,0) 55%, rgba(4,29,49,.75) 88%, var(--navy-noche) 100%),
+    linear-gradient(0deg, rgba(4,29,49,.5) 0%, rgba(4,29,49,0) 35%),
+    linear-gradient(180deg, rgba(4,29,49,.35) 0%, rgba(4,29,49,0) 20%) !important; }
+  .mitad .txt{ max-width:min(540px, 40vw) !important; }
+  .e-phero.mitad{ align-items:center; }
+}
+
+/* ---------- ANIMACIONES ---------- */
+/* las dos líneas del titular entran una tras otra */
+.e-t.rv > span{ opacity:0; transform:translateY(.45em); filter:blur(6px);
+  transition:opacity .9s var(--e-ease), transform .9s var(--e-ease), filter .9s var(--e-ease); }
+.e-t.rv > span + span{ transition-delay:.14s; }
+.e-t.rv.in > span{ opacity:1; transform:none; filter:none; }
+/* el subrayado de cada cifra crece al aparecer */
+.e-stat.rv .u{ width:0; transition:width .9s var(--e-ease) .45s; }
+.e-stat.rv.in .u{ width:24px; }
+/* las imágenes de tarjeta se destapan desde adentro */
+.e-svc .vista.rv, .e-prod.rv .im{ clip-path:inset(8% 8% 8% 8% round 24px); transition:clip-path 1.2s var(--e-ease), opacity .9s var(--e-ease), transform .9s var(--e-ease), filter .9s var(--e-ease); }
+.e-svc .vista.rv.in, .e-prod.rv.in .im{ clip-path:inset(0 0 0 0 round 24px); }
+@media (prefers-reduced-motion: reduce){
+  .e-t.rv > span{ opacity:1; transform:none; filter:none; transition:none; }
+  .e-stat.rv .u{ width:24px; transition:none; }
+  .e-svc .vista.rv, .e-prod.rv .im{ clip-path:none; transition:none; }
+}
 
 /* ---------- GALERÍA: la planta por dentro (el 30 % oscuro de la home) ---------- */
 .e-gal{ position:relative; min-height:max(820px, 100svh); display:flex; align-items:flex-end; overflow:hidden;
@@ -388,6 +439,16 @@ h1, h2, h3{ text-wrap:balance; }
 .cl-foot .bot{ padding-top:32px; font-size:14px; color:rgba(255,255,255,.45); }
 
 /* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px){
+  .e-phero.apila, .e-escena.apila{ display:block; min-height:0; background:linear-gradient(180deg, var(--navy-noche), var(--negro-tinta)); }
+  .apila .bgw{ position:relative; top:auto; bottom:auto; height:clamp(360px, 64svh, 680px); transform:none !important; }
+  .apila .velo{ top:0; bottom:auto; height:clamp(360px, 64svh, 680px);
+    background:linear-gradient(180deg, rgba(4,29,49,.45) 0%, rgba(4,29,49,0) 24%, rgba(4,29,49,0) 62%, var(--navy-noche) 100%) !important; }
+  .apila .e-wrap{ padding-top:8px !important; padding-bottom:72px !important; justify-content:flex-start !important; }
+  .apila .txt{ max-width:640px; }
+  .e-phero.apila.der .velo{ background:linear-gradient(180deg, rgba(4,29,49,.45) 0%, rgba(4,29,49,0) 24%, rgba(4,29,49,0) 62%, var(--navy-noche) 100%) !important; }
+}
+
 /* iPad y teléfono: menú recogido en el botón de tres rayitas */
 @media (max-width: 1180px){
   .cl-links, .cl-nav .bar .e-btn{ display:none; }

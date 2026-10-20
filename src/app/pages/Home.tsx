@@ -3,7 +3,7 @@
 // (galería oscura) y el maestro. Un solo llamado a la acción: el del nav.
 import { useState } from "react";
 import { base, img } from "../lib";
-import { Cifra, LinkCirculo, ServiciosConImagen } from "../ui";
+import { Cifra, Escena, LinkCirculo, ServiciosConImagen } from "../ui";
 
 const SERVICIOS = [
   { ic: "barrica", im: "sv-envejecimiento.webp", nm: "Envejecimiento", ds: "Seis bodegas en racks para 156.000 barricas de roble, en guarda controlada para cada marca." },
@@ -109,21 +109,16 @@ export function Home() {
       {/* LA PLANTA POR DENTRO: el momento oscuro */}
       <Galeria />
 
-      {/* EL MAESTRO */}
-      <section className="e-sec">
-        <div className="e-wrap e-split">
-          <div className="ph rv"><img src={img("maestro.webp")} alt="Andrés Contreras, maestro ronero de CILCCA" /></div>
-          <div className="txt">
-            <h2 className="e-h2 e-t rv"><span>Cada mezcla pasa</span><span>por las manos de un maestro.</span></h2>
-            <p className="e-l rv d1">Andrés Contreras lleva treinta años creando rones de prestigio. Escoge la madera, sigue cada lote dentro de la barrica y supervisa las mezclas finales.</p>
-            <div className="e-premio rv d2">
-              <span className="n">2017</span>
-              <span className="k"><b>Mejor Maestro Ronero</b><span className="e-s">International Rum Conference</span></span>
-            </div>
-            <div className="rv d3"><LinkCirculo to="/maestro">Conoce al maestro</LinkCirculo></div>
-          </div>
+      {/* EL MAESTRO: escena a sangre, texto a la derecha (el maestro queda a la izquierda) */}
+      <Escena im="maestro.webp" alt="Andrés Contreras, maestro ronero de CILCCA" lado="der" pos="45% 30%" apila mitad>
+        <h2 className="e-h2 e-t rv"><span>Cada mezcla pasa</span><span>por las manos de un maestro.</span></h2>
+        <p className="e-l rv d1">Andrés Contreras lleva treinta años creando rones de prestigio. Escoge la madera, sigue cada lote dentro de la barrica y supervisa las mezclas finales.</p>
+        <div className="e-premio rv d2">
+          <span className="n">2017</span>
+          <span className="k"><b>Mejor Maestro Ronero</b><span className="e-s">International Rum Conference</span></span>
         </div>
-      </section>
+        <div className="rv d3"><LinkCirculo to="/maestro">Conoce al maestro</LinkCirculo></div>
+      </Escena>
     </>
   );
 }

@@ -1,6 +1,5 @@
 // Planta, v4 (dirección Estudio): la escala, la calidad y la historia.
-import { img } from "../lib";
-import { Cifra, Icono, PageHero } from "../ui";
+import { Cifra, Escena, Icono, PageHero } from "../ui";
 
 const CALIDAD = [
   { ic: "matraz", nm: "Laboratorio propio", ds: "Control de calidad de primera línea sobre cada lote, de la barrica a la botella." },
@@ -44,16 +43,11 @@ export function Planta() {
         </div>
       </section>
 
-      <section className="e-sec">
-        <div className="e-wrap e-split inv">
-          <div className="ph ancha rv"><img src={img("historia.webp")} alt="Barricas de roble en guarda" /></div>
-          <div className="txt">
-            <h2 className="e-h2 e-t rv"><span>Desde 1981</span><span>elaborando ron de Venezuela.</span></h2>
-            <p className="e-l rv d1">Nacimos como la Destilería Pampero. Pasamos por United Distillers (Diageo) y Ponche Crema, y hoy operamos bajo Estelar Trading como la instalación más grande del sector licorero del país.</p>
-            <p className="e-s rv d2">Carretera Ocumare a San Francisco de Yare, sector Aponte. Ocumare del Tuy, Miranda.</p>
-          </div>
-        </div>
-      </section>
+      <Escena im="historia.webp" alt="Barricas de roble en guarda" lado="izq">
+        <h2 className="e-h2 e-t rv"><span>Desde 1981</span><span>elaborando ron de Venezuela.</span></h2>
+        <p className="e-l rv d1">Nacimos como la Destilería Pampero. Pasamos por United Distillers (Diageo) y Ponche Crema, y hoy operamos bajo Estelar Trading como la instalación más grande del sector licorero del país.</p>
+        <p className="e-s rv d2">Carretera Ocumare a San Francisco de Yare, sector Aponte. Ocumare del Tuy, Miranda.</p>
+      </Escena>
     </>
   );
 }

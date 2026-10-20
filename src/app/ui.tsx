@@ -65,12 +65,12 @@ export function ServiciosConImagen({ items }: { items: ItemServicio[] }) {
 }
 
 /** Encabezado de página a sangre: foto de ambiente + velo direccional (receta A de la marca). */
-export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center" }: {
-  im: string; alt: string; t1: string; t2: string; tx: string; lado?: "izq" | "der"; pos?: string;
+export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center", apila = false, mitad = false }: {
+  im: string; alt: string; t1: string; t2: string; tx: string; lado?: "izq" | "der"; pos?: string; apila?: boolean; mitad?: boolean;
 }) {
   return (
-    <header className={"e-phero " + lado}>
-      <img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} />
+    <header className={"e-phero " + lado + (apila ? " apila" : "") + (mitad ? " mitad" : "")}>
+      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} /></div>
       <div className="velo" />
       <div className="e-wrap">
         <div className="txt">
@@ -79,6 +79,21 @@ export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center" }: 
         </div>
       </div>
     </header>
+  );
+}
+
+/** Sección a sangre: foto que ocupa toda la ventana, velo direccional y texto al
+ *  lado contrario del sujeto. Con `apila`, en pantallas angostas la foto va
+ *  arriba completa y el texto debajo, para no tapar a la persona. */
+export function Escena({ im, alt, lado = "izq", pos = "center", apila = false, mitad = false, children }: {
+  im: string; alt: string; lado?: "izq" | "der"; pos?: string; apila?: boolean; mitad?: boolean; children: ReactNode;
+}) {
+  return (
+    <section className={"e-escena e-dark " + lado + (apila ? " apila" : "") + (mitad ? " mitad" : "")}>
+      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} /></div>
+      <div className="velo" />
+      <div className="e-wrap"><div className="txt">{children}</div></div>
+    </section>
   );
 }
 

@@ -46,6 +46,7 @@ export function TelonProvider({ children }: { children: ReactNode }) {
       el.style.opacity = "1";
       el.style.transform = "none";
       el.style.filter = "none";
+      el.classList.add("in");
     };
     const io = new IntersectionObserver(
       (entries) => {
