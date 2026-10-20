@@ -170,7 +170,7 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
 
 /* ---------- FOOTER ---------- */
 .cl-foot{ padding:clamp(48px,8vh,96px) 0 44px; }
-.cl-foot .name{ display:inline-block; text-decoration:none; font-family:var(--font-display); font-weight:800; font-size:clamp(56px,16vw,230px); line-height:.82; letter-spacing:-.04em; color:#0c3253; }
+.cl-foot .name{ display:inline-block; text-decoration:none; font-family:var(--font-display); font-weight:800; font-size:clamp(56px,16vw,230px); line-height:.82; letter-spacing:-.04em; color:#245a82; }
 .cl-foot .row{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-top:34px; flex-wrap:wrap; }
 .cl-foot .links{ display:flex; gap:26px; }
 .cl-foot .links a{ color:#cdd7df; text-decoration:none; font-size:14px; }
@@ -204,4 +204,53 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
       to{ transform: scale(1.1) translateY(-16px); }
     }
   }
+}
+
+/* =================================================================
+   SERVICIOS v2 — escenas a sangre, sin cajas. Serif de acento (Fraunces).
+   ================================================================= */
+:root{ --font-serif:'Fraunces', Georgia, 'Times New Roman', serif; }
+
+.sv-intro{ position:relative; min-height:82vh; display:flex; align-items:flex-end; overflow:hidden;
+  padding:clamp(124px,20vh,230px) 0 clamp(52px,9vh,112px); }
+.sv-intro .iso{ position:absolute; right:-8vw; top:48%; width:min(62vw,800px); opacity:.07; pointer-events:none;
+  transform:translateY(-50%); animation:sv-giro 90s linear infinite; }
+@keyframes sv-giro{ from{ transform:translateY(-50%) rotate(0); } to{ transform:translateY(-50%) rotate(360deg); } }
+.sv-intro .in{ position:relative; z-index:2; }
+.sv-intro h1{ font-family:var(--font-display); font-weight:700; font-size:clamp(38px,6.4vw,94px);
+  line-height:1.02; letter-spacing:-.03em; max-width:18ch; }
+.sv-intro .lead{ margin-top:26px; font-size:clamp(16px,1.5vw,20px); color:var(--cl-cuerpo); max-width:46ch; line-height:1.6; }
+
+.sv-escena{ position:relative; min-height:94vh; display:flex; align-items:center; overflow:hidden; }
+.sv-escena .bg{ position:absolute; inset:0; }
+.sv-escena .bg img{ width:100%; height:100%; object-fit:cover; }
+.sv-escena .v{ position:absolute; inset:0; }
+.sv-escena.izq .v{ background:linear-gradient(90deg, rgba(4,29,49,.95), rgba(4,29,49,.55) 44%, rgba(4,29,49,0) 88%); }
+.sv-escena.der .v{ background:linear-gradient(270deg, rgba(4,29,49,.95), rgba(4,29,49,.55) 44%, rgba(4,29,49,0) 88%); }
+.sv-escena .in{ position:relative; z-index:3; width:100%; max-width:600px; }
+.sv-escena.der .in{ margin-left:auto; text-align:right; }
+.sv-escena .dato{ display:block; font-family:var(--font-serif); font-weight:400; font-size:clamp(66px,13vw,196px);
+  line-height:.84; letter-spacing:-.02em; color:#fff; }
+.sv-escena .dato.pal{ font-style:italic; font-size:clamp(52px,9vw,128px); }
+.sv-escena .k{ font-family:var(--font-sans); font-weight:500; font-size:15px; color:var(--cl-cuerpo); margin-top:16px; }
+.sv-escena h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(26px,3.2vw,44px);
+  letter-spacing:-.02em; margin-top:28px; line-height:1.04; }
+.sv-escena p{ margin-top:14px; font-size:clamp(16px,1.3vw,17px); color:var(--cl-cuerpo); line-height:1.65; max-width:40ch; }
+.sv-escena.der p{ margin-left:auto; }
+
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .sv-escena .bg img{ animation:sv-par linear both; animation-timeline:view(); animation-range:cover; }
+    @keyframes sv-par{ from{ transform:scale(1.14) translateY(-4%); } to{ transform:scale(1.14) translateY(4%); } }
+  }
+}
+
+@media (max-width:820px){
+  .sv-escena{ min-height:88vh; }
+  .sv-escena .in{ max-width:none; }
+  .sv-escena.der .in{ text-align:left; }
+  .sv-escena.der p, .sv-escena.der .dato{ margin-left:0; }
+  .sv-escena.izq .v, .sv-escena.der .v{
+    background:linear-gradient(0deg, rgba(4,29,49,.95) 4%, rgba(4,29,49,.3) 54%, rgba(4,29,49,.55)); }
+  .sv-intro .iso{ opacity:.05; }
 }

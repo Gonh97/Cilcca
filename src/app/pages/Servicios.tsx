@@ -1,40 +1,72 @@
-// Servicios — qué hace la planta. (Contenido provisional; se rediseña por puntos.)
+// Servicios — cada servicio es una escena a sangre (sin cajas). Número/palabra
+// gigante en serif como acento, imagen de fondo con parallax.
 import { img } from "../lib";
+
+function Iso() {
+  return (
+    <svg className="iso" viewBox="0 0 306.10 349.72" aria-hidden="true">
+      <g transform="translate(-149.15 570.86) scale(1 -1)" fill="#ffffff">
+        <path d="M295.15 532.76C218.63 527.79 158.78 463.49 160.11 386.02C161.48 310.60 217.19 254.37 287.93 244.68C219.60 248.46 151.98 312.88 150.56 392.97C149.15 475.15 213.36 543.23 294.87 547.12L294.50 570.86L337.21 501.83L296.90 431.31L296.49 454.17C265.42 450.14 241.67 423.35 242.24 391.27C242.62 366.93 256.92 346.06 277.44 336.17C268.60 338.05 237.42 358.52 236.80 394.45C236.20 429.03 262.49 457.75 296.39 460.79L296.17 473.99C253.74 469.70 220.96 433.55 221.73 390.14C222.29 360.87 238.11 334.05 262.80 319.91C257.21 320.04 216.16 346.22 215.31 394.10C214.50 440.54 250.29 479.08 296.04 482.29L295.81 493.71C242.49 488.82 201.09 443.50 202.04 389.03C202.75 349.41 229.05 309.71 259.47 296.75C222.35 313.38 194.56 350.35 193.84 393.74C192.83 452.00 237.99 500.37 295.61 503.84L295.44 513.82C230.26 509.04 179.39 454.06 180.54 387.90C181.58 329.96 222.11 281.30 276.05 268.49C230.39 277.65 173.30 321.62 172.04 393.32C170.81 463.69 225.59 521.96 295.25 525.64Z" />
+        <path d="M309.29 259.24C385.75 264.20 445.63 328.50 444.26 405.96C442.93 481.41 387.22 537.59 316.48 547.28C384.85 543.56 452.44 479.15 453.84 398.99C455.25 316.86 391.09 248.78 309.55 244.88L309.95 221.14L267.16 290.17L307.52 360.64L307.92 337.83C338.98 341.81 362.74 368.63 362.15 400.71C361.77 425.05 347.50 445.90 326.99 455.81C335.79 453.95 366.97 433.46 367.61 397.48C368.23 362.94 341.93 334.20 308.05 331.22L308.27 317.99C350.64 322.28 383.43 358.43 382.66 401.84C382.17 431.14 366.31 457.91 341.57 472.09C347.19 471.92 388.26 445.76 389.12 397.89C389.89 351.46 354.14 312.88 308.45 309.65L308.58 298.27C361.93 303.16 403.30 348.50 402.33 402.93C401.68 442.53 375.36 482.27 344.93 495.26C382.06 478.60 409.83 441.65 410.58 398.26C411.60 339.96 366.42 291.63 308.76 288.18L308.96 278.20C374.16 282.94 425.01 337.90 423.86 404.08C422.88 462.07 382.28 510.66 328.36 523.51C373.99 514.35 431.11 470.39 432.40 398.66C433.59 328.32 378.83 270.04 309.13 266.34Z" />
+      </g>
+    </svg>
+  );
+}
 
 export function Servicios() {
   return (
-    <section className="cl-serv cl-pagina">
-      <div className="cl-wrap">
-        <h1 className="cl-sh rv">Todo el proceso, en una sola planta.</h1>
-        <p className="cl-note rv d1">Del añejamiento al despacho internacional, con maestros, madera y líneas propias.</p>
-
-        <div className="cl-feat">
-          <div className="im parimg rv"><img src={img("envejecimiento.webp")} alt="Bodegas de crianza masiva" /></div>
-          <div>
-            <h3 className="rv d1">Bodegas de crianza masiva</h3>
-            <p className="rv d2">Seis naves con racks mecanizados y normativa antiexplosión. El ron reposa en roble blanco americano entre dos y doce años, en guarda controlada para cada marca que producimos.</p>
-            <div className="fig rv d3">
-              <div><div className="n">2–12</div><div className="k">años en roble</div></div>
-              <div><div className="n">6</div><div className="k">naves de guarda</div></div>
-            </div>
-          </div>
+    <div>
+      <section className="sv-intro cl-pagina">
+        <Iso />
+        <div className="cl-wrap in">
+          <h1 className="rv">Todo el proceso, en una sola planta.</h1>
+          <p className="lead rv d1">Traes tu marca; nosotros ponemos la ingeniería, la madera y el tiempo. Del primer destilado al despacho internacional.</p>
         </div>
+      </section>
 
-        <div className="cl-tira">
-          <div className="cl-card rv" tabIndex={0}>
-            <img src={img("toneleria.webp")} alt="Tonelería y re-embarricado" />
-            <div className="cap"><h4>Tonelería y re-embarricado</h4><p>Maestros toneleros propios arman y reparan las barricas in-house. A los cuatro años el ron se mezcla en tanques de acero inoxidable.</p></div>
-          </div>
-          <div className="cl-card rv d1" tabIndex={0}>
-            <img src={img("maquila.webp")} alt="Maquila, mezcla y envasado" />
-            <div className="cap"><h4>Maquila, mezcla y envasado</h4><p>Co-packing completo: elaboración del líquido, estabilización, filtrado con carbón activado y seis líneas automatizadas de llenado.</p></div>
-          </div>
-          <div className="cl-card rv d2" tabIndex={0}>
-            <img src={img("logistica.webp")} alt="Logística y exportación" />
-            <div className="cap"><h4>Logística y exportación</h4><p>Despacho a granel internacional con isotanques sellados, controles del SENIAT, Certificados de Origen y de Libre Venta.</p></div>
-          </div>
+      <section className="sv-escena izq">
+        <div className="bg"><img src={img("envejecimiento.webp")} alt="Bodegas de crianza masiva" /></div>
+        <div className="v" />
+        <div className="cl-wrap in">
+          <span className="dato rv">2–12</span>
+          <div className="k rv d1">años en roble, en seis naves de guarda</div>
+          <h2 className="rv d1">Envejecimiento</h2>
+          <p className="rv d2">Bodegas de crianza masiva con racks mecanizados y normativa antiexplosión. El ron reposa en roble blanco americano, en guarda controlada para cada marca que producimos.</p>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="sv-escena der">
+        <div className="bg"><img src={img("toneleria.webp")} alt="Tonelería y re-embarricado" /></div>
+        <div className="v" />
+        <div className="cl-wrap in">
+          <span className="dato rv">4</span>
+          <div className="k rv d1">años para vaciar, mezclar y re-embarricar</div>
+          <h2 className="rv d1">Tonelería y re-embarricado</h2>
+          <p className="rv d2">Maestros toneleros propios arman y reparan las barricas in-house. A los cuatro años el ron se vacía y mezcla en tanques de acero inoxidable para oxigenar el destilado.</p>
+        </div>
+      </section>
+
+      <section className="sv-escena izq">
+        <div className="bg"><img src={img("maquila.webp")} alt="Maquila, mezcla y envasado" /></div>
+        <div className="v" />
+        <div className="cl-wrap in">
+          <span className="dato rv">6</span>
+          <div className="k rv d1">líneas automatizadas de llenado</div>
+          <h2 className="rv d1">Maquila, mezcla y envasado</h2>
+          <p className="rv d2">Co-packing completo: elaboración del líquido, estabilización y filtrado con carbón activado. Tu marca, embotellada a escala y lista para salir.</p>
+        </div>
+      </section>
+
+      <section className="sv-escena der">
+        <div className="bg"><img src={img("logistica.webp")} alt="Logística y exportación" /></div>
+        <div className="v" />
+        <div className="cl-wrap in">
+          <span className="dato pal rv">Global</span>
+          <div className="k rv d1">despacho a granel con sello SENIAT</div>
+          <h2 className="rv d1">Logística y exportación</h2>
+          <p className="rv d2">Despacho a granel internacional con isotanques sellados, controles del SENIAT, Certificados de Origen y de Libre Venta.</p>
+        </div>
+      </section>
+    </div>
   );
 }
