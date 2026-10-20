@@ -300,6 +300,11 @@ h1, h2, h3{ text-wrap:balance; }
 .e-arco .aro circle{ fill:none; stroke:url(#arco-grad); stroke-width:1.5; vector-effect:non-scaling-stroke; }
 .e-arco .marcas circle{ fill:none; stroke:rgba(8,81,132,.22); stroke-width:7; vector-effect:non-scaling-stroke; stroke-dasharray:.6 5.4; }
 .e-arco .et{ position:absolute; left:50%; top:50%; width:0; height:0; }
+/* halo blanco radial detrás de cada icono: la línea del aro se difumina al llegar al círculo */
+.e-arco .et::before{ content:""; position:absolute; left:0; top:0; width:132px; height:132px; transform:translate(-50%, -50%);
+  border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, #fff 0%, #fff 34%, rgba(255,255,255,.85) 46%, rgba(255,255,255,.4) 58%, rgba(255,255,255,0) 70%); }
+@media (max-width: 760px){ .e-arco .et::before{ width:112px; height:112px; } }
 .e-arco .nodo{ position:absolute; left:0; top:0; width:56px; height:56px; border-radius:50%; display:grid; place-items:center;
   background:#fff; border:1.5px solid rgba(8,81,132,.4); box-shadow:0 6px 18px rgba(4,29,49,.06);
   transition:background .5s var(--e-ease-out), border-color .5s var(--e-ease-out), box-shadow .5s var(--e-ease-out); }
