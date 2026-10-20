@@ -1,7 +1,7 @@
 // Piezas de interfaz compartidas: flecha, enlace de círculo e iconos de línea.
 // Los iconos siguen el set de la marca (barrica, tonelería, botella, despacho,
 // matraz, galpón), trazo de 1,5 con cap y join redondos.
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { LinkTelon } from "./transicion";
 import { img as imgUrl } from "./lib";
 
@@ -34,6 +34,34 @@ export function Cifra({ v, dec = 0 }: { v: number; dec?: number }) {
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, [v, dec]);
   return <span ref={ref}>{fmt(0, dec)}</span>;
+}
+
+export type ItemServicio = { nm: string; ds: string; im: string; ic?: string; cap?: string; u?: string };
+
+/** Lista de servicios a la izquierda; al elegir uno se ve su foto en grande a la derecha. */
+export function ServiciosConImagen({ items }: { items: ItemServicio[] }) {
+  const [i, setI] = useState(0);
+  return (
+    <div className="e-svc">
+      <div className="lista rv" role="group" aria-label="Elige un servicio">
+        {items.map((s, k) => (
+          <button key={s.nm} type="button" className={"e-svc-item" + (s.ic ? "" : " sin-icono")} aria-pressed={k === i} onClick={() => setI(k)}>
+            {s.ic && <Icono n={s.ic} />}
+            <h3 className="e-h4">{s.nm}</h3>
+            <div className="ds"><div>
+              {s.cap && <div className="cap">{s.cap}<small>{s.u}</small></div>}
+              <p className="e-s">{s.ds}</p>
+            </div></div>
+          </button>
+        ))}
+      </div>
+      <div className="vista rv d1">
+        {items.map((s, k) => (
+          <img key={s.im} className={k === i ? "on" : ""} src={imgUrl(s.im)} alt={k === i ? s.nm : ""} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 /** Encabezado de página a sangre: foto de ambiente + velo direccional (receta A de la marca). */

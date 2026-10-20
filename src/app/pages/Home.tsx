@@ -3,7 +3,7 @@
 // (galería oscura) y el maestro. Un solo llamado a la acción: el del nav.
 import { useState } from "react";
 import { base, img } from "../lib";
-import { Cifra, Icono, LinkCirculo } from "../ui";
+import { Cifra, LinkCirculo, ServiciosConImagen } from "../ui";
 
 const SERVICIOS = [
   { ic: "barrica", im: "sv-envejecimiento.webp", nm: "Envejecimiento", ds: "Seis bodegas en racks para 156.000 barricas de roble, en guarda controlada para cada marca." },
@@ -21,7 +21,6 @@ const PLANTA = [
 
 // Servicios: al elegir uno se ve en grande lo que hace.
 function ServiciosHome() {
-  const [i, setI] = useState(0);
   return (
     <section className="e-sec alt">
       <div className="e-wrap">
@@ -29,22 +28,7 @@ function ServiciosHome() {
           <h2 className="e-h2 e-t rv"><span>Todo el proceso,</span><span>en una sola planta.</span></h2>
           <div className="rv d1"><LinkCirculo to="/servicios">Ver servicios</LinkCirculo></div>
         </div>
-        <div className="e-svc">
-          <div className="lista rv" role="group" aria-label="Elige un servicio">
-            {SERVICIOS.map((s, k) => (
-              <button key={s.nm} type="button" className="e-svc-item" aria-pressed={k === i} onClick={() => setI(k)}>
-                <Icono n={s.ic} />
-                <h3 className="e-h4">{s.nm}</h3>
-                <div className="ds"><div><p className="e-s">{s.ds}</p></div></div>
-              </button>
-            ))}
-          </div>
-          <div className="vista rv d1">
-            {SERVICIOS.map((s, k) => (
-              <img key={s.im} className={k === i ? "on" : ""} src={img(s.im)} alt={k === i ? s.nm : ""} />
-            ))}
-          </div>
-        </div>
+        <ServiciosConImagen items={SERVICIOS} />
       </div>
     </section>
   );
