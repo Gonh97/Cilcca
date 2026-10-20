@@ -1,6 +1,12 @@
 import { RouterProvider } from "react-router";
 import { router } from "./routes";
+import { Intro } from "./Intro";
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Intro />
+      <RouterProvider router={router} />
+    </>
+  );
 }

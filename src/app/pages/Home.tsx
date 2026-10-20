@@ -59,7 +59,7 @@ export function Home() {
         </video>
         <div className="scrim" />
         <div className="cl-wrap in">
-          <h1 className="rv">Lleva tu marca de licor<br /><span className="dim">al siguiente nivel.</span></h1>
+          <h1 className="rv">Donde nacen las marcas de ron.</h1>
           <p className="lead rv d1">La planta industrial más grande de Venezuela produce, añeja y embotella tu bebida a la escala que tu marca necesita.</p>
           <div className="act rv d2"><a href="#contacto" className="cl-btn">Produce con nosotros</a></div>
         </div>
