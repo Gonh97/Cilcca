@@ -311,3 +311,67 @@ body{ background: var(--navy-noche); color: var(--cl-ink); }
   line-height:1.08; letter-spacing:-.03em; max-width:16ch; margin:0 auto; }
 .hm-cierre .act{ margin-top:38px; }
 .hm-cierre .cl-btn{ border-radius:999px; padding:16px 36px; }
+
+/* =================================================================
+   LUJO CLARO (ref. Clase Azul) — cuerpo luminoso, imagen protagonista,
+   aire, composicion centrada. Paleta CILCCA. Hero oscuro se mantiene.
+   ================================================================= */
+.lx{ background:var(--acero-claro); color:var(--navy-profundo); }
+.lx-wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(20px,5vw,56px); }
+
+/* nav que se vuelve claro al salir del hero */
+.cl-nav.solido{ background:var(--acero-claro); border-bottom:1px solid rgba(6,48,79,.08); }
+.cl-nav.solido .cl-menu a{ color:var(--navy-profundo); }
+.cl-nav.solido .cl-menu a:hover{ color:#000; }
+.cl-nav.solido .cl-logo img{ filter:none; }
+.cl-nav.solido .cl-btn{ background:var(--navy-profundo); color:#fff !important; }
+
+/* apertura centrada */
+.lx-abre{ text-align:center; padding-top:clamp(104px,16vh,200px); padding-bottom:clamp(54px,8vh,100px); }
+.lx-abre h2{ font-family:var(--font-display); font-weight:300; font-size:clamp(25px,4vw,62px);
+  line-height:1.16; letter-spacing:-.02em; color:var(--navy-profundo); max-width:20ch; margin:0 auto; }
+.lx-abre h2 b{ font-weight:600; }
+.lx-abre p{ margin:28px auto 0; font-size:clamp(16px,1.4vw,19px); line-height:1.7; color:#556673; max-width:54ch; }
+
+/* imagen protagonista con aire */
+.lx-foto{ padding-bottom:clamp(76px,11vh,140px); }
+.lx-foto .im{ max-width:1040px; margin:0 auto; aspect-ratio:16/9; overflow:hidden; }
+.lx-foto .im img{ width:100%; height:100%; object-fit:cover; }
+
+/* cifras claras */
+.lx-cifras{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(24px,4vw,56px);
+  padding-bottom:clamp(90px,13vh,160px); text-align:center; }
+.lx-cifras .n{ font-family:var(--font-display); font-weight:300; font-size:clamp(40px,5.2vw,84px);
+  line-height:1; letter-spacing:-.03em; color:var(--navy-profundo); }
+.lx-cifras .n b{ font-weight:600; }
+.lx-cifras .l{ margin-top:14px; font-size:14px; color:#6a7883; line-height:1.45; }
+
+/* hub: galeria de secciones (imagen + titulo centrado + pill) */
+.lx-hub{ padding-bottom:clamp(90px,13vh,160px); }
+.lx-hub .cab{ text-align:center; margin-bottom:clamp(40px,6vh,72px); }
+.lx-hub .cab h2{ font-family:var(--font-display); font-weight:300; font-size:clamp(28px,4vw,54px);
+  letter-spacing:-.02em; color:var(--navy-profundo); max-width:20ch; margin:0 auto; }
+.lx-cards{ display:flex; flex-direction:column; gap:clamp(18px,2.6vh,34px); }
+.lx-card{ position:relative; aspect-ratio:21/9; overflow:hidden; display:flex; align-items:center;
+  justify-content:center; text-align:center; text-decoration:none; }
+.lx-card img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.4s cubic-bezier(.2,.8,.25,1); }
+.lx-card:hover img{ transform:scale(1.05); }
+.lx-card .ov{ position:absolute; inset:0; background:linear-gradient(0deg,rgba(4,29,49,.5),rgba(4,29,49,.28)); }
+.lx-card .ct{ position:relative; z-index:2; color:#fff; padding:20px; }
+.lx-card .ct h3{ font-family:var(--font-display); font-weight:300; font-size:clamp(26px,3.8vw,52px);
+  letter-spacing:.01em; line-height:1.05; }
+.lx-card .ct .ds{ margin:14px auto 0; font-size:15px; color:rgba(255,255,255,.88); max-width:40ch; line-height:1.5; }
+.lx-card .ct .mas{ display:inline-block; margin-top:22px; font-family:var(--font-display); font-weight:600;
+  font-size:13px; letter-spacing:.04em; padding:13px 28px; border-radius:999px; background:#fff; color:var(--navy-profundo); }
+
+/* cierre claro */
+.lx-cierre{ text-align:center; padding-top:clamp(80px,12vh,150px); padding-bottom:clamp(100px,15vh,180px); }
+.lx-cierre h2{ font-family:var(--font-display); font-weight:300; font-size:clamp(30px,4.6vw,66px);
+  line-height:1.1; letter-spacing:-.03em; color:var(--navy-profundo); max-width:16ch; margin:0 auto; }
+.lx-cierre .act{ margin-top:36px; }
+.lx-cierre .cl-btn{ background:var(--navy-profundo); border-radius:999px; padding:16px 36px; }
+
+@media (max-width:820px){
+  .lx-cifras{ grid-template-columns:repeat(2,1fr); gap:34px 24px; }
+  .lx-card{ aspect-ratio:4/3; }
+}

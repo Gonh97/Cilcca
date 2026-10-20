@@ -1,8 +1,7 @@
-// Home — portal. Hero + apertura aireada + cifras + lista de secciones (hooks)
-// con imagen que cambia al pasar el cursor + cierre a contacto.
-import { useState } from "react";
+// Home — lujo minimalista claro (ref. Clase Azul). Hero oscuro + cuerpo
+// luminoso con imagen protagonista, aire y galería de secciones (hooks).
 import { base, img } from "../lib";
-import { LinkTelon, useTelon } from "../transicion";
+import { LinkTelon } from "../transicion";
 
 const SECCIONES = [
   { to: "/servicios", nm: "Servicios", ds: "Maquila, añejamiento, tonelería y despacho internacional.", im: "envejecimiento.webp" },
@@ -11,9 +10,6 @@ const SECCIONES = [
 ];
 
 export function Home() {
-  const { ir } = useTelon();
-  const [act, setAct] = useState(0);
-
   return (
     <>
       {/* HERO */}
@@ -30,56 +26,46 @@ export function Home() {
         </div>
       </header>
 
-      {/* APERTURA */}
-      <section className="cl-wrap hm-abre">
-        <p className="st rv">Traes tu marca; <b>nosotros ponemos la ingeniería, la madera y el tiempo.</b></p>
-        <p className="sub rv d1">La instalación más importante del sector licorero venezolano: producimos, añejamos y exportamos a escala para marcas y distribuidores, bajo un mismo techo.</p>
-      </section>
+      {/* CUERPO LUMINOSO */}
+      <div className="lx">
+        <section className="lx-wrap lx-abre">
+          <h2 className="rv">Traes tu marca; <b>nosotros ponemos el resto.</b></h2>
+          <p className="rv d1">La ingeniería, la madera y el tiempo. La instalación más importante del sector licorero venezolano produce, añeja y exporta a escala para marcas y distribuidores, bajo un mismo techo.</p>
+        </section>
 
-      {/* CIFRAS */}
-      <section className="cl-wrap hm-cifras">
-        <div className="rv"><div className="n">45</div><div className="l">años elaborando<br />ron de Venezuela</div></div>
-        <div className="rv d1"><div className="n">32<b> ha</b></div><div className="l">de instalación<br />industrial</div></div>
-        <div className="rv d2"><div className="n">156<b> mil</b></div><div className="l">barricas de roble<br />blanco americano</div></div>
-        <div className="rv d3"><div className="n">6</div><div className="l">líneas automatizadas<br />de envasado</div></div>
-      </section>
+        <section className="lx-wrap lx-foto">
+          <div className="im parimg rv"><img src={img("barricas.webp")} alt="Barricas de roble en guarda" /></div>
+        </section>
 
-      {/* HUB — hooks a las secciones */}
-      <section className="cl-wrap hm-hub">
-        <h2 className="h rv">Todo lo que CILCCA hace por tu marca.</h2>
-        <div className="hub-grid">
-          <div className="hub-list">
+        <section className="lx-wrap lx-cifras">
+          <div className="rv"><div className="n">45</div><div className="l">años elaborando<br />ron de Venezuela</div></div>
+          <div className="rv d1"><div className="n">32<b> ha</b></div><div className="l">de instalación<br />industrial</div></div>
+          <div className="rv d2"><div className="n">156<b> mil</b></div><div className="l">barricas de roble<br />blanco americano</div></div>
+          <div className="rv d3"><div className="n">6</div><div className="l">líneas automatizadas<br />de envasado</div></div>
+        </section>
+
+        <section className="lx-wrap lx-hub">
+          <div className="cab rv"><h2>Todo lo que CILCCA hace por tu marca.</h2></div>
+          <div className="lx-cards">
             {SECCIONES.map((s, i) => (
-              <a
-                key={s.to}
-                href={s.to}
-                className={"hub-item rv" + (i === act ? " on" : "")}
-                onMouseEnter={() => setAct(i)}
-                onFocus={() => setAct(i)}
-                onClick={(e) => { e.preventDefault(); ir(s.to); }}
-              >
-                <div className="hub-shot-m"><img src={img(s.im)} alt={s.nm} /></div>
-                <span className="nm">{s.nm}</span>
-                <span className="ds">{s.ds}</span>
-                <span className="ar" aria-hidden="true">↗</span>
-              </a>
+              <LinkTelon key={s.to} to={s.to} className={"lx-card rv" + (i ? " d1" : "")}>
+                <img src={img(s.im)} alt={s.nm} />
+                <div className="ov" />
+                <div className="ct">
+                  <h3>{s.nm}</h3>
+                  <p className="ds">{s.ds}</p>
+                  <span className="mas">Descubrir</span>
+                </div>
+              </LinkTelon>
             ))}
           </div>
-          <div className="hub-stage">
-            {SECCIONES.map((s, i) => (
-              <div key={s.to} className={"shot" + (i === act ? " on" : "")}>
-                <img src={img(s.im)} alt="" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CIERRE */}
-      <section className="cl-wrap hm-cierre">
-        <h2 className="rv">¿Listo para llevar tu marca a escala?</h2>
-        <div className="act rv d1"><LinkTelon to="/contacto" className="cl-btn">Hablemos de tu proyecto</LinkTelon></div>
-      </section>
+        <section className="lx-wrap lx-cierre">
+          <h2 className="rv">¿Listo para llevar tu marca a escala?</h2>
+          <div className="act rv d1"><LinkTelon to="/contacto" className="cl-btn">Hablemos de tu proyecto</LinkTelon></div>
+        </section>
+      </div>
     </>
   );
 }
