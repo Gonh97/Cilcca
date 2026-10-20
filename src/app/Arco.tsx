@@ -59,9 +59,8 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
   return (
     <section className="e-arco" ref={ref} style={{ height: `${n * 50 + 70}vh` }}>
       <div className="pin">
-        <div className="e-wrap cab">
-          <h2 className="e-h2 e-t rv"><span>{t1}</span><span>{t2}</span></h2>
-        </div>
+        {/* el título no se muestra (la escena va centrada en la pantalla); queda para lectores de pantalla */}
+        <h2 className="sr-only">{t1} {t2}</h2>
 
         <div className="escena">
           <div className="rueda" aria-hidden="true">

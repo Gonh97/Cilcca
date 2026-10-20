@@ -289,9 +289,8 @@ h1, h2, h3{ text-wrap:balance; }
 /* rueda de etapas lateral: círculo que asoma por la izquierda, info al frente */
 .e-arco{ position:relative; background:linear-gradient(180deg, #FFFFFF 0%, #F2F5F7 100%); }
 .e-arco .pin{ position:sticky; top:0; height:100svh; overflow:hidden; display:flex; flex-direction:column; }
-.e-arco .cab{ padding-top:clamp(112px, 15vh, 150px); }
 .e-arco .escena{ --r:clamp(300px, 34vw, 520px); --frente:min(38vw, 560px); --base:90deg;
-  position:relative; flex:1; min-height:0; margin-top:clamp(16px, 3vh, 40px); overflow:hidden;
+  position:relative; flex:1; min-height:0; overflow:hidden;
   -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
   mask-image:linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%); }
 .e-arco .rueda{ position:absolute; top:50%; left:calc(var(--frente) - 2 * var(--r)); width:calc(2 * var(--r)); height:calc(2 * var(--r));
@@ -323,9 +322,9 @@ h1, h2, h3{ text-wrap:balance; }
 /* teléfono: la rueda asoma desde arriba y la información queda debajo */
 @media (max-width: 760px){
   .e-arco .escena{ --r:72vw; --base:180deg; }
-  .e-arco .rueda{ left:50%; margin-left:calc(-1 * var(--r)); top:calc(36% - 2 * var(--r)); margin-top:0; }
+  .e-arco .rueda{ left:50%; margin-left:calc(-1 * var(--r)); top:calc(44% - 2 * var(--r)); margin-top:0; }
   .e-arco .nodo{ width:48px; height:48px; }
-  .e-arco .info{ top:calc(36% + 56px); transform:none; left:var(--e-pad); right:var(--e-pad); text-align:center; justify-items:center; }
+  .e-arco .info{ top:calc(44% + 56px); transform:none; left:var(--e-pad); right:var(--e-pad); text-align:center; justify-items:center; }
   .e-arco .pasos{ justify-content:center; }
 }
 
