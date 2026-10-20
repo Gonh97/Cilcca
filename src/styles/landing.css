@@ -243,9 +243,22 @@ h1, h2, h3{ text-wrap:balance; }
   linear-gradient(90deg, rgba(4,29,49,.92) 0%, rgba(4,29,49,.6) 38%, rgba(4,29,49,.08) 72%),
   linear-gradient(0deg, rgba(4,29,49,.55) 0%, rgba(4,29,49,0) 40%),
   linear-gradient(135deg, rgba(8,81,132,.2) 0%, rgba(4,29,49,0) 55%); }
-.e-escena.der .velo{ background:
-  linear-gradient(270deg, rgba(4,29,49,.94) 0%, rgba(4,29,49,.66) 40%, rgba(4,29,49,.06) 72%),
-  linear-gradient(0deg, rgba(4,29,49,.55) 0%, rgba(4,29,49,0) 40%); }
+.e-escena.der .velo, .e-phero.der .velo{ background:
+  linear-gradient(270deg, rgba(4,29,49,.97) 0%, rgba(4,29,49,.9) 26%, rgba(4,29,49,.55) 46%, rgba(4,29,49,.12) 62%, rgba(4,29,49,0) 74%),
+  linear-gradient(0deg, rgba(4,29,49,.5) 0%, rgba(4,29,49,0) 38%),
+  linear-gradient(180deg, rgba(4,29,49,.4) 0%, rgba(4,29,49,0) 20%); }
+.e-escena.der .txt, .e-phero.der .txt{ max-width:min(500px, 38vw); }
+/* iPad y teléfono: el texto baja sobre la misma foto y el degradado sube desde abajo */
+@media (max-width: 1100px){
+  .e-escena, .e-phero{ align-items:flex-end; min-height:min(100svh, 980px); }
+  .e-escena.der .e-wrap, .e-phero.der .e-wrap{ justify-content:flex-start; }
+  /* encuadre propio para pantallas angostas (centrado en el sujeto) */
+  .e-escena .bg, .e-phero .bg{ object-position:var(--pos-m) !important; }
+  .e-escena.der .txt, .e-phero.der .txt{ max-width:620px; }
+  .e-escena .velo, .e-escena.der .velo, .e-phero.der .velo{ background:
+    linear-gradient(0deg, rgba(4,29,49,.97) 0%, rgba(4,29,49,.9) 32%, rgba(4,29,49,.45) 56%, rgba(4,29,49,0) 74%),
+    linear-gradient(180deg, rgba(4,29,49,.45) 0%, rgba(4,29,49,0) 18%) !important; }
+}
 .e-escena .e-wrap{ position:relative; z-index:2; padding-top:clamp(120px, 16vh, 160px); padding-bottom:clamp(96px, 12vh, 140px); display:flex; }
 .e-escena.der .e-wrap{ justify-content:flex-end; }
 .e-escena .txt{ display:grid; gap:30px; max-width:540px; }
@@ -254,20 +267,6 @@ h1, h2, h3{ text-wrap:balance; }
 .e-escena .e-premio .n{ color:#fff; }
 .e-escena .e-premio .k b{ color:#fff; }
 .e-escena .e-premio .e-s{ color:#B7C4CF; }
-
-/* variante "mitad": la foto a sangre ocupa la mitad izquierda y el texto va en
-   un panel navy a la derecha, fundidos en la unión. Para fotos con la persona
-   al centro, que no dejan un lado libre para el texto. */
-@media (min-width: 1101px){
-  .mitad{ background:linear-gradient(160deg, var(--navy-profundo) 0%, var(--navy-noche) 55%, var(--negro-tinta) 100%) !important; }
-  .mitad .bgw{ right:46%; }
-  .mitad .velo{ right:46%; background:
-    linear-gradient(90deg, rgba(4,29,49,0) 55%, rgba(4,29,49,.75) 88%, var(--navy-noche) 100%),
-    linear-gradient(0deg, rgba(4,29,49,.5) 0%, rgba(4,29,49,0) 35%),
-    linear-gradient(180deg, rgba(4,29,49,.35) 0%, rgba(4,29,49,0) 20%) !important; }
-  .mitad .txt{ max-width:min(540px, 40vw) !important; }
-  .e-phero.mitad{ align-items:center; }
-}
 
 /* ---------- ANIMACIONES ---------- */
 /* las dos líneas del titular entran una tras otra */
@@ -439,15 +438,6 @@ h1, h2, h3{ text-wrap:balance; }
 .cl-foot .bot{ padding-top:32px; font-size:14px; color:rgba(255,255,255,.45); }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width: 1100px){
-  .e-phero.apila, .e-escena.apila{ display:block; min-height:0; background:linear-gradient(180deg, var(--navy-noche), var(--negro-tinta)); }
-  .apila .bgw{ position:relative; top:auto; bottom:auto; height:clamp(360px, 64svh, 680px); transform:none !important; }
-  .apila .velo{ top:0; bottom:auto; height:clamp(360px, 64svh, 680px);
-    background:linear-gradient(180deg, rgba(4,29,49,.45) 0%, rgba(4,29,49,0) 24%, rgba(4,29,49,0) 62%, var(--navy-noche) 100%) !important; }
-  .apila .e-wrap{ padding-top:8px !important; padding-bottom:72px !important; justify-content:flex-start !important; }
-  .apila .txt{ max-width:640px; }
-  .e-phero.apila.der .velo{ background:linear-gradient(180deg, rgba(4,29,49,.45) 0%, rgba(4,29,49,0) 24%, rgba(4,29,49,0) 62%, var(--navy-noche) 100%) !important; }
-}
 
 /* iPad y teléfono: menú recogido en el botón de tres rayitas */
 @media (max-width: 1180px){
@@ -481,8 +471,6 @@ h1, h2, h3{ text-wrap:balance; }
 @media (max-width: 900px){
   .e-split, .e-contact, .e-svc{ grid-template-columns:1fr; }
   .e-svc .vista{ order:-1; min-height:clamp(260px, 56vw, 420px); }
-  .e-phero.der .velo{ background:linear-gradient(0deg, rgba(4,29,49,.94) 0%, rgba(4,29,49,.6) 50%, rgba(4,29,49,.2) 100%); }
-  .e-phero.der .e-wrap{ justify-content:flex-start; }
   .e-split.inv .ph{ order:0; }
   .e-split .ph, .e-split .ph.ancha{ aspect-ratio:4 / 3; }
   .e-row{ grid-template-columns:1fr; gap:10px; }

@@ -11,7 +11,7 @@ const PRODUCTOS = [
 export function Maestro() {
   return (
     <>
-      <PageHero im="maestro.webp" alt="Andrés Contreras, maestro ronero" lado="der" pos="45% 30%" apila mitad t1="El maestro" t2="detrás de cada mezcla."
+      <PageHero im="maestro.webp" alt="Andrés Contreras, maestro ronero" lado="der" pos="0% 30%" posM="38% 30%" t1="El maestro" t2="detrás de cada mezcla."
         tx="Andrés Contreras, químico con treinta años creando rones de alto prestigio, entre ellos Ron Ocumare. Su método es la paciencia: escoger la barrica, seguir cada lote y no apurar el tiempo." />
 
 

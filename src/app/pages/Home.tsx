@@ -110,7 +110,7 @@ export function Home() {
       <Galeria />
 
       {/* EL MAESTRO: escena a sangre, texto a la derecha (el maestro queda a la izquierda) */}
-      <Escena im="maestro.webp" alt="Andrés Contreras, maestro ronero de CILCCA" lado="der" pos="45% 30%" apila mitad>
+      <Escena im="maestro.webp" alt="Andrés Contreras, maestro ronero de CILCCA" lado="der" pos="0% 30%" posM="38% 30%">
         <h2 className="e-h2 e-t rv"><span>Cada mezcla pasa</span><span>por las manos de un maestro.</span></h2>
         <p className="e-l rv d1">Andrés Contreras lleva treinta años creando rones de prestigio. Escoge la madera, sigue cada lote dentro de la barrica y supervisa las mezclas finales.</p>
         <div className="e-premio rv d2">

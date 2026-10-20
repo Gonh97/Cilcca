@@ -65,12 +65,12 @@ export function ServiciosConImagen({ items }: { items: ItemServicio[] }) {
 }
 
 /** Encabezado de página a sangre: foto de ambiente + velo direccional (receta A de la marca). */
-export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center", apila = false, mitad = false }: {
-  im: string; alt: string; t1: string; t2: string; tx: string; lado?: "izq" | "der"; pos?: string; apila?: boolean; mitad?: boolean;
+export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center", posM, apila = false }: {
+  im: string; alt: string; t1: string; t2: string; tx: string; lado?: "izq" | "der"; pos?: string; posM?: string; apila?: boolean;
 }) {
   return (
-    <header className={"e-phero " + lado + (apila ? " apila" : "") + (mitad ? " mitad" : "")}>
-      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} /></div>
+    <header className={"e-phero " + lado + (apila ? " apila" : "")}>
+      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos, ["--pos-m" as string]: posM ?? pos }} /></div>
       <div className="velo" />
       <div className="e-wrap">
         <div className="txt">
@@ -85,12 +85,12 @@ export function PageHero({ im, alt, t1, t2, tx, lado = "izq", pos = "center", ap
 /** Sección a sangre: foto que ocupa toda la ventana, velo direccional y texto al
  *  lado contrario del sujeto. Con `apila`, en pantallas angostas la foto va
  *  arriba completa y el texto debajo, para no tapar a la persona. */
-export function Escena({ im, alt, lado = "izq", pos = "center", apila = false, mitad = false, children }: {
-  im: string; alt: string; lado?: "izq" | "der"; pos?: string; apila?: boolean; mitad?: boolean; children: ReactNode;
+export function Escena({ im, alt, lado = "izq", pos = "center", posM, apila = false, children }: {
+  im: string; alt: string; lado?: "izq" | "der"; pos?: string; posM?: string; apila?: boolean; children: ReactNode;
 }) {
   return (
-    <section className={"e-escena e-dark " + lado + (apila ? " apila" : "") + (mitad ? " mitad" : "")}>
-      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos }} /></div>
+    <section className={"e-escena e-dark " + lado + (apila ? " apila" : "")}>
+      <div className="bgw" data-parallax><img className="bg" src={imgUrl(im)} alt={alt} style={{ objectPosition: pos, ["--pos-m" as string]: posM ?? pos }} /></div>
       <div className="velo" />
       <div className="e-wrap"><div className="txt">{children}</div></div>
     </section>
