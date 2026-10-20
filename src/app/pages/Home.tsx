@@ -51,16 +51,16 @@ export function Home() {
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* HERO — estación 0 a 5s: el video se reproduce una vez y queda fijo en el cuadro final */}
       <header id="inicio" className="cl-hero">
-        <img className="poster" src={img("hero-poster.webp")} alt="" />
-        <video autoPlay muted loop playsInline poster={img("hero-poster.webp")}>
+        <img className="poster" src={img("hero-poster.webp")} alt="Pasillo de bodega de crianza de CILCCA" />
+        <video autoPlay muted playsInline poster={img("hero-poster.webp")}>
           <source src={`${base}video/hero.mp4`} type="video/mp4" />
         </video>
         <div className="scrim" />
         <div className="cl-wrap in">
-          <h1 className="rv">Donde nace el ron de Venezuela.</h1>
-          <p className="lead rv d1">La plataforma industrial detrás de los mejores licores del país. Maquila, añejamiento, tonelería y despacho a gran escala, en Ocumare del Tuy.</p>
+          <h1 className="rv">Lleva tu marca de licor<br /><span className="dim">al siguiente nivel.</span></h1>
+          <p className="lead rv d1">La planta industrial más grande de Venezuela produce, añeja y embotella tu bebida a la escala que tu marca necesita.</p>
           <div className="act rv d2"><a href="#contacto" className="cl-btn">Produce con nosotros</a></div>
         </div>
       </header>
