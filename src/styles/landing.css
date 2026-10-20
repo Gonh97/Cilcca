@@ -313,19 +313,23 @@ h1, h2, h3{ text-wrap:balance; }
 .e-arco .et.on .nodo .e-icon{ color:#fff; }
 .e-arco .info{ position:absolute; top:50%; transform:translateY(-50%); left:calc(var(--frente) + clamp(64px, 7vw, 112px));
   right:var(--e-pad); max-width:560px; display:grid; gap:20px; }
-.e-arco .info .e-l{ max-width:40ch; }
+.e-arco .info .e-m{ max-width:48ch; }
 .e-arco-t{ font-family:var(--font-display); font-weight:400; font-size:clamp(36px, 4.4vw, 64px); line-height:1; letter-spacing:-.05em; margin:0; }
-.e-arco .pasos{ display:flex; gap:8px; margin-top:12px; }
-.e-arco .pasos span{ width:7px; height:7px; border-radius:7px; background:rgba(28,29,26,.16); transition:width .5s var(--e-ease), background .5s; }
-.e-arco .pasos span.on{ width:26px; background:linear-gradient(90deg, var(--azul-cilcca), var(--verde-glow)); }
+.e-arco .datos{ display:flex; flex-wrap:wrap; gap:16px clamp(28px, 3vw, 48px); margin-top:8px; padding-top:22px; border-top:1px solid var(--e-line); }
+.e-arco .datos > div{ display:grid; gap:6px; max-width:220px; }
+.e-arco .datos .n{ font-family:var(--font-display); font-size:clamp(26px, 2.4vw, 36px); line-height:1; letter-spacing:-.045em; color:var(--navy-profundo); }
+.e-arco .datos .l{ font-size:14px; line-height:1.45; color:var(--e-ink-2); }
 .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 /* teléfono: la rueda asoma desde arriba y la información queda debajo */
 @media (max-width: 760px){
   .e-arco .escena{ --r:72vw; --base:180deg; }
-  .e-arco .rueda{ left:50%; margin-left:calc(-1 * var(--r)); top:calc(44% - 2 * var(--r)); margin-top:0; }
+  .e-arco .rueda{ left:50%; margin-left:calc(-1 * var(--r)); top:calc(34% - 2 * var(--r)); margin-top:0; }
   .e-arco .nodo{ width:48px; height:48px; }
-  .e-arco .info{ top:calc(44% + 56px); transform:none; left:var(--e-pad); right:var(--e-pad); text-align:center; justify-items:center; }
-  .e-arco .pasos{ justify-content:center; }
+  .e-arco .info{ top:calc(34% + 52px); transform:none; left:var(--e-pad); right:var(--e-pad); text-align:center; justify-items:center; }
+  .e-arco .datos{ justify-content:center; text-align:center; }
+  .e-arco .datos > div{ justify-items:center; max-width:46%; }
+  .e-arco .datos{ flex-wrap:nowrap; gap:20px; }
+  .e-arco .escena{ -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 12%, #000 96%, transparent 100%); mask-image:linear-gradient(180deg, transparent 0%, #000 12%, #000 96%, transparent 100%); }
 }
 
 /* capacidades: filas con filete (la tabla de Estudio) */

@@ -5,14 +5,29 @@ import { PageHero, ServiciosConImagen } from "../ui";
 import { Arco } from "../Arco";
 
 // Solo lo que hace CILCCA. Fermentación y destilación son de CACSA: no van acá.
+// Datos técnicos: presentación institucional del cliente (wiki cilcca-presentacion-fuente).
 const ETAPAS = [
-  { nm: "Tonelería", ic: "toneleria", ds: "Los maestros toneleros arman y reparan cada barrica dentro de la planta." },
-  { nm: "Embarricado", ic: "barrica", ds: "Roble de 190 litros, quemado por dentro y vaporizado antes de llenarse." },
-  { nm: "Envejecimiento", ic: "reloj", ds: "Seis bodegas en racks guardan el ron el tiempo que pide tu marca." },
-  { nm: "Reembarricado", ic: "ciclo", ds: "A los cuatro años se vacía, se mide la merma y se vuelve a llenar la misma barrica." },
-  { nm: "Mezcla", ic: "tanque", ds: "El maestro ronero aprueba cada mezcla en tanques de acero inoxidable." },
-  { nm: "Envasado", ic: "botella", ds: "Seis líneas automatizadas embotellan tu marca a escala." },
-  { nm: "Despacho", ic: "despacho", ds: "Producto terminado o a granel, listo para salir dentro y fuera del país." },
+  { nm: "Tonelería", ic: "toneleria",
+    ds: "Maestros toneleros propios arman, reparan y preparan cada barrica dentro de la planta. Antes de llenarla, la barrica se vaporiza para que la madera se hidrate y ajuste contra los aros.",
+    datos: [{ n: "190 L", l: "por barrica de roble, quemada por dentro" }] },
+  { nm: "Embarricado", ic: "barrica",
+    ds: "El ron entra a la barrica a cerca de 60 % de alcohol en volumen. El roble quemado le da color, aroma y carácter durante toda la guarda.",
+    datos: [{ n: "158.000", l: "barriles llenados al año" }, { n: "60 % v/v", l: "graduación de llenado" }] },
+  { nm: "Envejecimiento", ic: "reloj",
+    ds: "Seis bodegas de añejamiento 100 % en racks, de unas 30.000 barricas cada una, de trece de alto por dieciséis de profundidad. La variación entre posiciones es la que asegura lotes homogéneos.",
+    datos: [{ n: "156.000", l: "barricas en guarda" }, { n: "4,1 MM", l: "cajas equivalentes" }] },
+  { nm: "Reembarricado", ic: "ciclo",
+    ds: "A los cuatro años el ron se vacía en tanque, se mide la merma y vuelve a la misma barrica. Entra oxígeno, mejora el añejamiento posterior y se pierde menos producto.",
+    datos: [{ n: "250.000", l: "barriles vaciados al año" }, { n: "4 años", l: "ciclo de reembarricado" }] },
+  { nm: "Mezcla", ic: "tanque",
+    ds: "Tanques de acero inoxidable para mezclar, estabilizar y filtrar; los rones blancos pasan por carbón activado para quitarles el color. El maestro ronero supervisa y aprueba cada mezcla final.",
+    datos: [{ n: "7,15 MM", l: "cajas al año en mezcla" }, { n: "3,3 MM L", l: "de capacidad en tanque" }] },
+  { nm: "Envasado", ic: "botella",
+    ds: "Seis líneas automatizadas de llenado y envasado, con laboratorio de control de calidad y una sala de operaciones computarizada que sigue cada lote.",
+    datos: [{ n: "6", l: "líneas automatizadas" }, { n: "3,25 MM", l: "cajas al año en un turno" }] },
+  { nm: "Despacho", ic: "despacho",
+    ds: "Almacenes de producto terminado y de materia prima dentro del complejo. Tu marca sale en botella o a granel, con certificación de origen para exportar, a 45 minutos de Caracas.",
+    datos: [{ n: "2", l: "almacenes de producto terminado" }, { n: "45 min", l: "de Caracas" }] },
 ];
 
 const CAPACIDADES = [

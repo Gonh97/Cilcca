@@ -11,7 +11,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Icono } from "./ui";
 
-export type Etapa = { nm: string; ds: string; ic: string };
+export type Etapa = { nm: string; ds: string; ic: string; datos?: { n: string; l: string }[] };
 
 const PASO = 24; // grados entre etapas sobre el borde
 
@@ -36,7 +36,7 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
     // la rueda persigue al scroll con una curva suave en vez de copiarlo
     const cuadro = () => {
       const d = meta - actual;
-      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.085;
+      actual = Math.abs(d) < 0.001 ? meta : actual + d * 0.11;
       setPos(actual);
       raf = actual === meta ? 0 : requestAnimationFrame(cuadro);
     };
@@ -44,11 +44,55 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
     leerMeta();
     actual = meta;
     setPos(actual);
+
+    // Rueda del ratón: un gesto = una etapa. Mientras la sección está fija se
+    // toma el control del scroll y se salta exactamente a la etapa siguiente o
+    // anterior. La inercia del touchpad o un giro rápido de varios clics cuentan
+    // como un solo gesto: hay que soltar (pausa corta) para pasar a otra.
+    let bloqueado = false;
+    let inicioBloqueo = 0;
+    let ultimoEvento = 0;
+    const irA = (k: number) => {
+      const el = ref.current;
+      if (!el) return;
+      const total = el.offsetHeight - window.innerHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + (k / (n - 1)) * total, behavior: "instant" as ScrollBehavior });
+    };
+    const onWheel = (e: WheelEvent) => {
+      const el = ref.current;
+      if (!el || e.ctrlKey || Math.abs(e.deltaY) < 1) return;
+      const ahora = performance.now();
+      if (bloqueado && ahora - ultimoEvento > 180 && ahora - inicioBloqueo > 650) bloqueado = false;
+      ultimoEvento = ahora;
+      const r = el.getBoundingClientRect();
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const vh = window.innerHeight;
+      const fijo = r.top <= 1 && r.bottom >= vh - 1;
+      // entrando a la sección: no dejar que un gesto largo se salte etapas
+      const entraArriba = dir > 0 && r.top > 1 && r.top <= Math.abs(e.deltaY) + 2;
+      const entraAbajo = dir < 0 && r.bottom < vh - 1 && vh - r.bottom <= Math.abs(e.deltaY) + 2;
+      if (!fijo && !entraArriba && !entraAbajo) return;
+      if (entraArriba) { e.preventDefault(); irA(0); bloqueado = true; inicioBloqueo = ahora; return; }
+      if (entraAbajo) { e.preventDefault(); irA(n - 1); bloqueado = true; inicioBloqueo = ahora; return; }
+      leerMeta(); // posición real en este instante, sin esperar al evento de scroll
+      const actualEtapa = Math.round(meta);
+      const sig = actualEtapa + dir;
+      if (sig < 0 || sig > n - 1) return; // en los extremos el scroll sigue normal
+      e.preventDefault();
+      if (bloqueado) return;
+      bloqueado = true;
+      inicioBloqueo = ahora;
+      irA(sig);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("wheel", onWheel);
       cancelAnimationFrame(raf);
     };
   }, [n]);
@@ -97,10 +141,14 @@ export function Arco({ etapas, t1, t2 }: { etapas: Etapa[]; t1: string; t2: stri
 
           <div className="info">
             <h3 key={act} className="e-arco-t cambia">{etapas[act].nm}</h3>
-            <p key={"t" + act} className="e-l cambia">{etapas[act].ds}</p>
-            <div className="pasos" aria-hidden="true">
-              {etapas.map((e, k) => <span key={e.nm} className={k === act ? "on" : ""} />)}
-            </div>
+            <p key={"t" + act} className="e-m cambia">{etapas[act].ds}</p>
+            {etapas[act].datos && (
+              <div key={"d" + act} className="datos cambia">
+                {etapas[act].datos!.map((d) => (
+                  <div key={d.l}><span className="n">{d.n}</span><span className="l">{d.l}</span></div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
