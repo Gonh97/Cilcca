@@ -5,10 +5,13 @@ import { Servicios } from "./pages/Servicios";
 import { Planta } from "./pages/Planta";
 import { Maestro } from "./pages/Maestro";
 import { Contacto } from "./pages/Contacto";
+import { Presentacion } from "./pages/Presentacion";
 
 // Sitio multipágina: cada sección es su propia ruta, con transición de telón.
 export const router = createBrowserRouter(
   [
+    // Oculta: no está en el menú y no se indexa. Va sin la barra ni el pie del sitio.
+    { path: "/presentacion", Component: Presentacion },
     {
       path: "/",
       Component: Layout,
