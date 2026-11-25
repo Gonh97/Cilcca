@@ -7,7 +7,8 @@ import { Cifra, Icono } from "../ui";
 import "../../styles/presentacion.css";
 
 const B = `${import.meta.env.BASE_URL}presentacion/`;
-const PDF = `${B}CILCCA-presentacion-corporativa-2026.pdf`;
+// En el artefacto la descarga directa no funciona: VITE_PDF apunta al PDF publicado.
+const PDF = import.meta.env.VITE_PDF || `${B}CILCCA-presentacion-corporativa-2026.pdf`;
 
 /** Foto con versión para teléfono y para pantalla grande. */
 function Foto({ n, alt = "", pos = "center", className = "", sizes = "100vw", ya = false, posM }: {
@@ -32,7 +33,7 @@ function Ic({ d }: { d: string }) {
 
 function BotonPdf({ grande = false }: { grande?: boolean }) {
   return (
-    <a className={"p-btn" + (grande ? " grande" : "")} href={PDF} download>
+    <a className={"p-btn" + (grande ? " grande" : "")} href={PDF} download target={import.meta.env.VITE_PDF ? "_blank" : undefined} rel="noopener">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3V13M5.5 8.5L10 13L14.5 8.5M4 17H16" /></svg>
       {grande ? "Descargar en PDF" : "PDF"}
     </a>
