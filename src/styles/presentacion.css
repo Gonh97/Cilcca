@@ -521,3 +521,19 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p-crono li { padding-top: 0; }
   .p-crono li::before { left: -26px; top: 6px; width: 9px; height: 1px; }
 }
+
+/* Ronda 7: notas de cata con iconos y el video de Alma de Lanza. */
+.p-sentidos button { display: inline-flex; align-items: center; gap: 12px; }
+.p-sentidos .ico { width: 30px; height: 30px; flex: none; background: currentColor; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; transition: background .4s; }
+.p-sentidos button[aria-selected="true"] .ico { background: var(--verde); }
+.p-peli.rocu { background: #000; }
+.p-peli.rocu .p-play:hover .aro { background: #c9a563; border-color: #c9a563; }
+.p-peli.rocu .p-seguir { background: #c9a563; color: #17120f; }
+
+/* Portafolio: la botella queda siempre al 70 % del ancho, a la derecha del texto.
+   La foto mide 2,49:1 y la botella está al 63 % de su ancho (1,569 veces su alto). */
+.p-port .medio { inset: 0 !important; transform: none !important; background: #000; }
+.p-port .medio > img { inset: 0 auto 0 calc(70% - 156.9svh); width: auto; height: 100%; max-width: none; object-fit: contain; }
+@media (max-width: 760px) {
+  .p-port .medio > img { left: calc(50% - 98.06vw); }
+}

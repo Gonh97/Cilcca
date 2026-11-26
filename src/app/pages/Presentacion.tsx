@@ -30,7 +30,9 @@ function deslizar(top: number) {
 }
 
 /** Película completa con sonido. Al terminar ofrece seguir a la lámina siguiente. */
-function Pelicula({ alTerminar }: { alTerminar: () => void }) {
+function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo = "CILCCA en un minuto.", texto = "La planta, su gente y su ron, de principio a fin. Con sonido.", clase = "" }: {
+  alTerminar: () => void; n?: string; cap?: string; titulo?: string; texto?: string; clase?: string;
+}) {
   const ref = useRef<HTMLVideoElement>(null);
   const caja = useRef<HTMLElement>(null);
   const [estado, setEstado] = useState<"quieto" | "corre" | "pausa" | "fin">("quieto");
@@ -40,7 +42,7 @@ function Pelicula({ alTerminar }: { alTerminar: () => void }) {
     const io = new IntersectionObserver(([e]) => {
       const v = ref.current;
       if (!v) return;
-      if (e.isIntersecting && !v.src) v.src = `${B}video/cinematico${TEL() ? "-m" : ""}.mp4`;
+      if (e.isIntersecting && !v.src) v.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
       if (!e.isIntersecting && !v.paused) { v.pause(); setEstado("pausa"); }
     }, { rootMargin: "100% 0px", threshold: 0 });
     io.observe(el);
@@ -49,20 +51,20 @@ function Pelicula({ alTerminar }: { alTerminar: () => void }) {
   const tocar = () => {
     const v = ref.current;
     if (!v) return;
-    if (!v.src) v.src = `${B}video/cinematico${TEL() ? "-m" : ""}.mp4`;
+    if (!v.src) v.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
     if (v.paused) { if (estado === "fin") v.currentTime = 0; v.play().then(() => setEstado("corre")).catch(() => {}); }
     else { v.pause(); setEstado("pausa"); }
   };
   return (
-    <section ref={caja} className={"l p-peli " + estado} data-cap="La película">
+    <section ref={caja} className={"l p-peli " + clase + " " + estado} data-cap={cap}>
       <div className="medio">
-        <video ref={ref} poster={`${B}video/cinematico.jpg`} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
+        <video ref={ref} poster={`${B}video/${n}.jpg`} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
       </div>
       <div className="velo" />
       <div className="cont">
         <div className="cab">
-          <T as="h2" className="p-tit">CILCCA en un minuto.</T>
-          <T as="p" d={1} className="p-txt">La planta, su gente y su ron, de principio a fin. Con sonido.</T>
+          <T as="h2" className="p-tit">{titulo}</T>
+          <T as="p" d={1} className="p-txt">{texto}</T>
         </div>
         <div className="cue">
           <T d={2}>
@@ -175,7 +177,7 @@ const BODEGAS: [string, ReactNode, string][] = [
 ];
 
 const GRUPOS: [string, number, number][] = [
-  ["Nosotros", 1, 4], ["Capacidad", 5, 7], ["La película", 8, 8], ["Nuestra gente", 9, 10], ["Ron Ocumare", 11, 14], ["Cierre", 15, 15],
+  ["Nosotros", 1, 4], ["Capacidad", 5, 7], ["La película", 8, 8], ["Nuestra gente", 9, 10], ["Ron Ocumare", 11, 15], ["Cierre", 16, 16],
 ];
 
 const PROCESO: [string, string, string][] = [
@@ -194,12 +196,13 @@ const GENTE: [string, string, string][] = [
   ["049", "Bodega", "50% center"], ["083", "Envasado", "40% center"],
 ];
 
-const PORTAFOLIO: { n: string; cat: string; d: string; dato: string; fondo: string; bot?: string }[] = [
-  { n: "Extra Añejo", cat: "Edición Reservada", d: "La renovación de un producto que es parte del código genético de la marca. Complejidad y maestría ronera.", dato: "6 medallas internacionales", fondo: "100" },
-  { n: "Blanco Extra Añejo", cat: "Edición Reservada", d: "Alma clara, esencia compleja: filtrado para conservar su claridad sin renunciar al carácter.", dato: "5 medallas internacionales", fondo: "102" },
-  { n: "Alma de Lanza", cat: "Ultra Premium", d: "La ópera prima de nuestro maestro ronero. Rones añejados durante más de veinte años y sometidos a sucesivos reembarricados en distintos tipos de madera.", dato: "Más de 20 años de añejamiento", fondo: "p-alma.webp" },
+const PORTAFOLIO: { n: string; cat: string; d: string; dato: string; fondo: string; bot?: string; pos?: string }[] = [
+  { n: "Extra Añejo", cat: "Edición Reservada", d: "La renovación de un producto que es parte del código genético de la marca. Complejidad y maestría ronera.", dato: "6 medallas internacionales", fondo: "ocu-extra", pos: "right center" },
+  { n: "Blanco Extra Añejo", cat: "Edición Reservada", d: "Alma clara, esencia compleja: filtrado para conservar su claridad sin renunciar al carácter.", dato: "5 medallas internacionales", fondo: "ocu-blanco", pos: "right center" },
+  { n: "Alma de Lanza", cat: "Ultra Premium", d: "La ópera prima de nuestro maestro ronero. Rones añejados durante más de veinte años y sometidos a sucesivos reembarricados en distintos tipos de madera.", dato: "Más de 20 años de añejamiento", fondo: "ocu-alma", pos: "right center" },
 ];
 
+const CATA_IC = ["vista", "nariz", "boca"];
 const CATA = [
   ["Vista", "Color cobrizo profundo con destellos rojizos, herencia de su reposo en barricas ex-sherry, y una lágrima densa."],
   ["Nariz", "Notas intensas de madera con destellos frutales y florales; al fondo, vainilla, chocolate, café y frutos secos."],
@@ -349,7 +352,7 @@ export function Presentacion() {
     return () => { if (antes) m?.setAttribute("content", antes); document.title = titulo; };
   }, []);
 
-  const TOTAL = 16;
+  const TOTAL = 17;
   const irA = (k: number) => {
     const s = raiz.current?.querySelectorAll<HTMLElement>(".l")[k];
     if (s) deslizar(s.offsetTop);
@@ -571,7 +574,7 @@ export function Presentacion() {
       {/* 14 · Portafolio */}
       <section className="l p-izq p-elige p-port negro rocu" data-cap="Portafolio">
         <div className="medio">
-          {PORTAFOLIO.map((p, k) => <Img key={p.n} n={p.fondo} alt="" className={k === prod ? "si" : ""} />)}
+          {PORTAFOLIO.map((p, k) => <Img key={p.n} n={p.fondo} alt={`Ron Ocumare ${p.n}`} pos={p.pos} className={k === prod ? "si" : ""} />)}
         </div>
         <div className="velo" />
         {PORTAFOLIO.map((p, k) => p.bot && <img key={p.n} className={"p-bot" + (k === prod ? " si" : "")} src={`${B}${p.bot}`} alt={`Ron Ocumare ${p.n}`} loading="lazy" />)}
@@ -595,6 +598,9 @@ export function Presentacion() {
         </div>
       </section>
 
+      {/* Alma de Lanza: el video del producto */}
+      <Pelicula alTerminar={() => irA(14)} n="alma" cap="Alma de Lanza" clase="rocu" titulo="Alma de Lanza." texto="La ópera prima de nuestro maestro ronero, en su propio video. Con sonido." />
+
       {/* 15 · Notas de cata */}
       <section className="l p-der negro rocu" data-cap="Notas de cata">
         <div className="medio"><Img n="077" alt="Ron sirviéndose en una copa de cata" pos="60% center" /></div>
@@ -605,7 +611,9 @@ export function Presentacion() {
             <T d={1} className="p-sentidos" >
               <div role="tablist" aria-label="Notas de cata">
                 {CATA.map(([n], k) => (
-                  <button key={n} role="tab" type="button" aria-selected={k === sentido} onClick={() => setSentido(k)} onMouseEnter={() => setSentido(k)}>{n}</button>
+                  <button key={n} role="tab" type="button" aria-selected={k === sentido} onClick={() => setSentido(k)} onMouseEnter={() => setSentido(k)}>
+                    <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${B}iconos/${CATA_IC[k]}.png)` }} />{n}
+                  </button>
                 ))}
               </div>
             </T>
