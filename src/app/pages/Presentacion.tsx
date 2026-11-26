@@ -559,7 +559,7 @@ export function Presentacion() {
         </div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Del cobre<br />a la botella.</T></div>
+          <div className="cab"><T as="h2" className="p-tit">Del cobre{" "}<br />a la botella.</T></div>
           <div className="cue" ref={procRef}>
             <T d={1}><Lista items={PROCESO.map((p) => p[0])} sel={paso} set={setPaso} className="con-barra" /></T>
             <T d={2} className="p-lee">
