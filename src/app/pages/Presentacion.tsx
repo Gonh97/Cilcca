@@ -10,6 +10,36 @@ const B = `${import.meta.env.BASE_URL}presentacion/`;
 // En el artefacto la descarga directa no funciona: VITE_PDF apunta al PDF publicado.
 const PDF = import.meta.env.VITE_PDF || `${B}CILCCA-presentacion-corporativa-2026.pdf`;
 const TEL = () => window.matchMedia("(max-width: 760px)").matches;
+/** ¿Pantalla de teléfono? Se actualiza si cambia el tamaño. */
+function useTel() {
+  const [t, setT] = useState(() => typeof window !== "undefined" && TEL());
+  useEffect(() => {
+    const m = window.matchMedia("(max-width: 760px)");
+    const f = () => setT(m.matches);
+    m.addEventListener("change", f);
+    return () => m.removeEventListener("change", f);
+  }, []);
+  return t;
+}
+
+/** Deslizar el dedo a los lados cambia la selección (proceso, valores, portafolio, cata, premios). */
+function useDeslizar(ref: React.RefObject<HTMLElement | null>, n: number, set: (f: (k: number) => number) => void) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let x0 = 0, y0 = 0;
+    const ini = (e: TouchEvent) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; };
+    const fin = (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      set((k) => (k + (dx < 0 ? 1 : n - 1)) % n);
+    };
+    el.addEventListener("touchstart", ini, { passive: true });
+    el.addEventListener("touchend", fin, { passive: true });
+    return () => { el.removeEventListener("touchstart", ini); el.removeEventListener("touchend", fin); };
+  }, [ref, n, set]);
+}
+
 type Conexion = { saveData?: boolean; effectiveType?: string };
 const LIVIANO = () => {
   const c = (navigator as Navigator & { connection?: Conexion }).connection;
@@ -42,6 +72,7 @@ function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo =
   const caja = useRef<HTMLElement>(null);
   const [estado, setEstado] = useState<"quieto" | "corre" | "pausa" | "fin">("quieto");
   const [cerca, setCerca] = useState(false);
+  const tel = useTel();
   useEffect(() => {
     const el = caja.current;
     if (!el) return;
@@ -58,13 +89,19 @@ function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo =
     const v = ref.current;
     if (!v) return;
     if (!v.src) v.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
-    if (v.paused) { if (estado === "fin") v.currentTime = 0; v.play().then(() => setEstado("corre")).catch(() => {}); }
+    if (v.paused) {
+      if (estado === "fin") v.currentTime = 0;
+      v.play().then(() => setEstado("corre")).catch(() => {});
+      // Teléfono: en Android se pide pantalla completa; el iPhone la abre solo (el video no lleva playsinline).
+      if (TEL() && v.requestFullscreen) v.requestFullscreen().catch(() => {});
+    }
     else { v.pause(); setEstado("pausa"); }
   };
   return (
     <section ref={caja} className={"l p-peli " + clase + " " + estado} data-cap={cap}>
       <div className="medio">
-        <video ref={ref} poster={cerca ? `${B}video/${n}.jpg` : undefined} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
+        <video ref={ref} poster={cerca ? `${B}video/${n}${tel ? "-v" : ""}.jpg` : undefined} playsInline={!tel} preload="none"
+          onEnded={() => setEstado("fin")} onPause={() => setEstado((s) => (s === "corre" ? "pausa" : s))} onClick={tocar} />
       </div>
       <div className="velo" />
       <div className="cont">
@@ -116,6 +153,7 @@ function Img({ n, alt = "", pos = "center", ya = false, className = "" }: {
 /** Clip en bucle. Se carga al acercarse y solo corre cuando se ve y está activo. */
 function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean; className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const tel = useTel();
   const [cerca, setCerca] = useState(false);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -129,7 +167,7 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
   useEffect(() => {
     const el = ref.current;
     if (!el || !cerca || LIVIANO()) return;
-    if (!el.src) el.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
+    if (!el.src) el.src = `${B}video/${n}${TEL() ? "-v" : ""}.mp4`;
     if (visible && activo) el.play().catch(() => {}); else el.pause();
   }, [cerca, visible, activo, n]);
   // Cada vez que su etapa se activa, el video arranca desde el principio.
@@ -137,7 +175,7 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
     const el = ref.current;
     if (el && activo && el.src) el.currentTime = 0;
   }, [activo]);
-  return <video ref={ref} className={className} poster={cerca ? `${B}video/${n}.jpg` : undefined} muted loop playsInline preload="none" aria-hidden="true" />;
+  return <video ref={ref} className={className} poster={cerca ? `${B}video/${n}${tel ? "-v" : ""}.jpg` : undefined} muted loop playsInline preload="none" aria-hidden="true" />;
 }
 
 /** Texto que entra al llegar a su lámina. `d` = orden en la cascada. */
@@ -161,9 +199,9 @@ function Lista({ items, sel, set, className = "" }: { items: string[]; sel: numb
   return (
     <ul className={"p-lista " + className}>
       {items.map((n, k) => (
-        <li key={n}>
+        <li key={n} className={k < sel ? "paso" : ""}>
           <button type="button" aria-pressed={k === sel} onMouseEnter={() => set(k)} onFocus={() => set(k)} onClick={() => set(k)}>
-            <span className="k">{String(k + 1).padStart(2, "0")}</span>{n}
+            <span className="k">{String(k + 1).padStart(2, "0")}</span><span className="nom">{n}</span>
           </button>
         </li>
       ))}
@@ -355,9 +393,20 @@ export function Presentacion() {
   const [sentido, setSentido] = useState(0);
   const [premio, setPremio] = useState(0);
   const [persona, setPersona] = useState(2);
+  const [valor, setValor] = useState(0);
   const procRef = useRef<HTMLDivElement>(null);
+  const valRef = useRef<HTMLDivElement>(null);
+  const portRef = useRef<HTMLElement>(null);
+  const cataRef = useRef<HTMLElement>(null);
+  const premRef = useRef<HTMLElement>(null);
   useLaminas(raiz, setCap, setIdx);
   useAuto(PROCESO.length, 4000, setPaso, procRef);
+  useAuto(VALORES.length, 4000, setValor, valRef);
+  useDeslizar(procRef, PROCESO.length, setPaso);
+  useDeslizar(valRef, VALORES.length, setValor);
+  useDeslizar(portRef, PORTAFOLIO.length, setProd);
+  useDeslizar(cataRef, CATA.length, setSentido);
+  useDeslizar(premRef, PREMIOS.length, setPremio);
 
   // Oculta para buscadores: no se indexa ni se sigue.
   useEffect(() => {
@@ -378,13 +427,14 @@ export function Presentacion() {
 
   return (
     <div className="p" ref={raiz}>
-      <header className={"p-bar" + (idx > 0 ? " fija" : "")}>
+      <header className={"p-bar" + (idx > 0 ? " fija" : "") + (idx >= 11 && idx <= 15 ? " ron" : "")}>
         <button type="button" className="iso" onClick={() => irA(0)} aria-label="Volver al inicio de la presentación">
           <img src={`${import.meta.env.BASE_URL}isotipo-cilcca.svg`} alt="" />
         </button>
         <span className="cap">Complejo Industrial Licorero del Centro</span>
         <span className="cuenta" aria-hidden="true">{String(idx + 1).padStart(2, "0")}<i>/</i>{TOTAL}</span>
         <BotonPdf />
+        <i className="avance" aria-hidden="true" style={{ ["--f" as string]: (idx + 1) / TOTAL }} />
       </header>
       <nav className={"p-grupos" + (idx >= 11 && idx <= 15 ? " ron" : "")} aria-label="Capítulos">
         {GRUPOS.map(([n, a, z]) => {
@@ -476,6 +526,19 @@ export function Presentacion() {
             <T as="h2" className="p-tit">Nuestros valores.</T>
             <T as="p" d={1} className="p-txt">Los principios que rigen nuestra excelencia operativa y compromiso industrial.</T>
           </div>
+          <div className="p-vtel" ref={valRef}>
+            <T d={2} className="p-vbot" role="tablist" aria-label="Valores">
+              {VALORES.map(([n, , ic], k) => (
+                <button key={n} type="button" role="tab" aria-selected={k === valor} className={k < valor ? "paso" : ""} onClick={() => setValor(k)}>
+                  <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${new URL(`${B}iconos/${ic}.png`, document.baseURI).href})` }} />
+                  <span className="nom">{n}</span>
+                </button>
+              ))}
+            </T>
+            <T d={3} className="p-lee">
+              {VALORES.map(([n, d], k) => <p key={n} className={"p-dec" + (k === valor ? " si" : "")} aria-hidden={k !== valor}>{d}</p>)}
+            </T>
+          </div>
           <div className="rejilla">
             {VALORES.map(([n, d, ic], k) => (
               <T key={n} d={k + 2} className="valor">
@@ -500,7 +563,12 @@ export function Presentacion() {
           <div className="cue" ref={procRef}>
             <T d={1}><Lista items={PROCESO.map((p) => p[0])} sel={paso} set={setPaso} className="con-barra" /></T>
             <T d={2} className="p-lee">
-              {PROCESO.map(([n, d], k) => <p key={n} className={"p-txt" + (k === paso ? " si" : "")} aria-hidden={k !== paso}>{d}</p>)}
+              {PROCESO.map(([n, d], k) => (
+                <div key={n} className={"p-etapa" + (k === paso ? " si" : "")} aria-hidden={k !== paso}>
+                  <h3 className="p-nom">{n}</h3>
+                  <p className="p-txt">{d}</p>
+                </div>
+              ))}
             </T>
           </div>
         </div>
@@ -590,7 +658,7 @@ export function Presentacion() {
       </section>
 
       {/* 14 · Portafolio */}
-      <section className="l p-izq p-elige p-port negro rocu" data-cap="Portafolio">
+      <section ref={portRef} className="l p-izq p-elige p-port negro rocu" data-cap="Portafolio">
         <div className="medio">
           {PORTAFOLIO.map((p, k) => <Img key={p.n} n={p.fondo} alt={`Ron Ocumare ${p.n}`} pos={p.pos} className={k === prod ? "si" : ""} />)}
         </div>
@@ -607,6 +675,7 @@ export function Presentacion() {
               {PORTAFOLIO.map((p, k) => (
                 <div key={p.n} className={"p-ficha" + (k === prod ? " si" : "")} aria-hidden={k !== prod}>
                   <span className="p-eti">{p.cat}</span>
+                  <h3 className="p-nom">{p.n}</h3>
                   <p className="p-txt">{p.d}</p>
                   <span className="p-pie">{p.dato}</span>
                 </div>
@@ -620,7 +689,7 @@ export function Presentacion() {
       <Pelicula alTerminar={() => irA(14)} n="alma" cap="Alma de Lanza" clase="rocu" titulo="Alma de Lanza." texto="La ópera prima de nuestro maestro ronero, en su propio video. Con sonido." />
 
       {/* 15 · Notas de cata */}
-      <section className="l p-der negro rocu" data-cap="Notas de cata">
+      <section ref={cataRef} className="l p-der p-cata negro rocu" data-cap="Notas de cata">
         <div className="medio"><Vid n="llenado" /></div>
         <div className="velo" />
         <div className="cont">
@@ -643,7 +712,7 @@ export function Presentacion() {
       </section>
 
       {/* 16 · Premios, como la lista de premios de ronocumare.com */}
-      <section className="l p-premios negro rocu" data-cap="Premios">
+      <section ref={premRef} className="l p-premios negro rocu" data-cap="Premios">
         <div className="medio tenue"><Img n="036" alt="" /></div>
         <div className="velo" />
         <div className="cont">
