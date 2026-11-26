@@ -80,7 +80,7 @@ html.p-html { scroll-snap-type: y mandatory; }
 .p .p-portada .logo, .p .p-cierre .logo { margin: 0; }
 .p .p-portada .logo img { width: clamp(190px, 19vw, 300px); }
 .p .p-cierre .logo img { width: clamp(170px, 15vw, 240px); }
-.p .p-portada .t { transition-delay: calc(var(--d, 0) * 220ms + 700ms); }
+.p .p-portada .t { transition-delay: calc(var(--d, 0) * 220ms + 300ms); }
 .p .p-bajar { position: absolute; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); width: 1px; height: 52px; background: rgba(237, 241, 244, .22); overflow: hidden; }
 .p .p-bajar i { position: absolute; inset: 0; background: var(--tx); animation: p-baja 2.2s var(--ease) infinite; }
 @keyframes p-baja { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
@@ -477,3 +477,39 @@ html.p-html { scroll-snap-type: y mandatory; }
   .p .p-bar .cap { white-space: normal; overflow: visible; font-size: 10px; letter-spacing: .12em; line-height: 1.35; max-width: 17em; }
   .p .p-bar .cuenta { display: none; }
 }
+
+/* Ronda 10: tableta y teléfono. */
+/* Tableta (y cualquier pantalla táctil): sin capítulos a la derecha (pisan el texto y dependen del mouse) ni contador. */
+@media (hover: none), (max-width: 1100px) { .p .p-grupos { display: none; } }
+@media (max-width: 1100px) { .p .p-bar .cuenta { display: none; } }
+/* Tableta: lo que en escritorio va lado a lado al pie pasa a una columna. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .p .abajo .cont, .p .p-cifras .cont { flex-direction: column !important; align-items: stretch; justify-content: flex-end !important; gap: 28px; }
+  .p .abajo .cab, .p .abajo .cue, .p .p-cifras .cab, .p .p-cifras .cue { flex: none; max-width: 640px; }
+  .p .p-cifras .cue { max-width: none; }
+  .p .p-izq .cont, .p .p-der .cont { max-width: calc(var(--m) + 560px); }
+  .p .rocu.p-premios .cont { grid-template-columns: 1fr; gap: 28px; align-content: center; }
+  .p .p-premios .cue { grid-column: auto; grid-row: auto; }
+  .p .p-gente .cab { grid-template-columns: 1fr; }
+}
+/* Teléfono: portada, apertura de Ron Ocumare y cierre igual que en escritorio, con el video a pantalla completa. */
+@media (max-width: 760px) {
+  .p .p-portada, .p .p-cierre, .p .p-ocu-abre { height: 100vh; height: 100svh; min-height: 0; padding: 0; display: block; }
+  .p .p-portada .medio, .p .p-cierre .medio, .p .p-ocu-abre .medio { position: absolute; inset: 0; aspect-ratio: auto; width: auto; margin: 0; }
+  .p .p-portada .velo, .p .p-cierre .velo, .p .p-ocu-abre .velo { display: block; }
+  .p .p-portada .cont, .p .p-cierre .cont, .p .p-ocu-abre .cont { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; gap: 26px; padding: 80px var(--m) calc(56px + env(safe-area-inset-bottom, 0px)); }
+  .p .p-portada .p-bajar { display: block; }
+  .p .p-portada .logo img { width: 190px; }
+  .p .p-cierre .logo img { width: 170px; }
+  .p .p-ocu-abre .logo img { width: 240px; }
+  .p .p-ocu-abre .ocu-palabras, .p .p-ocu-abre .p-dec.c { padding: 0; margin: 0; }
+}
+
+/* Portafolio en pantallas verticales grandes (iPad): texto arriba, botella abajo a la derecha. */
+@media (min-width: 761px) and (max-aspect-ratio: 1/1) {
+  .p .p-port .medio > img { top: auto; bottom: 0; height: 54%; left: calc(78% - 84.7svh); }
+  .p .p-port .cont { justify-content: flex-start; padding-top: 120px; max-width: 62%; }
+  .p .p-port .velo { background: linear-gradient(180deg, rgba(0, 0, 0, .85) 0%, rgba(0, 0, 0, .55) 45%, rgba(0, 0, 0, 0) 70%); }
+}
+
+@media (max-width: 380px) { .p .p-iconos { grid-template-columns: minmax(0, 1fr); } }

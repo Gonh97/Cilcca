@@ -101,8 +101,10 @@ function Img({ n, alt = "", pos = "center", ya = false, className = "" }: {
   useEffect(() => {
     const el = ref.current;
     if (!el || cerca) return;
+    // Se observa la lámina y no la foto: hay fotos corridas fuera de la pantalla a propósito
+    // (la botella del portafolio) que nunca "entrarían" y no se cargarían.
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setCerca(true); io.disconnect(); } }, { rootMargin: "150% 0px" });
-    io.observe(el);
+    io.observe(el.closest(".l") ?? el);
     return () => io.disconnect();
   }, [cerca]);
   const src = n.includes(".") ? `${B}${n}` : `${B}f/${n}.webp`;
