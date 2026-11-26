@@ -195,9 +195,8 @@ const GENTE: [string, string, string][] = [
 ];
 
 const PORTAFOLIO: { n: string; cat: string; d: string; dato: string; fondo: string; bot?: string }[] = [
-  { n: "Edición Reservada", cat: "Premium", d: "Rones de 3 a 12 años, cuidadosamente añejados en barricas de roble para alcanzar una notable complejidad e integración de sabores y aromas.", dato: "8 medallas internacionales", fondo: "105" },
-  { n: "Extra Añejo", cat: "Edición Reservada", d: "La renovación de un producto que es parte del código genético de la marca. Complejidad y maestría ronera.", dato: "6 medallas internacionales", fondo: "100", bot: "extra-anejo.webp" },
-  { n: "Blanco Extra Añejo", cat: "Edición Reservada", d: "Alma clara, esencia compleja: filtrado para conservar su claridad sin renunciar al carácter.", dato: "5 medallas internacionales", fondo: "102", bot: "blanco-extra-anejo.webp" },
+  { n: "Extra Añejo", cat: "Edición Reservada", d: "La renovación de un producto que es parte del código genético de la marca. Complejidad y maestría ronera.", dato: "6 medallas internacionales", fondo: "100" },
+  { n: "Blanco Extra Añejo", cat: "Edición Reservada", d: "Alma clara, esencia compleja: filtrado para conservar su claridad sin renunciar al carácter.", dato: "5 medallas internacionales", fondo: "102" },
   { n: "Alma de Lanza", cat: "Ultra Premium", d: "La ópera prima de nuestro maestro ronero. Rones añejados durante más de veinte años y sometidos a sucesivos reembarricados en distintos tipos de madera.", dato: "Más de 20 años de añejamiento", fondo: "p-alma.webp" },
 ];
 
@@ -577,7 +576,10 @@ export function Presentacion() {
         <div className="velo" />
         {PORTAFOLIO.map((p, k) => p.bot && <img key={p.n} className={"p-bot" + (k === prod ? " si" : "")} src={`${B}${p.bot}`} alt={`Ron Ocumare ${p.n}`} loading="lazy" />)}
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">El portafolio.</T></div>
+          <div className="cab">
+            <T as="h2" className="p-tit">Tres expresiones.<br />Un mismo legado.</T>
+            <T as="p" d={1} className="p-txt">La línea Edición Reservada reúne rones de 3 a 12 años, añejados en barricas de roble. Alma de Lanza es nuestra expresión ultra premium.</T>
+          </div>
           <div className="cue">
             <T d={1}><Lista items={PORTAFOLIO.map((p) => p.n)} sel={prod} set={setProd} /></T>
             <T d={2} className="p-lee">
