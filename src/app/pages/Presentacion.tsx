@@ -384,7 +384,7 @@ export function Presentacion() {
         <span className="cuenta" aria-hidden="true">{String(idx + 1).padStart(2, "0")}<i>/</i>{TOTAL}</span>
         <BotonPdf />
       </header>
-      <nav className={"p-grupos" + (idx >= 11 && idx <= 15 ? " ocu" : "")} aria-label="Capítulos">
+      <nav className={"p-grupos" + (idx >= 11 && idx <= 15 ? " ron" : "")} aria-label="Capítulos">
         {GRUPOS.map(([n, a, z]) => {
           const dentro = idx >= a && idx <= z;
           const lleno = dentro ? (idx - a + 1) / (z - a + 1) : idx > z ? 1 : 0;
