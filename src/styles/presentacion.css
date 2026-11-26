@@ -109,7 +109,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 .p-lista button[aria-pressed="true"] { transform: translateX(10px); }
 .p-lista button[aria-pressed="true"] .k { color: var(--verde); }
 .p-lista.con-barra button::after { content: ""; position: absolute; left: 38px; right: 0; bottom: 4px; height: 1px; background: var(--verde); transform: scaleX(0); transform-origin: left; }
-.l.on .p-lista.con-barra button[aria-pressed="true"]::after { animation: p-barra 7s linear forwards; }
+.l.on .p-lista.con-barra button[aria-pressed="true"]::after { animation: p-barra 4s linear forwards; }
 @keyframes p-barra { to { transform: scaleX(1); } }
 
 .p-lee { display: grid; }
@@ -440,4 +440,23 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p-cifras .p-datos .dato, .p-cifras .p-datos .dato:first-child { padding: 18px 0 0; border-left: 0; border-top: 1px solid var(--linea); }
   .p-cifras .p-datos b { font-size: clamp(38px, 3.4vw, 56px); }
   .p-cifras .p-datos small { font-size: .4em; }
+}
+
+/* Ronda 4: Ron Ocumare con su propio acento ámbar, apertura con el logotipo
+   y cierre solo con el logotipo y la descarga. */
+.rocu { --verde: var(--ambar, #C98A3E); --ambar: #C98A3E; background: #050505; }
+.rocu .velo { filter: sepia(.2); }
+.p-ocu-abre .medio.tenue > * { opacity: .32 !important; }
+.p-ocu-abre .velo { background: radial-gradient(ellipse at center, rgba(5, 5, 5, .25), rgba(5, 5, 5, .85) 72%), linear-gradient(0deg, rgba(5, 5, 5, .7), rgba(5, 5, 5, 0) 45%); }
+.p-ocu-abre .cont, .p-cierre .cont { align-items: center; text-align: center; }
+.p-ocu-abre .logo { margin: 0; }
+.p-ocu-abre .logo img { width: clamp(260px, 30vw, 500px); height: auto; filter: drop-shadow(0 0 40px rgba(201, 138, 62, .18)); }
+.p-ocu-abre .p-dec.c { margin: 0 auto; text-align: center; max-width: 30em; }
+.p-cierre .cont { gap: clamp(36px, 6vh, 64px); }
+@media (max-width: 760px) {
+  .p-ocu-abre { justify-content: center; }
+  .p-ocu-abre .logo { order: 1; text-align: center; padding: 0 var(--m); }
+  .p-ocu-abre .logo img { width: 230px; }
+  .p-ocu-abre .p-dec.c { order: 3; padding: 0 var(--m); }
+  .p-cierre .baja { order: 3; text-align: center; padding: 0 var(--m); }
 }

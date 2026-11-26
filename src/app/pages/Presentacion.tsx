@@ -112,6 +112,11 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
     if (!el.src) el.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
     if (visible && activo) el.play().catch(() => {}); else el.pause();
   }, [cerca, visible, activo, n]);
+  // Cada vez que su etapa se activa, el video arranca desde el principio.
+  useEffect(() => {
+    const el = ref.current;
+    if (el && activo && el.src) el.currentTime = 0;
+  }, [activo]);
   return <video ref={ref} className={className} poster={`${B}video/${n}.jpg`} muted loop playsInline preload="none" aria-hidden="true" />;
 }
 
@@ -170,7 +175,7 @@ const BODEGAS: [string, ReactNode, string][] = [
 ];
 
 const GRUPOS: [string, number, number][] = [
-  ["Nosotros", 1, 4], ["Capacidad", 5, 7], ["La película", 8, 8], ["Nuestra gente", 9, 10], ["Ron Ocumare", 11, 14], ["Contacto", 15, 16],
+  ["Nosotros", 1, 4], ["Capacidad", 5, 7], ["La película", 8, 8], ["Nuestra gente", 9, 10], ["Ron Ocumare", 11, 14], ["Cierre", 15, 15],
 ];
 
 const PROCESO: [string, string, string][] = [
@@ -326,7 +331,7 @@ export function Presentacion() {
   const procRef = useRef<HTMLDivElement>(null);
   const histRef = useRef<HTMLDivElement>(null);
   useLaminas(raiz, setCap, setIdx);
-  useAuto(PROCESO.length, 7000, setPaso, procRef);
+  useAuto(PROCESO.length, 4000, setPaso, procRef);
   useAuto(HITOS.length, 5000, setHito, histRef);
 
   // Oculta para buscadores: no se indexa ni se sigue.
@@ -340,7 +345,7 @@ export function Presentacion() {
     return () => { if (antes) m?.setAttribute("content", antes); document.title = titulo; };
   }, []);
 
-  const TOTAL = 17;
+  const TOTAL = 16;
   const irA = (k: number) => {
     const s = raiz.current?.querySelectorAll<HTMLElement>(".l")[k];
     if (s) deslizar(s.offsetTop);
@@ -553,21 +558,18 @@ export function Presentacion() {
         </div>
       </section>
 
-      {/* 13 · Ron Ocumare */}
-      <section className="l p-der negro" data-cap="Ron Ocumare">
-        <div className="medio"><Img n="104" alt="Botella de Ron Ocumare bajo luz cálida" pos="30% center" /></div>
+      {/* 12 · Apertura de Ron Ocumare: el logotipo en grande */}
+      <section className="l p-ocu-abre rocu" data-cap="Ron Ocumare">
+        <div className="medio tenue"><Vid n="ocumare" /></div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab">
-            <T><img className="ocu" src={`${B}ocumare-iso-blanco.svg`} alt="" /></T>
-            <T as="h2" d={1} className="p-gig">Ron<br />Ocumare</T>
-          </div>
-          <div className="cue"><T as="p" d={2} className="p-dec">Nuestra marca bandera y el testimonio líquido de nuestra calidad.</T></div>
+          <T as="h2" className="logo"><img src={`${B}ocumare-logo-blanco.svg`} alt="Ron Ocumare" /></T>
+          <T as="p" d={2} className="p-dec c">Nuestra marca bandera y el testimonio líquido de nuestra calidad.</T>
         </div>
       </section>
 
       {/* 14 · Portafolio */}
-      <section className="l p-izq p-elige p-port negro" data-cap="Portafolio">
+      <section className="l p-izq p-elige p-port negro rocu" data-cap="Portafolio">
         <div className="medio">
           {PORTAFOLIO.map((p, k) => <Img key={p.n} n={p.fondo} alt="" className={k === prod ? "si" : ""} />)}
         </div>
@@ -591,7 +593,7 @@ export function Presentacion() {
       </section>
 
       {/* 15 · Notas de cata */}
-      <section className="l p-der negro" data-cap="Notas de cata">
+      <section className="l p-der negro rocu" data-cap="Notas de cata">
         <div className="medio"><Img n="077" alt="Ron sirviéndose en una copa de cata" pos="60% center" /></div>
         <div className="velo" />
         <div className="cont">
@@ -612,7 +614,7 @@ export function Presentacion() {
       </section>
 
       {/* 16 · Premios */}
-      <section className="l p-premios negro" data-cap="Premios">
+      <section className="l p-premios negro rocu" data-cap="Premios">
         <div className="medio tenue"><Img n="036" alt="" /></div>
         <div className="velo" />
         <div className="cont">
@@ -645,28 +647,15 @@ export function Presentacion() {
         </div>
       </section>
 
-      {/* 17 · Contacto y descarga */}
-      <section className="l p-izq abajo p-contacto" data-cap="Contacto">
-        <div className="medio"><Img n="081" alt="Nave de envasado de CILCCA" /></div>
-        <div className="velo" />
-        <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Hagamos crecer<br />su marca.</T></div>
-          <div className="cue">
-            <T as="p" d={1} className="p-dec">Permita que nuestro talento humano y nuestras instalaciones de 32 hectáreas sean el motor detrás del éxito de su marca.</T>
-            <T d={2}><BotonPdf grande /></T>
-            <T d={3} className="p-datos-c">
-              <p>Carretera Ocumare a San Francisco de Yare, Sector Aponte, Ocumare del Tuy, estado Miranda, Venezuela.</p>
-              <p><a href="mailto:contacto@cilcca.com">contacto@cilcca.com</a><a href="https://cilcca.com">www.cilcca.com</a></p>
-            </T>
-          </div>
-        </div>
-      </section>
 
-      {/* 18 · Cierre */}
+      {/* Cierre: el logotipo y la descarga del PDF */}
       <section className="l p-cierre" data-cap="">
         <div className="medio tenue"><Vid n="portada" /></div>
         <div className="velo" />
-        <div className="cont"><T className="logo"><img src={`${B}logo-vertical-blanco.svg`} alt="CILCCA" /></T></div>
+        <div className="cont">
+          <T className="logo"><img src={`${B}logo-vertical-blanco.svg`} alt="CILCCA, Complejo Industrial Licorero del Centro" /></T>
+          <T d={2} className="baja"><BotonPdf grande /></T>
+        </div>
       </section>
     </div>
   );
