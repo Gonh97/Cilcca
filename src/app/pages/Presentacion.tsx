@@ -599,11 +599,21 @@ export function Presentacion() {
       </section>
 
       {/* Alma de Lanza: el video del producto */}
-      <Pelicula alTerminar={() => irA(14)} n="alma" cap="Alma de Lanza" clase="rocu" titulo="Alma de Lanza." texto="La ópera prima de nuestro maestro ronero, en su propio video. Con sonido." />
+      <section className="l p-izq abajo rocu p-alma" data-cap="Alma de Lanza">
+        <div className="medio"><Vid n="llenado" /></div>
+        <div className="velo" />
+        <div className="cont">
+          <div className="cab"><T as="h2" className="p-tit">Alma de Lanza.</T></div>
+          <div className="cue">
+            <T as="p" d={1} className="p-dec">La ópera prima de nuestro maestro ronero: rones de más de veinte años, sometidos a sucesivos reembarricados en distintos tipos de madera.</T>
+            <T d={2} className="p-eti">Ultra Premium</T>
+          </div>
+        </div>
+      </section>
 
       {/* 15 · Notas de cata */}
       <section className="l p-der negro rocu" data-cap="Notas de cata">
-        <div className="medio"><Img n="077" alt="Ron sirviéndose en una copa de cata" pos="60% center" /></div>
+        <div className="medio"><Vid n="copa" /></div>
         <div className="velo" />
         <div className="cont">
           <div className="cab"><T as="h2" className="p-tit">Una experiencia<br />sensorial absoluta.</T></div>

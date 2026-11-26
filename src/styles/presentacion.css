@@ -537,3 +537,13 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 @media (max-width: 760px) {
   .p-port .medio > img { left: calc(50% - 98.06vw); }
 }
+
+/* Ronda 8: los sentidos con el icono grande encima de la palabra. */
+.p-sentidos [role="tablist"] { gap: clamp(26px, 3vw, 48px); }
+.p-sentidos button { flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 16px; color: rgba(255, 255, 255, .55); }
+.p-sentidos .ico { width: 48px; height: 48px; background: rgba(255, 255, 255, .78); }
+.p-sentidos button:hover .ico { background: #fff; }
+.p-sentidos button[aria-selected="true"] { color: #fff; }
+.p-sentidos button[aria-selected="true"] .ico { background: var(--verde); }
+@media (max-width: 760px) { .p-sentidos .ico { width: 40px; height: 40px; } }
+.p-alma .velo { background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .5) 38%, rgba(0, 0, 0, .05) 70%), linear-gradient(90deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0) 60%); }
