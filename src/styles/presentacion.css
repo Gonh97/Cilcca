@@ -291,7 +291,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 .p .p-cifras .cue { flex: 0 1 760px; max-width: none; }
 .p .p-cifras .p-datos { grid-template-columns: repeat(3, minmax(0, 1fr)); justify-content: stretch; gap: 34px 40px; border-top: 0; }
 .p .p-cifras .p-datos .dato, .p .p-cifras .p-datos .dato:first-child { padding: 18px 0 0; border-left: 0; border-top: 1px solid var(--linea); }
-.p .p-cifras .p-datos b { font-size: clamp(50px, 4.6vw, 78px); font-weight: 300; }
+.p .p-cifras .p-datos b { font-size: clamp(44px, 4vw, 68px); font-weight: 300; }
 .p .p-cifras .p-datos small { font-size: .4em; }
 
 }
@@ -466,7 +466,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-cifras .p-datos { grid-template-columns: 1fr 1fr; gap: 0 18px; border-top: 0; }
   .p .p-cifras .p-datos .dato, .p .p-cifras .p-datos .dato:first-child { padding: 12px 0 10px; gap: 4px; border-left: 0; border-top: 1px solid var(--linea); }
   .p .p-cifras .p-datos .dato:last-child { grid-column: 1 / -1; }
-  .p .p-cifras .p-datos b { font-size: 46px; font-weight: 300; }
+  .p .p-cifras .p-datos b { font-size: 41px; font-weight: 300; }
   .p .p-cifras .p-datos span { font-size: 12.5px; line-height: 1.4; }
   .p .p-cifras .p-datos small { font-size: .42em; }
   .p .p-cifras .p-datos b span { font-size: inherit; line-height: inherit; color: inherit; }
@@ -630,7 +630,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-tit, .p .rocu .p-tit { font-size: 28px; }
   .p .p-dec { font-size: 15px; }
   .p .p-txt { font-size: 13.5px; line-height: 1.5; }
-  .p .p-cifras .p-datos b { font-size: 40px; }
+  .p .p-cifras .p-datos b { font-size: 35px; }
   .p .p-crono { row-gap: 12px; }
   .p .p-crono li:not(:last-child)::after { bottom: -25px; }
   .p .p-crono h3 { font-size: 20px; }
