@@ -223,6 +223,14 @@ const MEDALLAS: [string, string][] = [
   ["silver-mrc", "Plata · Madrid Rum Conference"], ["bronze-mrc", "Bronce · Madrid Rum Conference"],
 ];
 
+/** Medalla de cada premio, con la misma regla que la web de Ron Ocumare. */
+function medallas(premio: string, lugar: string): string[] {
+  const ano = premio.match(/\d{4}/)?.[0] ?? "";
+  if (lugar.includes("Miami")) return [`gold-mrf-${ano}`];
+  const tipo = /plata/i.test(premio) ? "silver-mrc" : /bronce/i.test(premio) ? "bronze-mrc" : "gold-mrc";
+  return /doble/i.test(premio) ? [tipo, tipo] : [tipo];
+}
+
 /** Motor: lámina activa (entradas), capítulo de la barra y la rueda que salta de lámina en lámina. */
 function useLaminas(raiz: React.RefObject<HTMLDivElement | null>, setCap: (c: string) => void, setIdx: (i: number) => void) {
   useEffect(() => {
@@ -564,7 +572,10 @@ export function Presentacion() {
         <div className="velo" />
         <div className="cont">
           <T as="h2" className="logo"><img src={`${B}ocumare-logo-blanco.svg`} alt="Ron Ocumare" /></T>
-          <T as="p" d={2} className="p-dec c">Nuestra marca bandera y el testimonio líquido de nuestra calidad.</T>
+          <p className="ocu-palabras" aria-label="Tradición, carácter, maestría">
+            {["Tradición", "Carácter", "Maestría"].map((w, k) => <T as="span" key={w} d={k * 2 + 3}>{w}</T>)}
+          </p>
+          <T as="p" d={10} className="p-dec c">Nuestra marca bandera y el testimonio líquido de nuestra calidad.</T>
         </div>
       </section>
 
@@ -613,23 +624,16 @@ export function Presentacion() {
         </div>
       </section>
 
-      {/* 16 · Premios */}
+      {/* 16 · Premios, como la lista de premios de ronocumare.com */}
       <section className="l p-premios negro rocu" data-cap="Premios">
         <div className="medio tenue"><Img n="036" alt="" /></div>
         <div className="velo" />
         <div className="cont">
           <div className="cab">
-            <T className="p-num"><Cifra v={19} /></T>
-            <T as="p" d={1} className="p-eti">reconocimientos internacionales</T>
+            <T as="span" className="p-eti">Reconocimientos internacionales</T>
+            <T d={1} className="p-num"><Cifra v={19} /></T>
+            <T as="h2" d={2} className="p-tit">Excelencia premiada en Madrid y Miami.</T>
           </div>
-          <T d={2} className="p-medallas">
-            {MEDALLAS.map(([m, t], k) => (
-              <figure key={m} style={{ ["--k" as string]: k }} tabIndex={0}>
-                <img src={`${B}medallas/${m}.webp`} alt={t} loading="lazy" />
-                <figcaption>{t}</figcaption>
-              </figure>
-            ))}
-          </T>
           <div className="cue">
             <T d={3} className="p-tabs" role="tablist" aria-label="Premios por producto">
               {PREMIOS.map(([ed], k) => (
@@ -638,8 +642,15 @@ export function Presentacion() {
             </T>
             <T d={4} className="p-lee">
               {PREMIOS.map(([ed, items], k) => (
-                <ul key={ed} className={"p-premios-lista" + (k === premio ? " si" : "")} aria-hidden={k !== premio}>
-                  {items.map(([a, b], j) => <li key={j}><b>{a}</b><span>{b}</span></li>)}
+                <ul key={ed} className={"ocu-premios" + (k === premio ? " si" : "")} aria-hidden={k !== premio}>
+                  {items.map(([a, b], j) => (
+                    <li key={j}>
+                      <span className={"med" + (medallas(a, b).length > 1 ? " doble" : "")}>
+                        {medallas(a, b).map((m, q) => <img key={q} src={`${B}medallas/${m}.webp`} alt="" loading="lazy" />)}
+                      </span>
+                      <span className="txt"><b>{a.startsWith("Doble") ? a.replace("Doble oro", "Doble medalla de oro") : "Medalla de " + a.toLowerCase()}</b><span>{b}</span></span>
+                    </li>
+                  ))}
                 </ul>
               ))}
             </T>
