@@ -461,7 +461,7 @@ export function Presentacion() {
           <div className="rejilla">
             {VALORES.map(([n, d, ic], k) => (
               <T key={n} d={k + 2} className="valor">
-                <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${B}iconos/${ic}.png)` }} />
+                <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${new URL(`${B}iconos/${ic}.png`, document.baseURI).href})` }} />
                 <h3>{n}</h3>
                 <p className="p-txt">{d}</p>
               </T>
@@ -599,21 +599,11 @@ export function Presentacion() {
       </section>
 
       {/* Alma de Lanza: el video del producto */}
-      <section className="l p-izq abajo rocu p-alma" data-cap="Alma de Lanza">
-        <div className="medio"><Vid n="llenado" /></div>
-        <div className="velo" />
-        <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Alma de Lanza.</T></div>
-          <div className="cue">
-            <T as="p" d={1} className="p-dec">La ópera prima de nuestro maestro ronero: rones de más de veinte años, sometidos a sucesivos reembarricados en distintos tipos de madera.</T>
-            <T d={2} className="p-eti">Ultra Premium</T>
-          </div>
-        </div>
-      </section>
+      <Pelicula alTerminar={() => irA(14)} n="alma" cap="Alma de Lanza" clase="rocu" titulo="Alma de Lanza." texto="La ópera prima de nuestro maestro ronero, en su propio video. Con sonido." />
 
       {/* 15 · Notas de cata */}
       <section className="l p-der negro rocu" data-cap="Notas de cata">
-        <div className="medio"><Vid n="copa" /></div>
+        <div className="medio"><Vid n="llenado" /></div>
         <div className="velo" />
         <div className="cont">
           <div className="cab"><T as="h2" className="p-tit">Una experiencia<br />sensorial absoluta.</T></div>
@@ -622,7 +612,7 @@ export function Presentacion() {
               <div role="tablist" aria-label="Notas de cata">
                 {CATA.map(([n], k) => (
                   <button key={n} role="tab" type="button" aria-selected={k === sentido} onClick={() => setSentido(k)} onMouseEnter={() => setSentido(k)}>
-                    <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${B}iconos/${CATA_IC[k]}.png)` }} />{n}
+                    <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${new URL(`${B}iconos/${CATA_IC[k]}.png`, document.baseURI).href})` }} />{n}
                   </button>
                 ))}
               </div>
