@@ -587,12 +587,15 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-port .velo { display: none; }
   .p .p-port .cab { order: 1; padding: 0 var(--m); }
   .p .p-port .cab .p-txt { display: none; }
-  .p .p-port .medio { order: 2; position: relative; inset: auto !important; flex: none; height: clamp(300px, 54vh, 480px); min-height: 0; margin: 0 0 18px; background: transparent;
+  .p .p-port .medio { order: 2; position: relative; inset: auto !important; flex: none; height: clamp(260px, 44vh, 440px); min-height: 0; margin: 0 0 14px; background: transparent;
     -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 98%); mask-image: linear-gradient(180deg, #000 72%, transparent 98%); }
   .p .p-port .medio > img { position: absolute; top: 0; bottom: auto; left: 50%; right: auto; height: 100%; width: auto; max-width: none; object-fit: contain; transform: translateX(-64.4%) !important; }
   .p .p-port .cue { order: 3; padding: 0 var(--m); position: relative; z-index: 1; gap: 16px; }
   .p .p-ficha { gap: 8px; }
   .p .p-port .p-lista { gap: 8px; }
+  /* Los botones de las tres expresiones van debajo del texto. */
+  .p .p-port .cue { display: flex; flex-direction: column; }
+  .p .p-port .cue > :first-child { order: 2; }
   .p .p-port.rocu .p-lista button { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 6px; text-align: center; color: var(--tx3);
     border: 1px solid rgba(237, 241, 244, .2); border-radius: 10px; font: 400 10.5px/1.3 "Outfit", Arial, sans-serif; letter-spacing: 1.2px; transition: color .4s, border-color .4s, background .4s; }
   .p .p-port .p-lista button::before, .p .p-port .p-lista button::after { display: none; }
@@ -639,7 +642,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-iconos .p-txt { font-size: 12.5px; }
   .p .p-mini .p-txt { font-size: 13px; }
   .p .p-cifras .velo, .p .p-bodegas .velo, .p .p-hist .velo { background: linear-gradient(0deg, rgba(var(--vb), .97) 0%, rgba(var(--vb), .9) 50%, rgba(var(--vb), .62) 100%) !important; }
-  .p .p-port .medio { height: 300px; }
+  .p .p-port .medio { height: 230px; }
   .p .p-port .p-lee { min-height: 170px; }
   .p .p-vtel .p-dec { min-height: 0; }
   .p .p-vbot { grid-auto-rows: minmax(70px, 1fr); }
