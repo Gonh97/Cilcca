@@ -122,7 +122,7 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
 
 /** Texto que entra al llegar a su lámina. `d` = orden en la cascada. */
 function T({ d = 0, as: Tag = "div", className = "", children }: {
-  d?: number; as?: "div" | "p" | "h1" | "h2" | "h3" | "span" | "ul"; className?: string; children: ReactNode;
+  d?: number; as?: "div" | "p" | "h1" | "h2" | "h3" | "span" | "ul" | "li"; className?: string; children: ReactNode;
 }) {
   return <Tag className={"t " + className} style={{ ["--d" as string]: d }}>{children}</Tag>;
 }
@@ -330,17 +330,14 @@ export function Presentacion() {
   const raiz = useRef<HTMLDivElement>(null);
   const [cap, setCap] = useState("");
   const [idx, setIdx] = useState(0);
-  const [hito, setHito] = useState(0);
   const [paso, setPaso] = useState(0);
   const [prod, setProd] = useState(0);
   const [sentido, setSentido] = useState(0);
   const [premio, setPremio] = useState(0);
   const [persona, setPersona] = useState(2);
   const procRef = useRef<HTMLDivElement>(null);
-  const histRef = useRef<HTMLDivElement>(null);
   useLaminas(raiz, setCap, setIdx);
   useAuto(PROCESO.length, 4000, setPaso, procRef);
-  useAuto(HITOS.length, 5000, setHito, histRef);
 
   // Oculta para buscadores: no se indexa ni se sigue.
   useEffect(() => {
@@ -414,31 +411,24 @@ export function Presentacion() {
           </div>
         </div>
       </section>
-      {/* 3 · Historia */}
-      <section className="l p-izq p-hist" data-cap="Historia">
+      {/* 3 · Historia: línea de tiempo fija, todo a la vista */}
+      <section className="l p-hist" data-cap="Historia">
         <div className="medio"><Img n="013" alt="Alambiques de cobre de la destilería" /></div>
         <div className="velo" />
         <div className="cont">
           <div className="cab">
             <T as="h2" className="p-tit">Más de cuatro décadas<br />de oficio industrial.</T>
           </div>
-          <div className="cue" ref={histRef}>
-            <T className="p-hito">
+          <div className="cue">
+            <ol className="p-crono">
+              <span className="hilo" aria-hidden="true" />
               {HITOS.map(([a, b], k) => (
-                <div key={a} className={"ver" + (k === hito ? " si" : "")} aria-hidden={k !== hito}>
-                  <span className="ano">{a}</span>
+                <T as="li" key={a} d={k + 1}>
+                  <h3>{a}</h3>
                   <p className="p-txt">{b}</p>
-                </div>
+                </T>
               ))}
-            </T>
-            <T d={1} as="div" className="p-linea">
-              <span className="hilo" aria-hidden="true"><i style={{ transform: `scaleX(${hito / (HITOS.length - 1)})` }} /></span>
-              {HITOS.map(([a], k) => (
-                <button key={a} type="button" aria-pressed={k === hito} className={k <= hito ? "paso" : ""} onMouseEnter={() => setHito(k)} onFocus={() => setHito(k)} onClick={() => setHito(k)}>
-                  {a}
-                </button>
-              ))}
-            </T>
+            </ol>
           </div>
         </div>
       </section>

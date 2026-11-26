@@ -502,3 +502,22 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p-ocu-abre .medio { order: 3; }
   .p-ocu-abre .p-dec.c { order: 4; }
 }
+
+/* Ronda 6: Historia fija. La foto arriba, la línea de tiempo abajo con los
+   cuatro hitos a la vista; la línea nace en el primero y muere en el último. */
+.p-hist .velo { background: linear-gradient(0deg, rgba(4, 12, 20, .94) 0%, rgba(4, 12, 20, .7) 30%, rgba(4, 12, 20, .25) 58%, rgba(4, 12, 20, .05) 80%), linear-gradient(90deg, rgba(4, 12, 20, .5), rgba(4, 12, 20, 0) 60%); }
+.p-hist .cont { justify-content: flex-end; padding-bottom: clamp(48px, 9vh, 96px); }
+.p-hist .cue { max-width: none; }
+.p-crono { position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 36px; }
+.p-crono .hilo { position: absolute; left: 0; top: 0; height: 1px; width: calc(75% + 27px); background: rgba(237, 241, 244, .35); transform: scaleX(0); transform-origin: left; transition: transform 1.6s var(--ease) .3s; }
+.l.on .p-crono .hilo { transform: scaleX(1); }
+.p-crono li { position: relative; display: grid; gap: 10px; align-content: start; padding-top: 30px; }
+.p-crono li::before { content: ""; position: absolute; left: 0; top: -8px; width: 1px; height: 17px; background: var(--verde); }
+.p-crono h3 { margin: 0; font: 300 clamp(24px, 2.2vw, 36px)/1.1 Sora, sans-serif; letter-spacing: -.02em; }
+.p-crono .p-txt { font-size: 14.5px; max-width: 24em; }
+@media (max-width: 760px) {
+  .p-crono { grid-template-columns: 1fr; row-gap: 22px; padding-left: 22px; }
+  .p-crono .hilo { display: none; }
+  .p-crono li { padding-top: 0; }
+  .p-crono li::before { left: -26px; top: 6px; width: 9px; height: 1px; }
+}
