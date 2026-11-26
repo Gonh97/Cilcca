@@ -3,13 +3,85 @@
 // completa con el material de los videos Cinemático y Documental; la rueda del
 // mouse pasa de una lámina a la siguiente. Al final se descarga el PDF liviano.
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Cifra } from "../ui";
+import { Cifra, Icono } from "../ui";
 import "../../styles/presentacion.css";
 
 const B = `${import.meta.env.BASE_URL}presentacion/`;
 // En el artefacto la descarga directa no funciona: VITE_PDF apunta al PDF publicado.
 const PDF = import.meta.env.VITE_PDF || `${B}CILCCA-presentacion-corporativa-2026.pdf`;
 const TEL = () => window.matchMedia("(max-width: 760px)").matches;
+
+/** Desliza la página hasta `top` con una curva suave. Devuelve cuánto dura. */
+let corrida = 0;
+function deslizar(top: number) {
+  const y0 = window.scrollY, d = top - y0;
+  if (Math.abs(d) < 2) return 0;
+  const dur = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 450 : Math.min(1400, 850 + Math.abs(d) * 0.2);
+  const t0 = performance.now(), id = ++corrida;
+  const curva = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const paso = (ahora: number) => {
+    if (id !== corrida) return;
+    const k = Math.min(1, (ahora - t0) / dur);
+    window.scrollTo(0, y0 + d * curva(k));
+    if (k < 1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+  return dur;
+}
+
+/** Película completa con sonido. Al terminar ofrece seguir a la lámina siguiente. */
+function Pelicula({ alTerminar }: { alTerminar: () => void }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const caja = useRef<HTMLElement>(null);
+  const [estado, setEstado] = useState<"quieto" | "corre" | "pausa" | "fin">("quieto");
+  useEffect(() => {
+    const el = caja.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      const v = ref.current;
+      if (!v) return;
+      if (e.isIntersecting && !v.src) v.src = `${B}video/cinematico${TEL() ? "-m" : ""}.mp4`;
+      if (!e.isIntersecting && !v.paused) { v.pause(); setEstado("pausa"); }
+    }, { rootMargin: "100% 0px", threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const tocar = () => {
+    const v = ref.current;
+    if (!v) return;
+    if (!v.src) v.src = `${B}video/cinematico${TEL() ? "-m" : ""}.mp4`;
+    if (v.paused) { if (estado === "fin") v.currentTime = 0; v.play().then(() => setEstado("corre")).catch(() => {}); }
+    else { v.pause(); setEstado("pausa"); }
+  };
+  return (
+    <section ref={caja} className={"l p-peli " + estado} data-cap="La película">
+      <div className="medio">
+        <video ref={ref} poster={`${B}video/cinematico.jpg`} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
+      </div>
+      <div className="velo" />
+      <div className="cont">
+        <div className="cab">
+          <T as="h2" className="p-tit">CILCCA en un minuto.</T>
+          <T as="p" d={1} className="p-txt">La planta, su gente y su ron, de principio a fin. Con sonido.</T>
+        </div>
+        <div className="cue">
+          <T d={2}>
+            <button type="button" className="p-play" onClick={tocar} aria-label={estado === "corre" ? "Pausar la película" : "Ver la película"}>
+              <span className="aro">{estado === "corre"
+                ? <svg viewBox="0 0 24 24"><path d="M9 6V18M15 6V18" /></svg>
+                : <svg viewBox="0 0 24 24"><path d="M8 5.5L18.5 12L8 18.5Z" /></svg>}</span>
+              <span className="lbl">{estado === "corre" ? "Pausar" : estado === "fin" ? "Ver de nuevo" : estado === "pausa" ? "Seguir viendo" : "Ver la película"}</span>
+            </button>
+          </T>
+        </div>
+      </div>
+      <button type="button" className="p-seguir" onClick={alTerminar} tabIndex={estado === "fin" ? 0 : -1}>
+        <span>Seguir a la siguiente lámina</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V19M6 13L12 19L18 13" /></svg>
+      </button>
+    </section>
+  );
+}
 
 /** Cuadro sacado de los videos, con versión liviana para el teléfono. */
 function Img({ n, alt = "", pos = "center", ya = false, className = "" }: {
@@ -82,12 +154,23 @@ const HITOS = [
 ];
 
 const VALORES: [string, string, string][] = [
-  ["Compromiso", "Dedicación total a los objetivos de la empresa y de nuestros aliados comerciales.", "026"],
-  ["Calidad", "Excelencia en cada etapa del proceso industrial, del envejecimiento al embotellado.", "058"],
-  ["Trabajo en equipo", "Sinergia operativa para garantizar eficiencia en 32 hectáreas de instalaciones.", "086"],
-  ["Responsabilidad", "Cumplimiento riguroso de normativas, seguridad y tiempos de entrega impecables.", "041"],
-  ["Innovación y mejora", "Optimización constante de procesos, como el sistema mecánico de almacenamiento.", "009"],
-  ["Ética", "Transparencia y profesionalismo absoluto en el manejo de marcas de terceros y propias.", "030"],
+  ["Compromiso", "Dedicación total a los objetivos de la empresa y de nuestros aliados comerciales.", "compromiso"],
+  ["Calidad", "Excelencia en cada etapa del proceso industrial, del envejecimiento al embotellado.", "calidad"],
+  ["Trabajo en equipo", "Sinergia operativa para garantizar eficiencia en 32 hectáreas de instalaciones.", "equipo"],
+  ["Responsabilidad", "Cumplimiento riguroso de normativas, seguridad y tiempos de entrega impecables.", "responsabilidad"],
+  ["Innovación y mejora", "Optimización constante de procesos, como el sistema mecánico de almacenamiento.", "innovacion"],
+  ["Ética", "Transparencia y profesionalismo absoluto en el manejo de marcas de terceros y propias.", "etica"],
+];
+
+const BODEGAS: [string, ReactNode, string][] = [
+  ["barrica", <Cifra v={200000} />, "barricas de roble blanco americano de capacidad, en seis naves de crianza masiva."],
+  ["escudo", "Antiexplosión", "Racks mecanizados y seguros bajo normativa antiexplosión."],
+  ["despacho", "Internacional", "Despacho con estrictos controles del SENIAT y granel en isotanques sellados."],
+  ["sello", "Certificados", "De origen y de libre venta para cada exportación."],
+];
+
+const GRUPOS: [string, number, number][] = [
+  ["Nosotros", 1, 4], ["Capacidad", 5, 8], ["La película", 9, 9], ["Nuestra gente", 10, 11], ["Ron Ocumare", 12, 15], ["Contacto", 16, 17],
 ];
 
 const PROCESO: [string, string, string][] = [
@@ -100,17 +183,10 @@ const PROCESO: [string, string, string][] = [
 
 const SOLUCIONES = ["Maquila (co-packing)", "Envejecimiento", "Tonelería", "Despacho internacional"];
 
-const RECORRIDO: [string, string][] = [
-  ["001", "La planta desde el aire"], ["006", "Columnas de cobre"], ["007", "Tuberías de la destilería"],
-  ["024", "Fermentación"], ["027", "Ron entrando en la barrica"], ["034", "Duela de roble"],
-  ["047", "Llenado de barricas"], ["052", "Bodega de añejamiento"], ["059", "Muestras de laboratorio"],
-  ["061", "Mezclas en evaluación"], ["074", "Cata del maestro"], ["079", "Línea de envasado"],
-  ["080", "Botellas en la línea"], ["082", "Llenado"], ["084", "Llenadora"], ["092", "Control de etiqueta"], ["097", "Producto terminado"],
-];
 
 const GENTE: [string, string, string][] = [
-  ["031", "Tonelería", "50% center"], ["064", "Laboratorio", "45% center"], ["072", "Maestro ronero", "55% center"],
-  ["049", "Bodega", "50% center"], ["083", "Envasado", "40% center"], ["043", "Oficio", "50% center"],
+  ["043", "Tonelería", "50% center"], ["064", "Laboratorio", "45% center"], ["072", "Maestro ronero", "55% center"],
+  ["049", "Bodega", "50% center"], ["083", "Envasado", "40% center"],
 ];
 
 const PORTAFOLIO: { n: string; cat: string; d: string; dato: string; fondo: string; bot?: string }[] = [
@@ -171,8 +247,22 @@ function useLaminas(raiz: React.RefObject<HTMLDivElement | null>, setCap: (c: st
     };
     const ir = (k: number) => {
       const s = laminas[Math.max(0, Math.min(laminas.length - 1, k))];
-      window.scrollTo({ top: s.offsetTop, behavior: "smooth" });
+      bloqueo = Date.now() + deslizar(s.offsetTop) + 120;
     };
+    // Paralaje: cada lámina sabe dónde está respecto de la pantalla (--o de -1 a 1).
+    let pedido = 0;
+    const medir = () => {
+      pedido = 0;
+      const vh = window.innerHeight, y = window.scrollY;
+      for (const s of laminas) {
+        const o = (s.offsetTop - y) / vh;
+        if (o > -1.3 && o < 1.3) s.style.setProperty("--o", o.toFixed(4));
+      }
+    };
+    const alMover = () => { if (!pedido) pedido = requestAnimationFrame(medir); };
+    medir();
+    window.addEventListener("scroll", alMover, { passive: true });
+    window.addEventListener("resize", alMover);
     const rueda = (e: WheelEvent) => {
       if (e.ctrlKey || TEL()) return;
       if ((e.target as HTMLElement).closest(".p-desliza") && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
@@ -183,10 +273,9 @@ function useLaminas(raiz: React.RefObject<HTMLDivElement | null>, setCap: (c: st
       const abajo = e.deltaY > 0;
       const fin = s.offsetTop + s.offsetHeight - window.innerHeight;
       if (abajo && window.scrollY < fin - 4) return;
-      if (!abajo && window.scrollY > s.offsetTop + 4) { e.preventDefault(); if (Date.now() > bloqueo) { bloqueo = Date.now() + 750; ir(k); } return; }
       e.preventDefault();
       if (Date.now() < bloqueo) return;
-      bloqueo = Date.now() + 750;
+      if (!abajo && window.scrollY > s.offsetTop + 4) { ir(k); return; }
       ir(k + (abajo ? 1 : -1));
     };
     const tecla = (e: KeyboardEvent) => {
@@ -201,6 +290,8 @@ function useLaminas(raiz: React.RefObject<HTMLDivElement | null>, setCap: (c: st
       io.disconnect();
       window.removeEventListener("wheel", rueda);
       window.removeEventListener("keydown", tecla);
+      window.removeEventListener("scroll", alMover);
+      window.removeEventListener("resize", alMover);
       document.documentElement.classList.remove("p-html");
     };
   }, [raiz, setCap, setIdx]);
@@ -227,13 +318,11 @@ export function Presentacion() {
   const [cap, setCap] = useState("");
   const [idx, setIdx] = useState(0);
   const [hito, setHito] = useState(0);
-  const [valor, setValor] = useState(0);
   const [paso, setPaso] = useState(0);
   const [prod, setProd] = useState(0);
   const [sentido, setSentido] = useState(0);
   const [premio, setPremio] = useState(0);
   const [persona, setPersona] = useState(2);
-  const tira = useRef<HTMLDivElement>(null);
   const procRef = useRef<HTMLDivElement>(null);
   const histRef = useRef<HTMLDivElement>(null);
   useLaminas(raiz, setCap, setIdx);
@@ -251,14 +340,10 @@ export function Presentacion() {
     return () => { if (antes) m?.setAttribute("content", antes); document.title = titulo; };
   }, []);
 
-  const mover = (dir: number) => {
-    const t = tira.current;
-    if (t) t.scrollBy({ left: dir * t.clientWidth * 0.8, behavior: "smooth" });
-  };
   const TOTAL = 18;
   const irA = (k: number) => {
     const s = raiz.current?.querySelectorAll<HTMLElement>(".l")[k];
-    if (s) window.scrollTo({ top: s.offsetTop, behavior: "smooth" });
+    if (s) deslizar(s.offsetTop);
   };
 
   return (
@@ -271,10 +356,17 @@ export function Presentacion() {
         <span className="cuenta" aria-hidden="true">{String(idx + 1).padStart(2, "0")}<i>/</i>{TOTAL}</span>
         <BotonPdf />
       </header>
-      <nav className="p-puntos" aria-label="Láminas">
-        {Array.from({ length: TOTAL }, (_, k) => (
-          <button key={k} type="button" aria-label={`Ir a la lámina ${k + 1}`} aria-current={k === idx} onClick={() => irA(k)} />
-        ))}
+      <nav className="p-grupos" aria-label="Capítulos">
+        {GRUPOS.map(([n, a, z]) => {
+          const dentro = idx >= a && idx <= z;
+          const lleno = dentro ? (idx - a + 1) / (z - a + 1) : idx > z ? 1 : 0;
+          return (
+            <button key={n} type="button" className={dentro ? "si" : ""} onClick={() => irA(a)} aria-current={dentro}>
+              <span className="n">{n}{dentro && z > a ? <small>{idx - a + 1} / {z - a + 1}</small> : null}</span>
+              <i style={{ height: `${(z - a + 1) * 14}px`, ["--f" as string]: lleno }} />
+            </button>
+          );
+        })}
       </nav>
 
       {/* 1 · Portada */}
@@ -293,7 +385,7 @@ export function Presentacion() {
         <div className="medio"><Vid n="planta" /></div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-gig">Quiénes<br />somos</T></div>
+          <div className="cab"><T as="h2" className="p-tit">Quiénes somos.</T></div>
           <div className="cue">
             <T as="p" d={1} className="p-dec">Una de las instalaciones industriales más importantes de Venezuela y la más grande de todo el sector licorero nacional.</T>
             <T d={2} className="p-pie">Ocumare del Tuy · Estado Miranda</T>
@@ -319,9 +411,10 @@ export function Presentacion() {
               ))}
             </T>
             <T d={1} as="div" className="p-linea">
+              <span className="hilo" aria-hidden="true"><i style={{ transform: `scaleX(${hito / (HITOS.length - 1)})` }} /></span>
               {HITOS.map(([a], k) => (
-                <button key={a} type="button" aria-pressed={k === hito} onMouseEnter={() => setHito(k)} onFocus={() => setHito(k)} onClick={() => setHito(k)}>
-                  <i /><span>{a}</span>
+                <button key={a} type="button" aria-pressed={k === hito} className={k <= hito ? "paso" : ""} onMouseEnter={() => setHito(k)} onFocus={() => setHito(k)} onClick={() => setHito(k)}>
+                  {a}
                 </button>
               ))}
             </T>
@@ -345,19 +438,21 @@ export function Presentacion() {
         </div>
       </section>
 
-      {/* 5 · Valores: la lista cambia la foto */}
-      <section className="l p-izq p-elige" data-cap="Valores">
-        <div className="medio">
-          {VALORES.map(([n, , f], k) => <Img key={n} n={f} alt="" className={k === valor ? "si" : ""} />)}
-        </div>
-        <div className="velo" />
+      {/* 5 · Valores: iconos, sin fotos */}
+      <section className="l p-valores" data-cap="Valores">
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Nuestros valores.</T></div>
-          <div className="cue">
-            <T d={1}><Lista items={VALORES.map((v) => v[0])} sel={valor} set={setValor} /></T>
-            <T d={2} className="p-lee">
-              {VALORES.map(([n, d], k) => <p key={n} className={"p-txt" + (k === valor ? " si" : "")} aria-hidden={k !== valor}>{d}</p>)}
-            </T>
+          <div className="cab">
+            <T as="h2" className="p-tit">Nuestros valores.</T>
+            <T as="p" d={1} className="p-txt">Los principios que rigen nuestra excelencia operativa y compromiso industrial.</T>
+          </div>
+          <div className="rejilla">
+            {VALORES.map(([n, d, ic], k) => (
+              <T key={n} d={k + 2} className="valor">
+                <span className="ico" aria-hidden="true" style={{ ["--ic" as string]: `url(${B}iconos/${ic}.png)` }} />
+                <h3>{n}</h3>
+                <p className="p-txt">{d}</p>
+              </T>
+            ))}
           </div>
         </div>
       </section>
@@ -411,40 +506,27 @@ export function Presentacion() {
       </section>
 
       {/* 9 · Bodegas */}
-      <section className="l p-der" data-cap="Bodegas de crianza">
+      <section className="l p-izq p-bodegas" data-cap="Bodegas de crianza">
         <div className="medio"><Img n="053" alt="Estibas de barricas en la bodega de añejamiento" /></div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab">
-            <T className="p-num"><Cifra v={200000} /></T>
-            <T as="p" d={1} className="p-eti">barricas de roble blanco americano de capacidad</T>
-          </div>
+          <div className="cab"><T as="h2" className="p-tit">Bodegas de crianza.</T></div>
           <div className="cue">
-            <T as="p" d={2} className="p-dec">Seis naves de crianza masiva, en racks mecanizados y seguros bajo normativa antiexplosión.</T>
-            <T as="p" d={3} className="p-txt">Despacho internacional con estrictos controles del SENIAT, granel en isotanques sellados, certificados de origen y cumplimiento de libre venta.</T>
+            <div className="p-iconos">
+              {BODEGAS.map(([ic, n, d], k) => (
+                <T key={ic} d={k + 1} className="it">
+                  <Icono n={ic} />
+                  <b>{n}</b>
+                  <p className="p-txt">{d}</p>
+                </T>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 10 · Recorrido: la planta por dentro */}
-      <section className="l p-recorrido" data-cap="La planta por dentro">
-        <div className="cont">
-          <div className="cab">
-            <T as="h2" className="p-tit">La planta por dentro.</T>
-            <T d={1} className="flechas">
-              <button type="button" onClick={() => mover(-1)} aria-label="Fotos anteriores"><svg viewBox="0 0 24 24"><path d="M15 5L8 12L15 19" /></svg></button>
-              <button type="button" onClick={() => mover(1)} aria-label="Fotos siguientes"><svg viewBox="0 0 24 24"><path d="M9 5L16 12L9 19" /></svg></button>
-            </T>
-          </div>
-        </div>
-        <T d={2} className="p-tira p-desliza">
-          <div ref={tira} className="pista">
-            {RECORRIDO.map(([n, t]) => (
-              <figure key={n}><Img n={n} alt={t} /><figcaption>{t}</figcaption></figure>
-            ))}
-          </div>
-        </T>
-      </section>
+      {/* 10 · La película: el video completo, con sonido */}
+      <Pelicula alTerminar={() => irA(10)} />
 
       {/* 11 · Nuestra gente: franjas que se abren */}
       <section className="l p-gente" data-cap="Nuestra gente">
