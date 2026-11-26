@@ -170,7 +170,7 @@ const BODEGAS: [string, ReactNode, string][] = [
 ];
 
 const GRUPOS: [string, number, number][] = [
-  ["Nosotros", 1, 4], ["Capacidad", 5, 8], ["La película", 9, 9], ["Nuestra gente", 10, 11], ["Ron Ocumare", 12, 15], ["Contacto", 16, 17],
+  ["Nosotros", 1, 4], ["Capacidad", 5, 7], ["La película", 8, 8], ["Nuestra gente", 9, 10], ["Ron Ocumare", 11, 14], ["Contacto", 15, 16],
 ];
 
 const PROCESO: [string, string, string][] = [
@@ -340,7 +340,7 @@ export function Presentacion() {
     return () => { if (antes) m?.setAttribute("content", antes); document.title = titulo; };
   }, []);
 
-  const TOTAL = 18;
+  const TOTAL = 17;
   const irA = (k: number) => {
     const s = raiz.current?.querySelectorAll<HTMLElement>(".l")[k];
     if (s) deslizar(s.offsetTop);
@@ -380,19 +380,27 @@ export function Presentacion() {
         <span className="p-bajar" aria-hidden="true"><i /></span>
       </section>
 
-      {/* 2 · Quiénes somos */}
-      <section className="l p-izq abajo" data-cap="Quiénes somos">
-        <div className="medio"><Vid n="planta" /></div>
+
+      {/* 2 · La planta en cifras (antes Quiénes somos) */}
+      <section className="l p-cifras" data-cap="La planta">
+        <div className="medio"><Img n="002" alt="Vista cenital del complejo de CILCCA con sus lagunas" /></div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Quiénes somos.</T></div>
+          <div className="cab">
+            <T as="h2" className="p-tit">Nuestra planta.</T>
+            <T as="p" d={1} className="p-txt">Una de las instalaciones industriales más importantes de Venezuela y la más grande de todo el sector licorero nacional, en Ocumare del Tuy, estado Miranda.</T>
+          </div>
           <div className="cue">
-            <T as="p" d={1} className="p-dec">Una de las instalaciones industriales más importantes de Venezuela y la más grande de todo el sector licorero nacional.</T>
-            <T d={2} className="p-pie">Ocumare del Tuy · Estado Miranda</T>
+            <div className="p-datos">
+              <T as="span" d={1} className="dato"><b><Cifra v={32} /></b><span>hectáreas de extensión</span></T>
+              <T as="span" d={2} className="dato"><b><Cifra v={3.25} dec={2} /><small> MM</small></b><span>cajas al año de capacidad</span></T>
+              <T as="span" d={3} className="dato"><b><Cifra v={6} /></b><span>líneas automatizadas de llenado</span></T>
+              <T as="span" d={4} className="dato"><b><Cifra v={2} /></b><span>plantas de tratamiento de aguas</span></T>
+              <T as="span" d={5} className="dato"><b><Cifra v={100} /><small> %</small></b><span>sistema eléctrico antiexplosión</span></T>
+            </div>
           </div>
         </div>
       </section>
-
       {/* 3 · Historia */}
       <section className="l p-izq p-hist" data-cap="Historia">
         <div className="medio"><Img n="013" alt="Alambiques de cobre de la destilería" /></div>
@@ -457,26 +465,6 @@ export function Presentacion() {
         </div>
       </section>
 
-      {/* 6 · La planta en cifras */}
-      <section className="l p-cifras" data-cap="La planta">
-        <div className="medio"><Img n="002" alt="Vista cenital del complejo de CILCCA con sus lagunas" /></div>
-        <div className="velo" />
-        <div className="cont">
-          <div className="cab">
-            <T as="h2" className="p-tit">Nuestra planta.</T>
-            <T as="p" d={1} className="p-txt">Un complejo industrial en Ocumare del Tuy, estado Miranda, pensado para producir, añejar y despachar a gran escala.</T>
-          </div>
-          <div className="cue">
-            <div className="p-datos">
-              <T as="span" d={1} className="dato"><b><Cifra v={32} /></b><span>hectáreas de extensión</span></T>
-              <T as="span" d={2} className="dato"><b><Cifra v={3.25} dec={2} /><small> MM</small></b><span>cajas al año de capacidad</span></T>
-              <T as="span" d={3} className="dato"><b><Cifra v={6} /></b><span>líneas automatizadas de llenado</span></T>
-              <T as="span" d={4} className="dato"><b><Cifra v={2} /></b><span>plantas de tratamiento de aguas</span></T>
-              <T as="span" d={5} className="dato"><b><Cifra v={100} /><small> %</small></b><span>sistema eléctrico antiexplosión</span></T>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 7 · Proceso: cada etapa con su video */}
       <section className="l p-izq p-elige p-proc" data-cap="Proceso">
@@ -529,7 +517,7 @@ export function Presentacion() {
       </section>
 
       {/* 10 · La película: el video completo, con sonido */}
-      <Pelicula alTerminar={() => irA(10)} />
+      <Pelicula alTerminar={() => irA(9)} />
 
       {/* 11 · Nuestra gente: franjas que se abren */}
       <section className="l p-gente" data-cap="Nuestra gente">

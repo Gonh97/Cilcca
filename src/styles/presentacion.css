@@ -432,8 +432,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 .p-cifras { background: var(--negro); }
 .p-cifras .cue { align-content: end; }
 @media (min-width: 761px) {
-  .p-cifras .medio { inset: 0 0 20% 0; transform: none; }
-  .p-cifras .velo { background: linear-gradient(0deg, var(--negro) 20%, rgba(7, 12, 18, .9) 30%, rgba(7, 12, 18, .7) 40%, rgba(7, 12, 18, .42) 52%, rgba(7, 12, 18, .18) 66%, rgba(7, 12, 18, .05) 80%, rgba(7, 12, 18, 0) 90%), linear-gradient(180deg, rgba(7, 12, 18, .35), rgba(7, 12, 18, 0) 16%); }
+  .p-cifras .velo { background: linear-gradient(0deg, rgba(4, 12, 20, .92) 0%, rgba(4, 12, 20, .55) 38%, rgba(4, 12, 20, .05) 70%), linear-gradient(90deg, rgba(4, 12, 20, .45), rgba(4, 12, 20, 0) 60%); }
   .p-cifras .cont { flex-direction: row !important; justify-content: space-between !important; align-items: flex-end; gap: 80px; padding-top: 0; padding-bottom: clamp(48px, 9vh, 96px); transform: none; }
   .p-cifras .cab { flex: 0 1 420px; gap: 18px; }
   .p-cifras .cue { flex: 0 1 760px; max-width: none; }
