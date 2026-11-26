@@ -380,7 +380,7 @@ export function Presentacion() {
         <button type="button" className="iso" onClick={() => irA(0)} aria-label="Volver al inicio de la presentación">
           <img src={`${import.meta.env.BASE_URL}isotipo-cilcca.svg`} alt="" />
         </button>
-        <span className="cap" aria-live="polite">{cap}</span>
+        <span className="cap">Complejo Industrial Licorero del Centro</span>
         <span className="cuenta" aria-hidden="true">{String(idx + 1).padStart(2, "0")}<i>/</i>{TOTAL}</span>
         <BotonPdf />
       </header>

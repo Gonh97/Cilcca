@@ -472,3 +472,8 @@ html.p-html { scroll-snap-type: y mandatory; }
 
 .p .p-grupos { gap: 0; }
 .p .p-grupos button { min-height: 44px; }
+
+@media (max-width: 760px) {
+  .p .p-bar .cap { white-space: normal; overflow: visible; font-size: 10px; letter-spacing: .12em; line-height: 1.35; max-width: 17em; }
+  .p .p-bar .cuenta { display: none; }
+}
