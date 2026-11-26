@@ -425,3 +425,20 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 }
 
 .p-cifras .cue { align-content: end; }
+
+/* Ronda 3: La planta como la referencia. Foto arriba, franja oscura abajo con
+   el título a la izquierda y las cifras grandes a la derecha. */
+.p-datos b span { font: inherit; color: inherit; letter-spacing: inherit; }
+.p-cifras { background: var(--negro); }
+.p-cifras .cue { align-content: end; }
+@media (min-width: 761px) {
+  .p-cifras .medio { inset: 0 0 38% 0; transform: none; }
+  .p-cifras .velo { background: linear-gradient(0deg, var(--negro) 38%, rgba(7, 12, 18, .55) 52%, rgba(7, 12, 18, 0) 72%), linear-gradient(180deg, rgba(7, 12, 18, .5), rgba(7, 12, 18, 0) 18%); }
+  .p-cifras .cont { flex-direction: row !important; justify-content: space-between !important; align-items: flex-end; gap: 80px; padding-top: 0; padding-bottom: clamp(48px, 9vh, 96px); transform: none; }
+  .p-cifras .cab { flex: 0 1 420px; gap: 18px; }
+  .p-cifras .cue { flex: 0 1 760px; max-width: none; }
+  .p-cifras .p-datos { grid-template-columns: repeat(3, minmax(0, 1fr)); justify-content: stretch; gap: 34px 40px; border-top: 0; }
+  .p-cifras .p-datos .dato, .p-cifras .p-datos .dato:first-child { padding: 18px 0 0; border-left: 0; border-top: 1px solid var(--linea); }
+  .p-cifras .p-datos b { font-size: clamp(48px, 4.6vw, 80px); }
+  .p-cifras .p-datos small { font-size: .4em; }
+}

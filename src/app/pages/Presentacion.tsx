@@ -458,11 +458,14 @@ export function Presentacion() {
       </section>
 
       {/* 6 · La planta en cifras */}
-      <section className="l p-izq abajo p-cifras" data-cap="La planta">
+      <section className="l p-cifras" data-cap="La planta">
         <div className="medio"><Img n="002" alt="Vista cenital del complejo de CILCCA con sus lagunas" /></div>
         <div className="velo" />
         <div className="cont">
-          <div className="cab"><T as="h2" className="p-tit">Nuestra planta.</T></div>
+          <div className="cab">
+            <T as="h2" className="p-tit">Nuestra planta.</T>
+            <T as="p" d={1} className="p-txt">Un complejo industrial en Ocumare del Tuy, estado Miranda, pensado para producir, añejar y despachar a gran escala.</T>
+          </div>
           <div className="cue">
             <div className="p-datos">
               <T as="span" d={1} className="dato"><b><Cifra v={32} /></b><span>hectáreas de extensión</span></T>
