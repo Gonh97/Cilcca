@@ -10,6 +10,11 @@ const B = `${import.meta.env.BASE_URL}presentacion/`;
 // En el artefacto la descarga directa no funciona: VITE_PDF apunta al PDF publicado.
 const PDF = import.meta.env.VITE_PDF || `${B}CILCCA-presentacion-corporativa-2026.pdf`;
 const TEL = () => window.matchMedia("(max-width: 760px)").matches;
+type Conexion = { saveData?: boolean; effectiveType?: string };
+const LIVIANO = () => {
+  const c = (navigator as Navigator & { connection?: Conexion }).connection;
+  return !!c && (c.saveData === true || /(^|-)2g$/.test(c.effectiveType || ""));
+};
 
 /** Desliza la página hasta `top` con una curva suave. Devuelve cuánto dura. */
 let corrida = 0;
@@ -36,13 +41,14 @@ function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo =
   const ref = useRef<HTMLVideoElement>(null);
   const caja = useRef<HTMLElement>(null);
   const [estado, setEstado] = useState<"quieto" | "corre" | "pausa" | "fin">("quieto");
+  const [cerca, setCerca] = useState(false);
   useEffect(() => {
     const el = caja.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => {
       const v = ref.current;
       if (!v) return;
-      if (e.isIntersecting && !v.src) v.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
+      if (e.isIntersecting) setCerca(true);
       if (!e.isIntersecting && !v.paused) { v.pause(); setEstado("pausa"); }
     }, { rootMargin: "100% 0px", threshold: 0 });
     io.observe(el);
@@ -58,7 +64,7 @@ function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo =
   return (
     <section ref={caja} className={"l p-peli " + clase + " " + estado} data-cap={cap}>
       <div className="medio">
-        <video ref={ref} poster={`${B}video/${n}.jpg`} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
+        <video ref={ref} poster={cerca ? `${B}video/${n}.jpg` : undefined} playsInline preload="none" onEnded={() => setEstado("fin")} onClick={tocar} />
       </div>
       <div className="velo" />
       <div className="cont">
@@ -85,14 +91,24 @@ function Pelicula({ alTerminar, n = "cinematico", cap = "La película", titulo =
   );
 }
 
-/** Cuadro sacado de los videos, con versión liviana para el teléfono. */
+/** Cuadro sacado de los videos, con versión liviana para el teléfono.
+ *  Se pide recién cuando su lámina está a pantalla y media: con mala señal no se baja lo que no se ve. */
 function Img({ n, alt = "", pos = "center", ya = false, className = "" }: {
   n: string; alt?: string; pos?: string; ya?: boolean; className?: string;
 }) {
+  const ref = useRef<HTMLImageElement>(null);
+  const [cerca, setCerca] = useState(ya);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || cerca) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setCerca(true); io.disconnect(); } }, { rootMargin: "150% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [cerca]);
   const src = n.includes(".") ? `${B}${n}` : `${B}f/${n}.webp`;
   const set = n.includes(".") ? undefined : `${B}f/${n}-m.webp 1100w, ${B}f/${n}.webp 2400w`;
-  return <img className={className} src={src} srcSet={set} sizes="100vw" alt={alt}
-    loading={ya ? "eager" : "lazy"} decoding="async" style={{ objectPosition: pos }} />;
+  return <img ref={ref} decoding="async" className={className} sizes="100vw" srcSet={cerca ? set : undefined} src={cerca ? src : undefined} alt={alt}
+    style={{ objectPosition: pos }} />;
 }
 
 /** Clip en bucle. Se carga al acercarse y solo corre cuando se ve y está activo. */
@@ -110,7 +126,7 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
   }, []);
   useEffect(() => {
     const el = ref.current;
-    if (!el || !cerca) return;
+    if (!el || !cerca || LIVIANO()) return;
     if (!el.src) el.src = `${B}video/${n}${TEL() ? "-m" : ""}.mp4`;
     if (visible && activo) el.play().catch(() => {}); else el.pause();
   }, [cerca, visible, activo, n]);
@@ -119,7 +135,7 @@ function Vid({ n, activo = true, className = "" }: { n: string; activo?: boolean
     const el = ref.current;
     if (el && activo && el.src) el.currentTime = 0;
   }, [activo]);
-  return <video ref={ref} className={className} poster={`${B}video/${n}.jpg`} muted loop playsInline preload="none" aria-hidden="true" />;
+  return <video ref={ref} className={className} poster={cerca ? `${B}video/${n}.jpg` : undefined} muted loop playsInline preload="none" aria-hidden="true" />;
 }
 
 /** Texto que entra al llegar a su lámina. `d` = orden en la cascada. */
@@ -368,7 +384,7 @@ export function Presentacion() {
         <span className="cuenta" aria-hidden="true">{String(idx + 1).padStart(2, "0")}<i>/</i>{TOTAL}</span>
         <BotonPdf />
       </header>
-      <nav className="p-grupos" aria-label="Capítulos">
+      <nav className={"p-grupos" + (idx >= 11 && idx <= 15 ? " ocu" : "")} aria-label="Capítulos">
         {GRUPOS.map(([n, a, z]) => {
           const dentro = idx >= a && idx <= z;
           const lleno = dentro ? (idx - a + 1) / (z - a + 1) : idx > z ? 1 : 0;
