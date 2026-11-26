@@ -463,11 +463,13 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-cifras, .p .p-hist, .p .p-bodegas { background: var(--negro); }
 
   /* La planta en cifras */
-  .p .p-cifras .p-datos { grid-template-columns: 1fr 1fr; gap: 0 18px; border-top: 0; }
-  .p .p-cifras .p-datos .dato, .p .p-cifras .p-datos .dato:first-child { padding: 12px 0 10px; gap: 4px; border-left: 0; border-top: 1px solid var(--linea); }
-  .p .p-cifras .p-datos .dato:last-child { grid-column: 1 / -1; }
-  .p .p-cifras .p-datos b { font-size: 41px; font-weight: 300; }
-  .p .p-cifras .p-datos span { font-size: 12.5px; line-height: 1.4; }
+  /* Cifras en tres columnas: el bloque entero cabe abajo, sobre la parte oscura del degradado. */
+  .p .p-cifras .p-datos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 14px; border-top: 0; }
+  .p .p-cifras .p-datos .dato, .p .p-cifras .p-datos .dato:first-child { padding: 10px 0 10px; gap: 4px; border-left: 0; border-top: 1px solid var(--linea); }
+  .p .p-cifras .p-datos b { font-size: 32px; font-weight: 300; }
+  .p .p-cifras .p-datos span { font-size: 11.5px; line-height: 1.35; }
+  .p .p-cifras .p-tit { font-size: 28px; }
+  .p .p-cifras .cab .p-txt { font-size: 13.5px; line-height: 1.5; }
   .p .p-cifras .p-datos small { font-size: .42em; }
   .p .p-cifras .p-datos b span { font-size: inherit; line-height: inherit; color: inherit; }
 
@@ -630,7 +632,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-tit, .p .rocu .p-tit { font-size: 28px; }
   .p .p-dec { font-size: 15px; }
   .p .p-txt { font-size: 13.5px; line-height: 1.5; }
-  .p .p-cifras .p-datos b { font-size: 35px; }
+  .p .p-cifras .p-datos b { font-size: 28px; }
   .p .p-crono { row-gap: 12px; }
   .p .p-crono li:not(:last-child)::after { bottom: -25px; }
   .p .p-crono h3 { font-size: 20px; }
