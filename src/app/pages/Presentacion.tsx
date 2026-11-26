@@ -252,6 +252,9 @@ const GENTE: [string, string, string][] = [
   ["049", "Bodega", "50% center"], ["083", "Envasado", "40% center"],
 ];
 
+const PROC_IC = ["matraz", "tanque", "toneleria", "reloj", "botella"];
+const GENTE_IC = ["toneleria", "matraz", "sello", "barrica", "botella"];
+
 const PORTAFOLIO: { n: string; cat: string; d: string; dato: string; fondo: string; bot?: string; pos?: string }[] = [
   { n: "Extra Añejo", cat: "Edición Reservada", d: "La renovación de un producto que es parte del código genético de la marca. Complejidad y maestría ronera.", dato: "6 medallas internacionales", fondo: "ocu-extra", pos: "right center" },
   { n: "Blanco Extra Añejo", cat: "Edición Reservada", d: "Alma clara, esencia compleja: filtrado para conservar su claridad sin renunciar al carácter.", dato: "5 medallas internacionales", fondo: "ocu-blanco", pos: "right center" },
@@ -375,12 +378,14 @@ function useAuto(n: number, ms: number, set: (f: (k: number) => number) => void,
     const el = ref.current;
     if (!el) return;
     const pausa = () => { quieto.current = false; };
-    const sigue = () => { quieto.current = true; };
-    el.addEventListener("pointerenter", pausa); el.addEventListener("pointerleave", sigue);
+    let parado = false;
+    const sigue = () => { if (!parado) quieto.current = true; };
+    const toca = (e: PointerEvent) => { if (e.pointerType !== "mouse") { parado = true; quieto.current = false; } };
+    el.addEventListener("pointerenter", pausa); el.addEventListener("pointerleave", sigue); el.addEventListener("pointerdown", toca);
     const t = window.setInterval(() => {
       if (quieto.current && el.closest(".l")?.classList.contains("on")) set((k) => (k + 1) % n);
     }, ms);
-    return () => { window.clearInterval(t); el.removeEventListener("pointerenter", pausa); el.removeEventListener("pointerleave", sigue); };
+    return () => { window.clearInterval(t); el.removeEventListener("pointerenter", pausa); el.removeEventListener("pointerleave", sigue); el.removeEventListener("pointerdown", toca); };
   }, [n, ms, set, ref]);
 }
 
@@ -562,6 +567,16 @@ export function Presentacion() {
           <div className="cab"><T as="h2" className="p-tit">Del cobre{" "}<br />a la botella.</T></div>
           <div className="cue" ref={procRef}>
             <T d={1}><Lista items={PROCESO.map((p) => p[0])} sel={paso} set={setPaso} className="con-barra" /></T>
+            <T d={1} className="p-acor">
+              {PROCESO.map(([n, d], k) => (
+                <div key={n} className={"it" + (k === paso ? " si" : "")}>
+                  <button type="button" aria-expanded={k === paso} onClick={() => setPaso(k)}>
+                    <Icono n={PROC_IC[k]} /><span className="nom">{n}</span><span className="k">{String(k + 1).padStart(2, "0")}</span>
+                  </button>
+                  <div className="cuerpo"><div><p className="p-txt">{d}</p></div></div>
+                </div>
+              ))}
+            </T>
             <T d={2} className="p-lee">
               {PROCESO.map(([n, d], k) => (
                 <div key={n} className={"p-etapa" + (k === paso ? " si" : "")} aria-hidden={k !== paso}>
@@ -622,7 +637,7 @@ export function Presentacion() {
           {GENTE.map(([n, t, pos], k) => (
             <button key={n} type="button" className={k === persona ? "si" : ""} onMouseEnter={() => setPersona(k)} onFocus={() => setPersona(k)} onClick={() => setPersona(k)} aria-pressed={k === persona}>
               <Img n={n} alt={t} pos={pos} />
-              <span>{t}</span>
+              <span><Icono n={GENTE_IC[k]} />{t}</span>
             </button>
           ))}
         </T>

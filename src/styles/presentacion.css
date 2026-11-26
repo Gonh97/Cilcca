@@ -398,7 +398,7 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
 
 /* ===== Ronda 11: versión de teléfono, pensada en vertical ===== */
 /* Piezas que solo existen en el teléfono. */
-.p .p-vtel, .p .p-nom { display: none; }
+.p .p-vtel, .p .p-nom, .p .p-acor, .p .p-franjas span .e-icon { display: none; }
 .p .p-bar .avance { display: none; }
 @media (max-width: 1100px) {
   .p .p-bar .avance { display: block; position: absolute; left: var(--m); right: var(--m); bottom: 0; height: 1px; background: rgba(237, 241, 244, .16); }
@@ -482,15 +482,19 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   /* Valores: seis íconos para elegir y una descripción a la vez. */
   .p .p-valores .cab { grid-template-columns: 1fr; gap: 12px; }
   .p .p-valores .rejilla { display: none; }
-  .p .p-vtel { display: grid; gap: 22px; }
-  .p .p-vbot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; }
-  .p .p-vbot button { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 12px; min-height: 56px; padding: 12px 0 8px; text-align: left; color: var(--tx3); transition: color .4s; }
-  .p .p-vbot button::before, .p .p-vbot button::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--linea); }
-  .p .p-vbot button::after { background: var(--verde); transform: scaleX(0); transform-origin: left; }
+  /* Valores: seis tarjetas que llenan la pantalla. */
+  .p .p-valores .cont { justify-content: flex-start !important; }
+  .p .p-vtel { flex: 1 1 auto; display: flex; flex-direction: column; gap: 20px; }
+  .p .p-vbot { flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(84px, 1fr); gap: 10px; }
+  .p .p-vbot button { position: relative; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 16px; overflow: hidden; text-align: left; color: var(--tx3);
+    border: 1px solid var(--linea); border-radius: 14px; background: rgba(237, 241, 244, .03); transition: color .4s, border-color .4s, background .4s; }
+  .p .p-vbot button[aria-selected="true"] { border-color: rgba(63, 182, 148, .6); background: rgba(63, 182, 148, .09); }
+  .p .p-vbot button::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--verde); transform: scaleX(0); transform-origin: left; }
+  .p .p-vbot button.paso::after { transform: scaleX(0); }
   .p .p-vbot button.paso::after { transform: scaleX(1); }
   .p .l.on .p-vbot button[aria-selected="true"]::after { animation: p-barra 4s linear forwards; }
-  .p .p-vbot .ico { width: 30px; height: 30px; background: currentColor; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; transition: background .4s; }
-  .p .p-vbot .nom { font: 300 14.5px/1.25 Sora, sans-serif; }
+  .p .p-vbot .ico { width: 34px; height: 34px; background: currentColor; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; transition: background .4s; }
+  .p .p-vbot .nom { font: 300 15.5px/1.25 Sora, sans-serif; }
   .p .p-vbot button[aria-selected="true"] { color: var(--tx); }
   .p .p-vbot button[aria-selected="true"] .ico { background: var(--verde); }
   .p .p-vtel .p-dec { font-size: 16.5px; min-height: 4.65em; }
@@ -515,7 +519,21 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-nom { display: block; margin: 0; font: 300 26px/1.15 Sora, sans-serif; letter-spacing: -.02em; }
   .p .rocu .p-nom { font: 400 30px/1.1 "Baskervville", Georgia, serif; color: #fff; }
   .p .p-etapa { display: grid; gap: 10px; }
-  .p .p-proc .p-lee { min-height: 168px; align-content: start; }
+  .p .p-proc .p-lista, .p .p-proc .p-lee { display: none; }
+  .p .p-acor { display: grid; border-top: 1px solid var(--linea); }
+  .p .p-acor .it { position: relative; border-bottom: 1px solid var(--linea); }
+  .p .p-acor .it::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--verde); transform: scaleX(0); transform-origin: left; }
+  .p .l.on .p-acor .it.si::after { animation: p-barra 4s linear forwards; }
+  .p .p-acor button { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 14px; width: 100%; min-height: 54px; padding: 8px 0; text-align: left; color: var(--tx3); transition: color .4s; }
+  .p .p-acor .e-icon { width: 28px; height: 28px; color: currentColor; transition: color .4s; }
+  .p .p-acor .nom { font: 300 19px/1.2 Sora, sans-serif; letter-spacing: -.01em; }
+  .p .p-acor .k { font: 400 11px Inter, sans-serif; letter-spacing: .1em; }
+  .p .p-acor .it.si button { color: var(--tx); }
+  .p .p-acor .it.si .e-icon { color: var(--verde); }
+  .p .p-acor .cuerpo { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
+  .p .p-acor .it.si .cuerpo { grid-template-rows: 1fr; }
+  .p .p-acor .cuerpo > div { overflow: hidden; min-height: 0; }
+  .p .p-acor .p-txt { margin: 0; padding: 0 0 16px 42px; }
 
   /* Servicios */
   .p .p-fila li { padding: 12px 18px 0 0; margin-right: 0; font-size: 11.5px; }
@@ -542,14 +560,21 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-gente { display: flex; flex-direction: column; }
   .p .p-gente .cont { min-height: 0; justify-content: flex-start !important; padding-bottom: 22px !important; }
   .p .p-gente .cab { grid-template-columns: 1fr; gap: 12px; }
-  .p .p-franjas { position: relative; inset: auto; left: auto; right: auto; bottom: auto; height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 var(--m) var(--abajo); }
-  .p .p-franjas button, .p .p-franjas button.si { flex: none; aspect-ratio: 3 / 4; min-width: 0; }
-  .p .p-franjas button:last-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
-  .p .p-franjas img { filter: none !important; }
-  .p .p-franjas span, .p .p-franjas button.si span { writing-mode: horizontal-tb; transform: none; font-size: 17px; left: 14px; bottom: 12px; text-shadow: 0 1px 12px rgba(0, 0, 0, .7); }
+  /* Acordeón de fotos: la elegida se abre a color y las demás quedan como franjas con su ícono. */
+  .p .p-franjas { position: relative; inset: auto; left: auto; right: auto; bottom: auto; height: auto; display: flex; flex-direction: column; gap: 6px; padding: 0 var(--m) var(--abajo); }
+  .p .p-franjas button, .p .p-franjas button.si { flex: none; height: 62px; min-width: 0; border-radius: 12px; transition: height .7s var(--ease); }
+  .p .p-franjas button.si { height: clamp(240px, 48vh, 420px); }
+  .p .p-franjas img { filter: grayscale(1) brightness(.5); }
+  .p .p-franjas button.si img { filter: none; }
+  .p .p-franjas button::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(237, 241, 244, .14); pointer-events: none; }
+  .p .p-franjas button.si::after { background: linear-gradient(0deg, rgba(4, 12, 20, .75), rgba(4, 12, 20, 0) 45%); box-shadow: inset 0 0 0 1px rgba(63, 182, 148, .7); }
+  .p .p-franjas span, .p .p-franjas button.si span { z-index: 1; display: flex; align-items: center; gap: 12px; writing-mode: horizontal-tb; transform: none; font-size: 17px; left: 16px; bottom: 18px; text-shadow: 0 1px 12px rgba(0, 0, 0, .7); }
+  .p .p-franjas button.si span { font-size: 21px; bottom: 18px; }
+  .p .p-franjas span .e-icon { display: block; flex: none; width: 26px; height: 26px; color: #fff; }
+  .p .p-franjas button.si span .e-icon { color: var(--verde); }
 
   /* Láminas con el texto al pie (servicios, maestro ronero): velo un poco más alto */
-  .p .abajo .velo { background:
+  .p .abajo .velo, .p .p-proc .velo { background:
       linear-gradient(0deg, rgba(var(--vb), .97) 0%, rgba(var(--vb), .9) 34%, rgba(var(--vb), .4) 58%, rgba(var(--vb), 0) 74%),
       linear-gradient(180deg, rgba(var(--vb), .6) 0%, rgba(var(--vb), 0) 17%) !important; }
 
@@ -559,11 +584,16 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-port .velo { display: none; }
   .p .p-port .cab { order: 1; padding: 0 var(--m); }
   .p .p-port .cab .p-txt { display: none; }
-  .p .p-port .medio { order: 2; position: relative; inset: auto !important; flex: 1 1 auto; min-height: 240px; margin: 4px 0 -56px; background: transparent;
+  .p .p-port .medio { order: 2; position: relative; inset: auto !important; flex: none; height: clamp(300px, 54vh, 480px); min-height: 0; margin: 0 0 18px; background: transparent;
     -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 98%); mask-image: linear-gradient(180deg, #000 72%, transparent 98%); }
   .p .p-port .medio > img { position: absolute; top: 0; bottom: auto; left: 50%; right: auto; height: 100%; width: auto; max-width: none; object-fit: contain; transform: translateX(-64.4%) !important; }
   .p .p-port .cue { order: 3; padding: 0 var(--m); position: relative; z-index: 1; gap: 16px; }
   .p .p-ficha { gap: 8px; }
+  .p .p-port .p-lista { gap: 8px; }
+  .p .p-port.rocu .p-lista button { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 6px; text-align: center; color: var(--tx3);
+    border: 1px solid rgba(237, 241, 244, .2); border-radius: 10px; font: 400 10.5px/1.3 "Outfit", Arial, sans-serif; letter-spacing: 1.2px; transition: color .4s, border-color .4s, background .4s; }
+  .p .p-port .p-lista button::before, .p .p-port .p-lista button::after { display: none; }
+  .p .p-port.rocu .p-lista button[aria-pressed="true"] { color: #fff; border-color: var(--verde); background: rgba(201, 165, 99, .14); }
   .p .p-port .p-ficha .p-txt { font-size: 14px; line-height: 1.55; }
   .p .p-port .p-lee { min-height: 186px; align-content: start; }
 
@@ -606,7 +636,11 @@ html.p-html { scroll-behavior: auto; background: #070C12; }
   .p .p-iconos .p-txt { font-size: 12.5px; }
   .p .p-mini .p-txt { font-size: 13px; }
   .p .p-cifras .velo, .p .p-bodegas .velo, .p .p-hist .velo { background: linear-gradient(0deg, rgba(var(--vb), .97) 0%, rgba(var(--vb), .9) 50%, rgba(var(--vb), .62) 100%) !important; }
-  .p .p-port .medio { min-height: 170px; }
+  .p .p-port .medio { height: 300px; }
   .p .p-port .p-lee { min-height: 170px; }
   .p .p-vtel .p-dec { min-height: 0; }
+  .p .p-vbot { grid-auto-rows: minmax(70px, 1fr); }
+  .p .p-vbot button { padding: 12px 14px; }
+  .p .p-acor button { min-height: 48px; }
+  .p .p-acor .nom { font-size: 17px; }
 }
